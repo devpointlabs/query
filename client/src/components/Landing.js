@@ -1,5 +1,5 @@
 import React from 'react'
-import {Container, Header, Button, Segment, Grid} from 'semantic-ui-react'
+import {Container, Header, Button, Grid} from 'semantic-ui-react'
 import { Link } from "react-router-dom";
 import Login from './Login'
 import Register from './Register'
