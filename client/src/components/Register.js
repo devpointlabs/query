@@ -1,6 +1,6 @@
 import React from 'react';
 import { AuthConsumer, } from '../providers/AuthProvider';
-import { Button, Form, } from 'semantic-ui-react';
+import { Button, Form, Header, Grid} from 'semantic-ui-react';
 class Register extends React.Component {
   state = { email: "", password: "", passwordConfirmation: "", }
 
@@ -21,11 +21,18 @@ class Register extends React.Component {
   }
 
   render() {
+    document.body.style = 'background: #6D55A3;'
     const { email, password, passwordConfirmation, } = this.state;
     return ( 
+      <Grid>
+        <Grid.Column textAlign="center">
+      <Header style={{color: "#fff", fontSize: "100px", textAlign: "center",}}>
+        Register
+      </Header>
       <Form onSubmit={this.handleSubmit}>
         <Form.Input
-        label="Email"
+        style={{color: "#fff"}}
+        placeholder="Email"
         name="email"
         required
         autoFocus
@@ -33,7 +40,8 @@ class Register extends React.Component {
         onChange={this.handleChange}
         />
         <Form.Input
-        label="Password"
+        style={{color: "#fff"}}
+        placeholder="Password"
         name="password"
         required
         value={password}
@@ -41,15 +49,17 @@ class Register extends React.Component {
         type="password"
         />
         <Form.Input
-        label="Password Confirmation"
+        placeholder="Password Confirmation"
         name="passwordConfirmation"
         value={passwordConfirmation}
         onChange={this.handleChange}
         type="password"
         required
         />
-        <Button>Create Account</Button>
+        <Button inverted color="white">Register Account</Button>
       </Form>
+      </Grid.Column>
+        </Grid>
     )
   }
 }

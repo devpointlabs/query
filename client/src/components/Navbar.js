@@ -8,16 +8,16 @@ import { Link, withRouter } from 'react-router-dom';
 class Navbar extends React.Component {
 
   render(){
-    const { auth: {user, handleLoggin, handleLogout}, location} = this.props
+    const { auth: {user}, location} = this.props
     if(user){
     return(
-    <div>
+    <div style={{margin: "5px"}}>
     {
       this.signedIn()
     }</div>)}
     else
       return(
-        <div>{
+        <div style={{margin: "5px"}}>{
         this.signedOut()
         }</div>)
 
@@ -36,7 +36,6 @@ class Navbar extends React.Component {
     )}
 
   signedOut(){
-    const { auth: {handleLoggin}, location} = this.props
     return(
   <Dropdown icon={<img alt='logo' width="100" height="100" src='https://imgur.com/TRzM7lf.png'/>}>
   <Dropdown.Menu>
