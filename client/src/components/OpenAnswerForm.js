@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Form, Input } from "semantic-ui-react";
+import { Form, Input, Button, Grid } from "semantic-ui-react";
 
 function OpenAnswerForm() {
   const [question, setQuestion] = useState("");
@@ -8,16 +8,23 @@ function OpenAnswerForm() {
 
   return (
     <Form>
-      <Form.Group>
+      <Form.Group widths="equal">
         <Form.Input
           required
           control={Input}
-          label="Input Your Question"
+          placeholder="Input Your Open Ended Question"
           name="question"
           value={question}
           onChange={e => setQuestion(e.target.value)}
         />
       </Form.Group>
+      <Grid>
+        <Grid.Column textAlign="right">
+          <Button circular inverted size="big" type="submit">
+            Submit
+          </Button>
+        </Grid.Column>
+      </Grid>
     </Form>
   );
 }
