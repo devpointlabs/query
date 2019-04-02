@@ -2,7 +2,12 @@ import React from 'react';
 import { AuthConsumer, } from '../providers/AuthProvider';
 import { Button, Form, Header, Grid} from 'semantic-ui-react';
 class Register extends React.Component {
-  state = { email: "", password: "", passwordConfirmation: "", }
+  state = {teacher: false, name: "", email: "", password: "", passwordConfirmation: "", }
+
+  componentDidMount(){
+    if(this.props.match.url == "/register/teacher")
+    this.setState({teacher: true})
+  }
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -11,31 +16,40 @@ class Register extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { email, password, passwordConfirmation } =  this.state;
+    const {teacher, name, email, password, passwordConfirmation } =  this.state;
     const { auth: { handleRegister, }, history, } =  this.props;
-
-    if (password === passwordConfirmation)
-      handleRegister({email, password, passwordConfirmation, }, history)
+    
+    if (password === passwordConfirmation){
+      handleRegister({teacher, name, email, password, passwordConfirmation, }, history)}
     else  
       alert("Please retype the password and confirmation")
   }
 
   render() {
     document.body.style = 'background: #6D55A3;'
-    const { email, password, passwordConfirmation, } = this.state;
+    const {name, email, password, passwordConfirmation, } = this.state;
     return ( 
       <Grid>
         <Grid.Column textAlign="center">
       <Header style={{color: "#fff", fontSize: "100px", textAlign: "center",}}>
         Register
+        {this.state.teacher ? " Teacher" : null}
       </Header>
       <Form onSubmit={this.handleSubmit}>
+        <Form.Input
+        style={{color: "#fff"}}
+        placeholder="Name"
+        name="name"
+        required
+        autoFocus
+        value={name}
+        onChange={this.handleChange}
+        />
         <Form.Input
         style={{color: "#fff"}}
         placeholder="Email"
         name="email"
         required
-        autoFocus
         value={email}
         onChange={this.handleChange}
         />
