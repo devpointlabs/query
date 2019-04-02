@@ -1,6 +1,6 @@
 import React from 'react';
 import { AuthConsumer, } from '../providers/AuthProvider';
-import { Button, Form,} from 'semantic-ui-react';
+import { Button, Form, Header, Grid} from 'semantic-ui-react';
 class Login extends React.Component {
   state = { email: "", password: ""}
 
@@ -16,26 +16,34 @@ class Login extends React.Component {
   }
 
   render() {
+    document.body.style = 'background: #6D55A3;'
     const { email, password, } = this.state;
     return ( 
+      <Grid>
+        <Grid.Column textAlign="center">
+      <Header style={{color: "#fff", fontSize: "100px", textAlign: "center",}}>
+        Login
+      </Header>
       <Form onSubmit={this.handleSubmit}>
         <Form.Input
-        label="Email"
+        placeholder="Email"
         name="email"
         required
         value={email}
         onChange={this.handleChange}
         />
         <Form.Input
-        label="Password"
+        placeholder="Password"
         name="password"
         required
         value={password}
         onChange={this.handleChange}
         type="password"
         />
-        <Button>Log-in</Button>
+        <Button inverted color="white">Log-in</Button>
       </Form>
+</Grid.Column>
+        </Grid>
     )
   }
 }
