@@ -6,6 +6,9 @@ Rails.application.routes.draw do
     resources :quizzes do
         resources :questions
     end
+
+    resources :users, only: :update
+
     resources :questions do
       resources :choices
     end
