@@ -7,7 +7,7 @@ import { withRouter } from 'react-router-dom';
 class Navbar extends React.Component {
 
   render(){
-    const { auth: {user}, location} = this.props
+    const { auth: {user}, } = this.props
     if(user){
     return(
     <div style={{margin: "5px"}}>
@@ -25,7 +25,7 @@ class Navbar extends React.Component {
 
 
   signedIn(){
-    const { auth: {handleLogout}, location} = this.props
+    const { auth: {handleLogout}, } = this.props
     return(
   <Dropdown icon={<img alt='logo' width="100" height="100"  src='https://imgur.com/TRzM7lf.png' />}>
   <Dropdown.Menu>
