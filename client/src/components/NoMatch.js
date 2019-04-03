@@ -13,7 +13,7 @@ const NoMatch = () => {
           <Header as="h2" inverted>This page does not exist..</Header>
           <div>
             { auth.authenticated ? 
-              <Button inverted as={Link} to="/" size="large">Your Dashboard</Button>
+              <Button inverted as={Link} to="/home" size="large">Your Dashboard</Button>
             :
               <Button.Group size="large">
                   <Button inverted as={Link} to="/login">Login</Button>

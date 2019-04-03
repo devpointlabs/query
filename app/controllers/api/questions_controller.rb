@@ -4,8 +4,7 @@ class Api::QuestionsController < ApplicationController
 
   # GET /questions
   def index
-    @questions = Quiz.questions.all
-
+    @questions = @quiz.questions.all
     render json: @questions
   end
 
@@ -50,6 +49,6 @@ class Api::QuestionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def question_params
-      params.require(:question).permit(:name, :quiz_id)
+      params.require(:question).permit(:name)
     end
 end
