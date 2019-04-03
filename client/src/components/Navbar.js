@@ -1,8 +1,7 @@
 import React from 'react';
-// import { AuthConsumer, } from '../providers/AuthProvider';
 import { AuthConsumer, } from "../providers/AuthProvider";
-import { Dropdown, Container, Segment, } from 'semantic-ui-react';
-import { Link, withRouter } from 'react-router-dom';
+import { Dropdown,  } from 'semantic-ui-react';
+import { withRouter } from 'react-router-dom';
 
 
 class Navbar extends React.Component {
