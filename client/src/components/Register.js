@@ -5,7 +5,7 @@ class Register extends React.Component {
   state = {teacher: false, name: "", email: "", password: "", passwordConfirmation: "", }
 
   componentDidMount(){
-    if(this.props.match.url == "/register/teacher")
+    if(this.props.match.url === "/register/teacher")
     this.setState({teacher: true})
   }
 
