@@ -9,7 +9,9 @@ class OpenAnswerForm extends React.Component {
 
   handeSubmit = e => {
     e.preventDefault();
-    const question = { ...this.state, quiz_id: q_id };
+    const { match: { params: { id } }, history: { push } } = this.props
+    const question = { ...this.state, quiz_id: id};
+    debugger
     axios.post(`/api/quizzes/${id}/questions`, question).then(res => {
       push.this.props.history(`/quizzes/${id}`);
     });

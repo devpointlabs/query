@@ -8,6 +8,7 @@ import NoMatch from './components/NoMatch'
 import FetchUser from './components/FetchUser'
 import { Container, } from 'semantic-ui-react';
 import { Route, Switch, } from 'react-router-dom';
+import OpenAnswerForm from './components/OpenAnswerForm';
 
 const App = () => (
   <>
@@ -16,6 +17,7 @@ const App = () => (
         <Container>
           <Switch>
            <Route exact path="/" component={Landing} />
+           <Route exact path='/quizzes/:quiz_id/questions' component={OpenAnswerForm} />
            <Route exact path="/home" component={Home} />
            <Route exact path="/login" component={Login} />
            <Route exact path="/register" component={Register} />
