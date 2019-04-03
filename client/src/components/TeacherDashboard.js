@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, Form, Header } from 'semantic-ui-react';
-import {Link, } from 'react-router-dom';
 import axios from 'axios';
 import TeacherQuizzes from './TeacherQuizzes'
 class TeacherDashboard extends React.Component {
