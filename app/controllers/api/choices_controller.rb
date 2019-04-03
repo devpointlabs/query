@@ -5,7 +5,6 @@ class Api::ChoicesController < ApplicationController
   # GET /choices
   def index
     @choices = @question.choices.all
-
     render json: @choices
   end
 
