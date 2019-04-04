@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, Input, Button, Grid } from 'semantic-ui-react';
+import { Form, Input, Button, Grid, Radio, } from 'semantic-ui-react';
 import axios from 'axios';
 
 class TrueFalse extends React.Component {
@@ -15,7 +15,7 @@ class TrueFalse extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { name, correctAnswer} = this.state;
-    const question = { name: name, qType: "TorF", explanation: correctAnswer}
+    const question = { name: name, qType: "TorF", explanation: correctAnswer.toString}
     const { quiz_id, } =  this.props;
     axios.post(`/api/quizzes/${quiz_id}/questions`, question)
       .then( res => console.log(res))
@@ -40,13 +40,15 @@ class TrueFalse extends React.Component {
           <Button inverted onClick={() => this.toggleTF(false)}>FALSE</Button>
         </Button.Group> */}
         <Form.Field>
-          <Form.Radio
+          <Radio
+          name="radioGroup"
           label="True"
           value={true}
           onClick={() => this.toggleTF(true)}
 
           />
-          <Form.Radio
+          <Radio
+          name="radioGroup"
           label="False"
           value={false}
           onClick={() => this.toggleTF(false)}
