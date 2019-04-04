@@ -14,7 +14,7 @@ class TeacherDashboard extends React.Component {
   setRedirect = (theChoosenOne) => {
     this.setState({
       redirect: true,
-      quiz: theChoosenOne
+      q: theChoosenOne
     })
   }
 
