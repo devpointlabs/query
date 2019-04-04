@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Button, Header, } from 'semantic-ui-react';
+import { Button, Header, Container, List, } from 'semantic-ui-react';
 import MultiForm from './MultiForm';
 import OpenAnswerForm from './OpenAnswerForm';
 import TrueFalse from './TrueFalse';
@@ -30,20 +30,20 @@ class ShowQuiz extends React.Component {
     document.body.style = 'background: #6D55A3;'
     const { quiz, } = this.state;
     return (
-      <div>
+      <Container>
         <Header as="h1" inverted>{quiz.name}</Header>
-        <ol>
+        <List>
           {this.state.questions.map( q => (
             <Question key={q.id} {...q} />
           ))}
-        </ol>
+        </List>
         <p style={{color: "white"}}>Add Question:</p>
         { this.state.showButtons ? 
         <>
           <Button.Group>
-            <Button onClick={this.toggleMultiForm}>Multiple Choice</Button>
-            <Button onClick={this.toggleTFForm}>True or False</Button>
-            <Button onClick={this.toggleOpenForm}>Open</Button>
+            <Button inverted onClick={this.toggleMultiForm}>Multiple Choice</Button>
+            <Button inverted onClick={this.toggleTFForm}>True or False</Button>
+            <Button inverted onClick={this.toggleOpenForm}>Open</Button>
           </Button.Group>
         </>
         :
@@ -54,7 +54,7 @@ class ShowQuiz extends React.Component {
           {this.state.showOpenForm && <OpenAnswerForm quiz_id={quiz.id}/> }
           {this.state.showButtons ? null : <Button onClick={this.toggleButtons}>Cancel</Button>}
         </div>
-      </div>
+      </Container>
     )
   }
 }
