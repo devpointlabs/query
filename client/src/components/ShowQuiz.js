@@ -79,7 +79,7 @@ class ShowQuiz extends React.Component {
         <div>
           {this.state.showMultiForm && <MultiForm quiz_id={quiz.id}/> }
           {this.state.showTrueFalseForm && <TrueFalse quiz_id={quiz.id}/> }
-          {this.state.showOpenForm && <OpenAnswerForm quiz_id={quiz.id}/> }
+          {this.state.showOpenForm && <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} /> }
           {this.state.showButtons ? null : <Button onClick={this.toggleButtons}>Cancel</Button>}
         </div>
       </Container>
