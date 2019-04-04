@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-
+import { Link, } from 'react-router-dom'
 class TeacherQuizzes extends React.Component {
   state = { quizzes: [], }
 
@@ -15,7 +15,7 @@ class TeacherQuizzes extends React.Component {
   render() {
     return (
       <ul>
-        {this.state.quizzes.map( quiz => <li key={quiz.id} color="white">{quiz.name}</li>)}
+        {this.state.quizzes.map( quiz => <li key={quiz.id} color="white">{quiz.name}<Link to={`/quizzes/${quiz.id}`}>Go to quiz</Link></li>)}
       </ul>
     )
   }
