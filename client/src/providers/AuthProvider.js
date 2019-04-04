@@ -14,9 +14,12 @@ export class AuthProvider extends React.Component {
         history.push("/home");
       })
       .catch( err => {
+        if (err == "Error: Request failed with status code 422"){
+
         console.log(err);
-        alert("Please Double Check Your Work.\nSomething's not right here")
-      })
+        alert("Wrong Login.\nSomething here's not right")
+
+      }})
   }
   handleLogin = (user, history) => {
     axios.post("/api/auth/sign_in", user)
@@ -25,9 +28,12 @@ export class AuthProvider extends React.Component {
         history.push("/home");
       })
       .catch( err => {
+        if (err == "Error: Request failed with status code 422"){
+
         console.log(err);
         alert("Wrong Login.\nSomething here's not right")
-      })
+
+      }})
   }
   handleLogout = (history) => {
     axios.delete("/api/auth/sign_out")
