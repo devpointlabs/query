@@ -1,92 +1,38 @@
 import React, {useState} from 'react';
+import useForm from './useForm';
 import {Button, Form, Input, Checkbox} from 'semantic-ui-react';
 
-function MultiForm() {
-  const [questA, setQuestA] = useState('');
-  const [questB, setQuestB] = useState('');
-  const [questC, setQuestC] = useState('');
-  const [questD, setQuestD] = useState('');
-  const [correct, setCorrect] = useState(false);
+const MultiForm = () => {
   document.body.style = 'background: #6D55A3;';
 
+  // common functions pulled from useForm hooks
+  const {values, handleChange, handleSubmit, handleClick} = useForm(andPost);
+
+  function andPost() {
+    console.log(values);
+  }
+
   return (
-    <Form>
+    <Form onSubmit={handleSubmit}>
       <Form.Group>
         <Form.Input
-          control={Input}
           width={12}
-          placeholder="Question"
-          name="questA"
-          value={questA}
-          onChange={e => setQuestA(e.target.value)}
+          placeholder="Enter an answer"
+          name="answer"
+          value={values.answer || ''}
+          onChange={handleChange}
         />
-        <Form.Checkbox
-          control={Checkbox}
-          label={{children: 'Answer ?'}}
-          onClick={e => setCorrect(e.target.value)}
+        <input
+          type="checkbox"
+          label="Answer ?"
           name="correct"
-          value={correct}
+          value={values.correct}
+          onClick={handleClick}
         />
       </Form.Group>
-      <Form.Group>
-        <Form.Input
-          control={Input}
-          width={12}
-          placeholder="Question"
-          name="questB"
-          value={questB}
-          onChange={e => setQuestB(e.target.value)}
-        />
-        <Form.Checkbox
-          control={Checkbox}
-          label={{children: 'Answer ?'}}
-          onClick={e => setCorrect(e.target.value)}
-          name="correct"
-          value={correct}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Input
-          control={Input}
-          width={12}
-          placeholder="Question"
-          name="questC"
-          value={questC}
-          onChange={e => setQuestC(e.target.value)}
-        />
-        <Form.Checkbox
-          control={Checkbox}
-          label={{children: 'Answer ?'}}
-          onClick={e => setCorrect(e.target.value)}
-          name="correct"
-          value={correct}
-        />
-      </Form.Group>
-      <Form.Group>
-        <Form.Input
-          control={Input}
-          width={12}
-          placeholder="Question"
-          name="questD"
-          value={questD}
-          onChange={e => setQuestD(e.target.value)}
-        />
-        <Form.Checkbox
-          control={Checkbox}
-          label={{children: 'Answer ?'}}
-          onClick={e => setCorrect(e.target.value)}
-          name="correct"
-          value={correct}
-        />
-      </Form.Group>
-      <Button
-        inverted
-        // onSubmit={e =>
-      >
-        Submit
-      </Button>
+      <Button inverted>Submit</Button>
     </Form>
   );
-}
+};
 
 export default MultiForm;
