@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Form, Header, Card } from 'semantic-ui-react';
 import {Redirect} from 'react-router-dom';
 import axios from 'axios';
+
 class TeacherDashboard extends React.Component {
   state = { name: "", info: "New Quiz", quiz:[], redirect: false, quizzes:[]}
 
