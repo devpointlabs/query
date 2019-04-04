@@ -4,7 +4,7 @@ import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
 class TeacherDashboard extends React.Component {
-  state = { name: "", info: "New Quiz", quiz:[], redirect: false, quizzes:[]}
+  state = { name: "", info: "New Quiz", q:[], redirect: false, quizzes:[]}
 
   dater = (a) => {
     let b = Date(a)
@@ -20,7 +20,7 @@ class TeacherDashboard extends React.Component {
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      const quiz = this.state.quiz
+      const quiz = this.state.q
       return <Redirect quiz={quiz} to={`/${quiz.name}/${quiz.id}`} />
     }
   }
