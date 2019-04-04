@@ -15,7 +15,7 @@ class Question extends React.Component {
     const { choices, } =  this.state;
     return (
       <>
-        <li>{name} : {qType} : correct response : {explanation}</li>
+        <li>{name} : {qType} : explanation : {explanation}</li>
         <ul>
           {choices.map( c => (
             <li key={c.id}>{c.answer}</li>
