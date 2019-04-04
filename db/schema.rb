@@ -38,10 +38,7 @@ ActiveRecord::Schema.define(version: 2019_04_03_223950) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-<<<<<<< HEAD
-=======
     t.string "info"
->>>>>>> 680340627521ab9f3e7219b8c64466def3559598
   end
 
   create_table "users", force: :cascade do |t|

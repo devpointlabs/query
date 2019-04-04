@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const useForm = (callback) => {
 
-  const [values, setValues] = useState({});
+  const [choices, setChoice] = useState({});
 
   const handleSubmit = (event) => {
     if (event) event.preventDefault();
@@ -11,19 +11,19 @@ const useForm = (callback) => {
 
   const handleChange = (event) => {
     event.persist();
-    setValues(values => ({ ...values, [event.target.name]: event.target.value }));
+    setChoice(choice => ({ ...choices, [event.target.name]: event.target.value }));
   }
 
   const handleClick = (event) => {
     event.persist();
-    setValues(values => ({ ...values, [event.target.name]: event.target.checked })); 
+    setChoice(choice => ({ ...choices, [event.target.name]: event.target.checked })); 
   }
 
   return {
     handleChange,
     handleSubmit,
     handleClick,
-    values,
+    choices,
   }
 }
 
