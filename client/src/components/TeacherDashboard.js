@@ -1,25 +1,26 @@
 import React from 'react';
 import { Button, Form, Header, Card } from 'semantic-ui-react';
-import {Link, Redirect} from 'react-router-dom';
+import {Redirect} from 'react-router-dom';
 import axios from 'axios';
-import TeacherQuizzes from './TeacherQuizzes'
 class TeacherDashboard extends React.Component {
-  state = { name: "", info: "New Quiz", redirect: false, quizzes:[]}
+  state = { name: "", info: "New Quiz", quiz:[], redirect: false, quizzes:[]}
 
   dater = (a) => {
     let b = Date(a)
     let c = b.split(" ").splice(1,3).join(" ")
     return(c)
 }
-  setRedirect = () => {
+  setRedirect = (theChoosenOne) => {
     this.setState({
-      redirect: true
+      redirect: true,
+      quiz: theChoosenOne
     })
   }
 
-  renderRedirect = (quiz) => {
+  renderRedirect = () => {
     if (this.state.redirect) {
-      return <Redirect to={`/${quiz.name}/${quiz.id}`} />
+      const quiz = this.state.quiz
+      return <Redirect quiz={quiz} to={`/${quiz.name}/${quiz.id}`} />
     }
   }
 
@@ -65,11 +66,11 @@ class TeacherDashboard extends React.Component {
               <Card color="violet" 
               key={quiz.id}
               link
-              onClick={() => this.setRedirect()}
+              onClick={() => this.setRedirect(quiz)}
               meta={this.dater(quiz.created_at)}                
               header={quiz.name}
               description={quiz.info}>
-              {this.renderRedirect(quiz)}
+              {this.renderRedirect()}
               </Card>
                 
                ))}
