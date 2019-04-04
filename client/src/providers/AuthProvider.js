@@ -14,7 +14,7 @@ export class AuthProvider extends React.Component {
         history.push("/home");
       })
       .catch( err => {
-        console.log(err);
+        alert("Please Double Check Your Work.\nSomething's not right here")
       })
   }
   handleLogin = (user, history) => {
@@ -23,8 +23,8 @@ export class AuthProvider extends React.Component {
         this.setState({ user: res.data.data, });
         history.push("/home");
       })
-      .catch( res => {
-        console.log(res);
+      .catch( err => {
+        alert("Wrong Login.\nSomething here's not right")
       })
   }
   handleLogout = (history) => {
@@ -33,8 +33,8 @@ export class AuthProvider extends React.Component {
         this.setState({ user: null, });
         history.push('/login');
       })
-      .catch( res => {
-        console.log(res);
+      .catch( err => {
+        alert("You Are Still Logged In.\nTry again!")
       })
   }
   render() {
