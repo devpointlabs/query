@@ -54,6 +54,16 @@ class Navbar extends React.Component {
   <Dropdown icon={<img alt='logo' width="100" height="100"  src='https://imgur.com/TRzM7lf.png' />}>
   <Dropdown.Menu>
     <Dropdown.Item text='Logout' onClick={ () => handleLogout(this.props.history)} />
+    <Dropdown.Item
+            text="Profile"
+            as={Link}
+            to="/Profile"
+          />
+    <Dropdown.Item
+            text="Home"
+            as={Link}
+            to="/Home"
+          />
   </Dropdown.Menu>
 </Dropdown>
     )}

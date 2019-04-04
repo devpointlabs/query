@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './components/Navbar'
-// import Home from './components/Home'
+import Home from './components/Home'
 import Login from './components/Login'
 import Register from './components/Register'
 import Landing from './components/Landing'
@@ -17,9 +17,11 @@ const App = () => (
         <Container>
           <Switch>
            <Route exact path="/" component={Landing} />
-           <Route exact path="/home" component={Profile} />
+           <Route exact path="/home" component={Home} />
+           <Route exact path="/profile" component={Profile} />
            <Route exact path="/login" component={Login} />
            <Route exact path="/register" component={Register} />
+           <Route exact path="/register/teacher" component={Register} />
            <Route component={NoMatch} />
           </Switch>
           </Container>
