@@ -1,9 +1,9 @@
 import React from 'react'
-import { Form, Input, Button, Grid, Radio, } from 'semantic-ui-react';
+import { Form, Input, Button, Grid, Radio, Header } from 'semantic-ui-react';
 import axios from 'axios';
 
 class TrueFalse extends React.Component {
-  state = { name: "", correctAnswer: "" }
+  state = { name: "", correctAnswer: "", explanation: "" }
 
   toggleTF = (value) => {
     this.setState({ correctAnswer: value })
@@ -14,13 +14,19 @@ class TrueFalse extends React.Component {
   }
   handleSubmit = (e) => {
     e.preventDefault();
-    const { name, correctAnswer} = this.state;
-    const question = { name: name, qType: "TorF", explanation: correctAnswer.toString}
+    const { name, correctAnswer, explanation} = this.state;
+    const question = { name: name, qType: "TorF", explanation: explanation, }
+    const choice1 = { answer: "true", correct_answer: correctAnswer === true ? true : false }
+    const choice2 = { answer: "false", correct_answer: correctAnswer === false ? true : false }
     const { quiz_id, } =  this.props;
     axios.post(`/api/quizzes/${quiz_id}/questions`, question)
-      .then( res => console.log(res))
-      .catch( err => console.log(err))
+      .then( res => {
+        axios.post(`/api/questions/${res.data.id}/choices`, choice1)
+        axios.post(`/api/questions/${res.data.id}/choices`, choice2)
+        })
 
+      .catch( err => console.log(err))
+      
   }
   render () {
     document.body.style = 'background: #6D55A3;'
@@ -34,23 +40,26 @@ class TrueFalse extends React.Component {
           onChange={this.handleChange}
           />
         </Form.Field>
-        {/* <Button.Group>
-          <Button inverted onClick={() => this.toggleTF(true)} >TRUE</Button>
-          <Button.Or />
-          <Button inverted onClick={() => this.toggleTF(false)}>FALSE</Button>
-        </Button.Group> */}
         <Form.Field>
+          <Form.TextArea
+          placeholder="Explanation for why correct answer is correct"
+          name="explanation"
+          value={this.state.explanation}
+          onChange={this.handleChange}
+
+          />
+        </Form.Field>
+        <Form.Field>
+          <Header as="h3" inverted>Correct Answer is:</Header>
           <Radio
           name="radioGroup"
           label="True"
-          value={true}
           onClick={() => this.toggleTF(true)}
 
           />
           <Radio
           name="radioGroup"
           label="False"
-          value={false}
           onClick={() => this.toggleTF(false)}
 
           />
