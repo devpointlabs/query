@@ -16,8 +16,8 @@ class TrueFalse extends React.Component {
     e.preventDefault();
     const { name, correctAnswer} = this.state;
     const question = { name: name, qType: "TorF", explanation: correctAnswer.toString()}
-    const choice1 = { answer: "true", correctAnswer: correctAnswer === true ? true : false }
-    const choice2 = { answer: "false", correctAnswer: correctAnswer === false ? true : false }
+    const choice1 = { answer: "true", correct_answer: correctAnswer === true ? true : false }
+    const choice2 = { answer: "false", correct_answer: correctAnswer === false ? true : false }
     const { quiz_id, } =  this.props;
     axios.post(`/api/quizzes/${quiz_id}/questions`, question)
       .then( res => {
