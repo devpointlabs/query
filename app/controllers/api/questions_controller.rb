@@ -18,7 +18,7 @@ class Api::QuestionsController < ApplicationController
     question = @quiz.questions.create(question_params)
 
     if question.save
-      render json: question, status: :created, location: question
+      render json: question
     else
       render json: question.errors, status: :unprocessable_entity
     end
@@ -49,6 +49,6 @@ class Api::QuestionsController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def question_params
-      params.require(:question).permit(:name)
+      params.require(:question).permit(:name, :qType, :explanation)
     end
 end
