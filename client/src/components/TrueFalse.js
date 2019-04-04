@@ -3,7 +3,7 @@ import { Form, Input, Button, Grid, Radio, } from 'semantic-ui-react';
 import axios from 'axios';
 
 class TrueFalse extends React.Component {
-  state = { name: "", correctAnswer: "" }
+  state = { name: "", correctAnswer: "", }
 
   toggleTF = (value) => {
     this.setState({ correctAnswer: value })
@@ -15,12 +15,24 @@ class TrueFalse extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const { name, correctAnswer} = this.state;
-    const question = { name: name, qType: "TorF", explanation: correctAnswer.toString}
+    const question = { name: name, qType: "TorF", explanation: correctAnswer.toString()}
+    const choice1 = { answer: "true", correctAnswer: correctAnswer === true ? true : false }
+    const choice2 = { answer: "false", correctAnswer: correctAnswer === false ? true : false }
     const { quiz_id, } =  this.props;
     axios.post(`/api/quizzes/${quiz_id}/questions`, question)
-      .then( res => console.log(res))
-      .catch( err => console.log(err))
+      .then( res => {
+        axios.post(`/api/questions/${res.data.id}/choices`, choice1)
+          .then(res => {
+            console.log(res)
+          })
+        axios.post(`/api/questions/${res.data.id}/choices`, choice2)
+          .then(res => {
+            console.log(res)
+          })
+        })
 
+      .catch( err => console.log(err))
+      
   }
   render () {
     document.body.style = 'background: #6D55A3;'
@@ -43,14 +55,12 @@ class TrueFalse extends React.Component {
           <Radio
           name="radioGroup"
           label="True"
-          value={true}
           onClick={() => this.toggleTF(true)}
 
           />
           <Radio
           name="radioGroup"
           label="False"
-          value={false}
           onClick={() => this.toggleTF(false)}
 
           />
