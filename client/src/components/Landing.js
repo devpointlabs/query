@@ -1,25 +1,29 @@
 import React from 'react'
 import {Container, Header, Button, Grid} from 'semantic-ui-react'
 import { Link } from "react-router-dom";
-import Login from './Login'
-import Register from './Register'
+import { AuthConsumer, } from '../providers/AuthProvider';
 
 const Landing = () => {
   document.body.style = 'background: #6D55A3;'
   return (
-    <Container>
-    <Header
-      as='h1'
-      content='Welcome to Query'
-      inverted
-      textAlign= 'center'
-      style={{
-        fontSize: '100px',
-        fontWeight: 'normal',
-        marginBottom: 0,
-        marginTop: '15px',
-      }}
-    />
+    <AuthConsumer>
+      { auth => (
+        <Container>
+        <Header
+          as='h1'
+          content='Welcome to Query'
+          inverted
+          textAlign= 'center'
+          style={{
+            fontSize: '100px',
+            fontWeight: 'normal',
+            marginBottom: 0,
+            marginTop: '15px',
+          }}
+        />
+        { auth.authenticated ? 
+        <Header inverted as="h3" textAlign="center">You are signed in as {auth.user.email}</Header>
+        : 
         <Grid>
           <Grid.Column textAlign="center">
             <Button.Group size="massive">
@@ -29,8 +33,12 @@ const Landing = () => {
             </Button.Group>
           </Grid.Column>
         </Grid>
-    </Container>
+        }
+        </Container>
+      )}
+    </AuthConsumer>
   )
 }
 
-export default Landing
+export default Landing;
+
