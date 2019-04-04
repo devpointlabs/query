@@ -1,10 +1,36 @@
 import React from 'react';
-import { Button, Form, Header } from 'semantic-ui-react';
-import {Link, } from 'react-router-dom';
+import { Button, Form, Header, Card } from 'semantic-ui-react';
+import {Link, Redirect} from 'react-router-dom';
 import axios from 'axios';
 import TeacherQuizzes from './TeacherQuizzes'
 class TeacherDashboard extends React.Component {
-  state = { name: ""}
+  state = { name: "", info: "New Quiz", redirect: false, quizzes:[]}
+
+  dater = (a) => {
+    let b = Date(a)
+    let c = b.split(" ").splice(1,3).join(" ")
+    return(c)
+}
+  setRedirect = () => {
+    this.setState({
+      redirect: true
+    })
+  }
+
+  renderRedirect = (quiz) => {
+    if (this.state.redirect) {
+      return <Redirect to={`/${quiz.name}/${quiz.id}`} />
+    }
+  }
+
+    
+
+  componentDidMount(){
+    axios.get("/api/quizzes")
+        .then( res => {
+          this.setState({ quizzes: res.data.reverse(), })
+        })
+    }
 
   handleChange = (e) => {
     const {name, value} = e.target;
@@ -15,8 +41,9 @@ class TeacherDashboard extends React.Component {
     e.preventDefault();
     const newQuiz = this.state;
     axios.post("/api/quizzes", newQuiz)
-      .then( res => console.log(res.data))
-    this.setState({ name: ""})
+      .then( res => { 
+        this.setState({ name: "", info: "New Quiz", quizzes: [res.data, ...this.state.quizzes] });
+      })
   }
 
   render() {
@@ -32,7 +59,22 @@ class TeacherDashboard extends React.Component {
           />
           <Button inverted>Create New Quiz</Button>
           <Header as="h2" inverted>Your quizzes</Header>
-          <TeacherQuizzes />
+          <div style={{backgroundColor:"#fff", borderRadius:"15px",}}>
+          <Card.Group centered>
+            {this.state.quizzes.map( quiz => (
+              <Card color="violet" 
+              key={quiz.id}
+              link
+              onClick={() => this.setRedirect()}
+              meta={this.dater(quiz.created_at)}                
+              header={quiz.name}
+              description={quiz.info}>
+              {this.renderRedirect(quiz)}
+              </Card>
+                
+               ))}
+            </Card.Group>
+          </div>
         </Form>
       </div>
     )
