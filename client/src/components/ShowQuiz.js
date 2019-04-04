@@ -4,6 +4,7 @@ import { Button, Header, } from 'semantic-ui-react';
 import MultiForm from './MultiForm';
 import OpenAnswerForm from './OpenAnswerForm';
 import TrueFalse from './TrueFalse';
+import Question from './Question'
 
 class ShowQuiz extends React.Component {
   state = { quiz: {}, questions: [], showMultiForm: false, showTrueFalseForm: false, showOpenForm: false, showButtons: true }
@@ -33,7 +34,7 @@ class ShowQuiz extends React.Component {
         <Header as="h1" inverted>{quiz.name}</Header>
         <ol>
           {this.state.questions.map( q => (
-            <li key={q.id}>{q.name}</li>
+            <Question key={q.id} {...q} />
           ))}
         </ol>
         <p style={{color: "white"}}>Add Question:</p>
