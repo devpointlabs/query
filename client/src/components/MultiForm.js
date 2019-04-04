@@ -81,7 +81,7 @@ handleSubmit = (e) => {
           label="Answer ?"
           name="choiceOneC"
           value={choiceOneC}
-          onClick={this.handleChange}
+          onClick={this.handleClick}
         />
       </Form.Group>
       <Form.Group>
@@ -97,7 +97,7 @@ handleSubmit = (e) => {
           label="Answer ?"
           name="choiceTwoC"
           value={choiceTwoC}
-          onClick={this.handleChange}
+          onClick={this.handleClick}
         />
       </Form.Group>
       <Form.Group>
@@ -113,7 +113,7 @@ handleSubmit = (e) => {
           label="Answer ?"
           name="choiceThreeC"
           value={choiceThreeC}
-          onClick={this.handleChange}
+          onClick={this.handleClick}
         />
       </Form.Group>
 
