@@ -14,6 +14,7 @@ export class AuthProvider extends React.Component {
         history.push("/home");
       })
       .catch( err => {
+        console.log(err);
         alert("Please Double Check Your Work.\nSomething's not right here")
       })
   }
@@ -24,6 +25,7 @@ export class AuthProvider extends React.Component {
         history.push("/home");
       })
       .catch( err => {
+        console.log(err);
         alert("Wrong Login.\nSomething here's not right")
       })
   }
@@ -34,6 +36,7 @@ export class AuthProvider extends React.Component {
         history.push('/login');
       })
       .catch( err => {
+        console.log(err);
         alert("You Are Still Logged In.\nTry again!")
       })
   }
