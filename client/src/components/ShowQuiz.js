@@ -1,9 +1,10 @@
-import React from "react";
-import axios from "axios";
-import { Button, Header, Container, List } from "semantic-ui-react";
-import MultiForm from "./MultiForm";
-import OpenAnswerForm from "./OpenAnswerForm";
-import TrueFalse from "./TrueFalse";
+import React from 'react';
+import axios from 'axios';
+import Timer from './Timer'
+import { Button, Header, Container, List } from 'semantic-ui-react';
+import MultiForm from './MultiForm';
+import OpenAnswerForm from './OpenAnswerForm';
+import TrueFalse from './TrueFalse';
 import Question from "./Question";
 
 class ShowQuiz extends React.Component {
@@ -69,6 +70,7 @@ class ShowQuiz extends React.Component {
         <Header as="h1" inverted>
           {quiz.name}
         </Header>
+      <Timer id={this.props.match.params.id}/>
         <List>
           {this.state.questions.map(q => (
             <Question key={q.id} {...q} />

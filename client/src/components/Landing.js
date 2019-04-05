@@ -24,7 +24,10 @@ const Landing = () => {
         { auth.authenticated ? 
         <div>
           <Header inverted as="h3" textAlign="center">You are signed in as {auth.user.email}</Header>
-          <Button as={Link} to="/home" inverted>Your Dashboard</Button>
+          <div style={{textAlign: "center"}}>
+            <Button as={Link} to="/home" inverted >Your Dashboard</Button>
+          </div>
+            
         </div>
         : 
         <Grid>
