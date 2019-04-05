@@ -8,8 +8,7 @@ class TrueFalse extends React.Component {
   toggleTF = value => {
     this.setState({ correctAnswer: value });
   };
-  handleChange = e => {
-    const { name, value } = e.target;
+  handleChange = (e, { name, value }) => {
     this.setState({ [name]: value });
   };
   handleSubmit = e => {
@@ -69,14 +68,20 @@ class TrueFalse extends React.Component {
             Correct Answer is:
           </Header>
           <Radio
-            name="radioGroup"
+            name="correctAnswer"
             label="True"
-            onClick={() => this.toggleTF(true)}
+            value={true}
+            onChange={this.handleChange}
+            checked={this.state.correctAnswer === true}
+            // onClick={() => this.toggleTF(true)}
           />
           <Radio
-            name="radioGroup"
+            name="correctAnswer"
             label="False"
-            onClick={() => this.toggleTF(false)}
+            value={false}
+            onChange={this.handleChange}
+            checked={this.state.correctAnswer === false}
+            // onClick={() => this.toggleTF(false)}
           />
         </Form.Field>
         <br />
