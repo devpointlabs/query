@@ -28,8 +28,9 @@ class Question extends React.Component {
     const renderChoices = this.state.choices.map(c => {
       if (c.correct_answer) {
         return (
-          <div style={{color: 'green'}} key={c.id}>
-            <h3>{c.answer}</h3>
+          <div key={c.id}>
+            <h3 style={{display: 'inline'}}>{c.answer}</h3>
+            <h4 style={{display: 'inline' ,color: 'green'}}> &lt;= Correct Answer</h4>
           </div>
         );
       } else {

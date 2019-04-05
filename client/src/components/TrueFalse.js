@@ -17,11 +17,11 @@ class TrueFalse extends React.Component {
     const { name, correctAnswer, explanation } = this.state;
     const question = { name: name, qType: "TorF", explanation: explanation };
     const choice1 = {
-      answer: "true",
+      answer: "True",
       correct_answer: correctAnswer === true ? true : false
     };
     const choice2 = {
-      answer: "false",
+      answer: "False",
       correct_answer: correctAnswer === false ? true : false
     };
     const { quiz_id } = this.props;
