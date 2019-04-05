@@ -7,3 +7,6 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 User.create(name: "Teacher User", email: "teacher@user.com", password: "password", teacher: true)
 User.create(name: "Student User", email: "student@user.com", password: "password", teacher: false)
+
+10.times do 
+  q = Question.create()
