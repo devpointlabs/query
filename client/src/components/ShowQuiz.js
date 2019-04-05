@@ -70,6 +70,13 @@ class ShowQuiz extends React.Component {
         <Header as="h1" inverted>
           {quiz.name}
         </Header>
+        <Button>
+          Edit Title
+        </Button>
+        <Button>
+          Delete Quiz
+        </Button>
+        <br />
       <Timer id={this.props.match.params.id}/>
         <List>
           {this.state.questions.map(q => (
