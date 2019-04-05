@@ -1,9 +1,10 @@
-import React from "react";
-import axios from "axios";
-import { Button, Header, Container, List } from "semantic-ui-react";
-import MultiForm from "./MultiForm";
-import OpenAnswerForm from "./OpenAnswerForm";
-import TrueFalse from "./TrueFalse";
+import React from 'react';
+import axios from 'axios';
+import Timer from './Timer'
+import { Button, Header, Container, List } from 'semantic-ui-react';
+import MultiForm from './MultiForm';
+import OpenAnswerForm from './OpenAnswerForm';
+import TrueFalse from './TrueFalse';
 import Question from "./Question";
 
 class ShowQuiz extends React.Component {
@@ -28,8 +29,17 @@ class ShowQuiz extends React.Component {
       });
   }
 
+  removeQuestion = (id) => {
+    axios.delete(`/api/quizzes/${this.props.match.params.id}/questions/${id}`)
+      .then( res => {
+        const { questions, } = this.state;
+        this.setState({ questions: questions.filter(r => r.id !== id), })
+      })
+  }
+
   addQuestion = (question) => {
     this.setState({ questions: [...this.state.questions, question] });
+    debugger
   };
 
   addChoice = (choice) => {
@@ -67,9 +77,17 @@ class ShowQuiz extends React.Component {
         <Header as="h1" inverted>
           {quiz.name}
         </Header>
+        <Button>
+          Edit Title
+        </Button>
+        <Button>
+          Delete Quiz
+        </Button>
+        <br />
+      <Timer id={this.props.match.params.id}/>
         <List>
           {this.state.questions.map(q => (
-            <Question key={q.id} {...q} />
+            <Question remove={this.removeQuestion} key={q.id} {...q} />
           ))}
         </List>
         <p style={{ color: "white" }}>Add Question:</p>
@@ -89,7 +107,7 @@ class ShowQuiz extends React.Component {
           </>
         ) : null}
         <div>
-          {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} />}
+          {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />}
           {this.state.showTrueFalseForm && (
             <TrueFalse quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />
           )}
