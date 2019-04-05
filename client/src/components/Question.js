@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Card } from 'semantic-ui-react';
+import { Card, Button } from 'semantic-ui-react';
 
 class Question extends React.Component {
   state = { choices: []}
@@ -10,6 +10,7 @@ class Question extends React.Component {
         this.setState({ choices: res.data, })
       ))
   }
+
   
   correctAnswer = () => {
     const {choices} = this.state
@@ -43,6 +44,10 @@ class Question extends React.Component {
             <br />
             Explanation: {explanation}
           </Card.Content>
+          <Button.Group>
+            <Button inverted color="purple">Edit</Button>
+            <Button inverted onClick={() => this.props.remove(this.props.id)} color="purple" >Delete</Button>
+          </Button.Group>
         </Card>
         {/* <ul>
           {choices.map( c => (

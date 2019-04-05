@@ -29,6 +29,14 @@ class ShowQuiz extends React.Component {
       });
   }
 
+  removeQuestion = (id) => {
+    axios.delete(`/api/quizzes/${this.props.match.params.id}/questions/${id}`)
+      .then( res => {
+        const { questions, } = this.state;
+        this.setState({ questions: questions.filter(r => r.id !== id), })
+      })
+  }
+
   addQuestion = (question) => {
     this.setState({ questions: [...this.state.questions, question] });
   };
@@ -72,7 +80,7 @@ class ShowQuiz extends React.Component {
       <Timer id={this.props.match.params.id}/>
         <List>
           {this.state.questions.map(q => (
-            <Question key={q.id} {...q} />
+            <Question remove={this.removeQuestion} key={q.id} {...q} />
           ))}
         </List>
         <p style={{ color: "white" }}>Add Question:</p>
