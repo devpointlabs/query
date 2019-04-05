@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import Timer from './Timer'
 import { Button, Header, } from 'semantic-ui-react';
 import MultiForm from './MultiForm';
 import OpenAnswerForm from './OpenAnswerForm';
@@ -31,6 +32,7 @@ class ShowQuiz extends React.Component {
     return (
       <div>
         <Header as="h1" inverted>{quiz.name}</Header>
+        <Timer id={this.props.match.params.id}/>
         <ol>
           {this.state.questions.map( q => (
             <li key={q.id}>{q.name}</li>
