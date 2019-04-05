@@ -27,6 +27,14 @@ class ShowQuiz extends React.Component {
       });
   }
 
+  removeQuestion = (id) => {
+    axios.delete(`/api/quizzes/${this.props.quiz_id}/questions/${this.props.id}`)
+      .then( res => {
+        const { questions, } = this.state;
+        this.setState({ questions: questions.filter(r => r.id !== id), })
+      })
+  }
+
   addQuestion = (question) => {
     this.setState({ questions: [...this.state.questions, question ]});
     }
