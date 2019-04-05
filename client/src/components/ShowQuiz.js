@@ -7,28 +7,56 @@ import TrueFalse from './TrueFalse';
 import Question from './Question'
 
 class ShowQuiz extends React.Component {
-  state = { quiz: {}, questions: [], showMultiForm: false, showTrueFalseForm: false, showOpenForm: false, showButtons: true }
+  state = {
+    quiz: {},
+    questions: [],
+    showMultiForm: false,
+    showTrueFalseForm: false,
+    showOpenForm: false,
+    showButtons: true
+  };
 
   componentDidMount() {
-    axios.get(`/api/quizzes/${this.props.match.params.id}`)
-      .then( res => {
-        this.setState({ quiz: res.data, })
-      })
-    axios.get(`/api/quizzes/${this.props.match.params.id}/questions`)
-      .then( res => {
-        this.setState({ questions: res.data})
-      })
+    axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
+      this.setState({ quiz: res.data });
+    });
+    axios
+      .get(`/api/quizzes/${this.props.match.params.id}/questions`)
+      .then(res => {
+        this.setState({ questions: res.data });
+      });
   }
 
-  toggleMultiForm = () => this.setState({ showMultiForm: !this.state.showMultiForm, showButtons: false })
-  toggleTFForm = () => this.setState({ showTrueFalseForm: !this.state.showTrueFalseForm, showButtons: false })
-  toggleOpenForm = () => this.setState({ showOpenForm: !this.state.showOpenForm, showButtons: false })
-  toggleButtons = () => this.setState({ showButtons: true, showMultiForm: false, showTrueFalseForm: false, showOpenForm: false })
+  addQuestion = (question) => {
+    this.setState({ questions: [...this.state.questions, question ]});
+    }
 
+  toggleMultiForm = () =>
+    this.setState({
+      showMultiForm: !this.state.showMultiForm,
+      showButtons: false
+    });
+  toggleTFForm = () =>
+    this.setState({
+      showTrueFalseForm: !this.state.showTrueFalseForm,
+      showButtons: false
+    });
+  toggleOpenForm = () =>
+    this.setState({
+      showOpenForm: !this.state.showOpenForm,
+      showButtons: false
+    });
+  toggleButtons = () =>
+    this.setState({
+      showButtons: true,
+      showMultiForm: false,
+      showTrueFalseForm: false,
+      showOpenForm: false
+    });
 
   render() {
-    document.body.style = 'background: #6D55A3;'
-    const { quiz, } = this.state;
+    document.body.style = "background: #6D55A3;";
+    const { quiz, questions } = this.state;
     return (
       <Container>
         <Header as="h1" inverted>{quiz.name}</Header>
@@ -51,7 +79,7 @@ class ShowQuiz extends React.Component {
         <div>
           {this.state.showMultiForm && <MultiForm quiz_id={quiz.id}/> }
           {this.state.showTrueFalseForm && <TrueFalse quiz_id={quiz.id}/> }
-          {this.state.showOpenForm && <OpenAnswerForm quiz_id={quiz.id}/> }
+          {this.state.showOpenForm && <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} /> }
           {this.state.showButtons ? null : <Button onClick={this.toggleButtons}>Cancel</Button>}
         </div>
       </Container>

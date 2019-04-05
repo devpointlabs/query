@@ -3,24 +3,24 @@ import axios from "axios";
 import { Form, Button, Grid } from "semantic-ui-react";
 
 class OpenAnswerForm extends React.Component {
-  state = { name: "" };
+  state = { name: "", qType: "" };
 
-  handleChange = (e, { name, value }) => this.setState({ [name]: value });
+  handleChange = (e, { name, value, }) => this.setState({ [name]: value,});
 
   handeSubmit = e => {
     e.preventDefault();
-    const { match: { params: { id } }, history: { push } } = this.props
-    const question = { ...this.state, quiz_id: id};
-    debugger
-    axios.post(`/api/quizzes/${id}/questions`, question).then(res => {
-      push.this.props.history(`/quizzes/${id}`);
+    const { quiz_id } = this.props;
+    const question = { ...this.state, quiz_id: quiz_id, qType: "open" };
+    axios.post(`/api/quizzes/${quiz_id}/questions`, question).then(res => {
+      this.props.addQuestion(res.data);
+      console.log(res);
     });
-    this.setState({ name: "" });
+    this.setState({ name: "", qType: "" });
   };
 
   render() {
     document.body.style = "background: #6D55A3;";
-    const { name } = this.state;
+    const { name, } = this.state;
 
     return (
       <>
