@@ -18,7 +18,7 @@ class Api::ChoicesController < ApplicationController
     @choice = @question.choices.new(choice_params)
 
     if @choice.save
-      render json: @choice, status: :created, location: @choice
+      render json: @choice
     else
       render json: @choice.errors, status: :unprocessable_entity
     end
@@ -46,7 +46,7 @@ class Api::ChoicesController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def choice_params
-      params.require(:choice).permit(:answer, :correct_answer, :question_id)
+      params.require(:choice).permit(:answer, :correct_answer)
     end
 
     def set_question
