@@ -10,11 +10,6 @@ class Question extends React.Component {
       .then(res => this.setState({choices: res.data}));
   }
 
-  correctAnswer = () => {
-    const {choices} = this.state;
-    return choices.filter(choice => choice.correctAnswer === true);
-  };
-
   quizTypeName = qType => {
     switch (qType) {
       case 'TorF':
