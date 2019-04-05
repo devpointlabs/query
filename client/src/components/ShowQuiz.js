@@ -39,6 +39,7 @@ class ShowQuiz extends React.Component {
 
   addQuestion = (question) => {
     this.setState({ questions: [...this.state.questions, question] });
+    debugger
   };
 
   addChoice = (choice) => {
@@ -77,6 +78,13 @@ class ShowQuiz extends React.Component {
         <Header as="h1" inverted>
           {quiz.name}
         </Header>
+        <Button>
+          Edit Title
+        </Button>
+        <Button>
+          Delete Quiz
+        </Button>
+        <br />
       <Timer id={this.props.match.params.id}/>
         <List>
           {this.state.questions.map(q => (
@@ -100,7 +108,7 @@ class ShowQuiz extends React.Component {
           </>
         ) : null}
         <div>
-          {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} />}
+          {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />}
           {this.state.showTrueFalseForm && (
             <TrueFalse quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />
           )}
