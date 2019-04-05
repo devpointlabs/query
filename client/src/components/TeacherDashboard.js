@@ -5,7 +5,7 @@ import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
 class TeacherDashboard extends React.Component {
-  state = { name: "", info: "New Quiz", q_id:{}, qActive:[], redirect: false, quizzes:[]}
+  state = { name: "", info: "", q_id:{}, qActive:[], redirect: false, quizzes:[]}
 
   dater = (a) => {
     let b = Date(a);
@@ -122,22 +122,30 @@ class TeacherDashboard extends React.Component {
           </Form.Group>
           <Button inverted>Create New Quiz</Button>
         </Form>
-        <Header as="h2" inverted>
-          Your quizzes
-        </Header>
-        <div style={{ backgroundColor: "#fff", borderRadius: "15px" }}>
+        <Header as="h1" inverted>Your quizzes</Header>
+          {qActive.length !== 0 ? 
+          <div style={{backgroundColor:"#fff", borderRadius:"15px",}}>
+          <Header as="h3" style={{textAlign:"center", color:"#6D55A3"}}inverted>Active Quizzes</Header>
           <Card.Group centered>
-            {this.state.quizzes.map(quiz => (
-              <Card
-                color="violet"
-                key={quiz.id}
-                link
-                onClick={() => this.setRedirect(quiz)}
-                meta={this.dater(quiz.created_at)}
-                header={quiz.name}
-                description={quiz.info}
-              >
-                {this.renderRedirect()}
+            {this.state.qActive.map( quiz => (
+              <ActiveCard quiz={quiz} key={quiz.id} shuffle={() => this.shuffle()}/>
+            ))}
+            </Card.Group>
+          </div>
+             : null  }
+          <Divider/>
+          <div style={{backgroundColor:"#fff", borderRadius:"15px",}}>
+          <Header as="h3" style={{textAlign:"center", color:"#6D55A3"}}inverted>Created Quizzes</Header>
+          <Card.Group centered>
+            {this.state.quizzes.map( quiz => (
+              <Card color="violet" 
+              key={quiz.id}
+              link
+              onClick={() => this.setRedirect(quiz)}
+              meta={this.dater(quiz.created_at)}                
+              header={quiz.name}
+              description={quiz.info}>
+              {this.renderRedirect()}
               </Card>
                 
                ))}
