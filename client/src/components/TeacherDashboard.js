@@ -55,7 +55,7 @@ class TeacherDashboard extends React.Component {
     return (
       <div style={{ textAlign: "center" }}>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Group widths="equal" >
+          <Form.Group widths="equal">
             <Form.Input
               placeholder="New Quiz Name"
               name="name"
@@ -71,7 +71,7 @@ class TeacherDashboard extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Group>
-            <Button inverted>Create New Quiz</Button>
+          <Button inverted>Create New Quiz</Button>
         </Form>
         <Header as="h2" inverted>
           Your quizzes
