@@ -1,15 +1,16 @@
-import React from 'react';
-import axios from 'axios';
-import { Button, Header, Container, List, } from 'semantic-ui-react';
-import MultiForm from './MultiForm';
-import OpenAnswerForm from './OpenAnswerForm';
-import TrueFalse from './TrueFalse';
-import Question from './Question'
+import React from "react";
+import axios from "axios";
+import { Button, Header, Container, List } from "semantic-ui-react";
+import MultiForm from "./MultiForm";
+import OpenAnswerForm from "./OpenAnswerForm";
+import TrueFalse from "./TrueFalse";
+import Question from "./Question";
 
 class ShowQuiz extends React.Component {
   state = {
     quiz: {},
     questions: [],
+    choices: [],
     showMultiForm: false,
     showTrueFalseForm: false,
     showOpenForm: false,
@@ -28,8 +29,13 @@ class ShowQuiz extends React.Component {
   }
 
   addQuestion = (question) => {
-    this.setState({ questions: [...this.state.questions, question ]});
-    }
+    this.setState({ questions: [...this.state.questions, question] });
+  };
+
+  addChoice = (choice) => {
+    this.setState({ choices: [...this.state.choices, choice] });
+    debugger
+  };
 
   toggleMultiForm = () =>
     this.setState({
@@ -59,31 +65,44 @@ class ShowQuiz extends React.Component {
     const { quiz, questions } = this.state;
     return (
       <Container>
-        <Header as="h1" inverted>{quiz.name}</Header>
+        <Header as="h1" inverted>
+          {quiz.name}
+        </Header>
         <List>
-          {this.state.questions.map( q => (
+          {this.state.questions.map(q => (
             <Question key={q.id} {...q} />
           ))}
         </List>
-        <p style={{color: "white"}}>Add Question:</p>
-        { this.state.showButtons ? 
-        <>
-          <Button.Group>
-            <Button inverted onClick={this.toggleMultiForm}>Multiple Choice</Button>
-            <Button inverted onClick={this.toggleTFForm}>True or False</Button>
-            <Button inverted onClick={this.toggleOpenForm}>Open</Button>
-          </Button.Group>
-        </>
-        :
-        null}
+        <p style={{ color: "white" }}>Add Question:</p>
+        {this.state.showButtons ? (
+          <>
+            <Button.Group>
+              <Button inverted onClick={this.toggleMultiForm}>
+                Multiple Choice
+              </Button>
+              <Button inverted onClick={this.toggleTFForm}>
+                True or False
+              </Button>
+              <Button inverted onClick={this.toggleOpenForm}>
+                Open
+              </Button>
+            </Button.Group>
+          </>
+        ) : null}
         <div>
-          {this.state.showMultiForm && <MultiForm quiz_id={quiz.id}/> }
-          {this.state.showTrueFalseForm && <TrueFalse quiz_id={quiz.id}/> }
-          {this.state.showOpenForm && <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} /> }
-          {this.state.showButtons ? null : <Button onClick={this.toggleButtons}>Cancel</Button>}
+          {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} />}
+          {this.state.showTrueFalseForm && (
+            <TrueFalse quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />
+          )}
+          {this.state.showOpenForm && (
+            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion}  />
+          )}
+          {this.state.showButtons ? null : (
+            <Button onClick={this.toggleButtons}>Cancel</Button>
+          )}
         </div>
       </Container>
-    )
+    );
   }
 }
 export default ShowQuiz;
