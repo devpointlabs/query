@@ -4,7 +4,7 @@ import React from 'react';
 import {Button, Form, Input} from 'semantic-ui-react';
 import axios from 'axios'
 
-class MultiForm extends React.Component {
+class MultiQ extends React.Component {
   state = {
     question: '',
     choiceOneA: '', 
@@ -81,7 +81,7 @@ handleSubmit = (e) => {
           label="Answer ?"
           name="choiceOneC"
           value={choiceOneC}
-          onClick={this.handleClick}
+          onClick={this.handleChange}
         />
       </Form.Group>
       <Form.Group>
@@ -97,7 +97,7 @@ handleSubmit = (e) => {
           label="Answer ?"
           name="choiceTwoC"
           value={choiceTwoC}
-          onClick={this.handleClick}
+          onClick={this.handleChange}
         />
       </Form.Group>
       <Form.Group>
@@ -113,7 +113,7 @@ handleSubmit = (e) => {
           label="Answer ?"
           name="choiceThreeC"
           value={choiceThreeC}
-          onClick={this.handleClick}
+          onClick={this.handleChange}
         />
       </Form.Group>
 
@@ -124,4 +124,20 @@ handleSubmit = (e) => {
   }
   }
 
-export default MultiForm;
+export default MultiQ;
+      // <Form.Group>
+      //   <Form.Input
+      //     width={10}
+      //     placeholder="Enter an answer"
+      //     name="choiceA"
+      //     value={choiceA.answer}
+      //     onChange={this.handleChange}
+      //   />
+      //   <input
+      //     type="checkbox"
+      //     label="Answer ?"
+      //     name="choiceA"
+      //     value={choiceA.correct}
+      //     onClick={this.handleChange}
+      //   />
+      // </Form.Group>
