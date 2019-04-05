@@ -123,6 +123,7 @@ class MultiForm extends React.Component {
               onClick={this.handleClick}
             />
           </Form.Field>
+            Correct Answer
         </Form.Group>
         <Form.Group>
           <Form.Field
@@ -147,6 +148,7 @@ class MultiForm extends React.Component {
             onClick={this.handleClick}
           />
             </Form.Field>
+            Correct Answer
         </Form.Group>
         <Form.Group>
           <Form.Field
@@ -171,6 +173,7 @@ class MultiForm extends React.Component {
             onClick={this.handleClick}
           />
             </Form.Field>
+            Correct Answer
         </Form.Group>
         <Form.Group>
           <Form.Field
@@ -194,6 +197,7 @@ class MultiForm extends React.Component {
             onClick={this.handleClick}
           />
             </Form.Field>
+            Correct Answer
         </Form.Group>
         <Grid>
           <Grid.Column textAlign="right">
