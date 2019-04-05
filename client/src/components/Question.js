@@ -11,13 +11,6 @@ class Question extends React.Component {
       ))
   }
 
-  removeQuestion = (id) => {
-    axios.delete(`/api/quizzes/${this.props.quiz_id}/questions/${this.props.id}`)
-      .then( res => {
-        const { questions, } = this.state;
-        this.setState({ questions: questions.filter(r => r.id !== id), })
-      })
-  }
   
   correctAnswer = () => {
     const {choices} = this.state
@@ -53,7 +46,7 @@ class Question extends React.Component {
           </Card.Content>
           <Button.Group>
             <Button inverted color="purple">Edit</Button>
-            <Button inverted onClick={() => this.removeQuestion()} color="purple" >Delete</Button>
+            <Button inverted onClick={() => this.props.remove()} color="purple" >Delete</Button>
           </Button.Group>
         </Card>
         {/* <ul>
