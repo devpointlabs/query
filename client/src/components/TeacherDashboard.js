@@ -6,7 +6,7 @@ import axios from "axios";
 class TeacherDashboard extends React.Component {
   state = { name: "", info: "", q: [], redirect: false, quizzes: [] };
 
-  dater = a => {
+  dater = (a) => {
     let b = Date(a);
     let c = b
       .split(" ")
@@ -34,12 +34,12 @@ class TeacherDashboard extends React.Component {
     });
   }
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
-  handleSubmit = e => {
+  handleSubmit = (e) => {
     e.preventDefault();
     const newQuiz = this.state;
     axios.post("/api/quizzes", newQuiz).then(res => {
