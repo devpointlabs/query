@@ -46,7 +46,7 @@ class Question extends React.Component {
           </Card.Content>
           <Button.Group>
             <Button inverted color="purple">Edit</Button>
-            <Button inverted onClick={() => this.props.remove()} color="purple" >Delete</Button>
+            <Button inverted onClick={() => this.props.remove(this.props.id)} color="purple" >Delete</Button>
           </Button.Group>
         </Card>
         {/* <ul>

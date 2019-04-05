@@ -80,7 +80,7 @@ class ShowQuiz extends React.Component {
       <Timer id={this.props.match.params.id}/>
         <List>
           {this.state.questions.map(q => (
-            <Question remove={() => this.removeQuestion()} key={q.id} {...q} />
+            <Question remove={this.removeQuestion} key={q.id} {...q} />
           ))}
         </List>
         <p style={{ color: "white" }}>Add Question:</p>
