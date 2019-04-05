@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { Card } from 'semantic-ui-react';
+import { Card, Button } from 'semantic-ui-react';
 
 class Question extends React.Component {
   state = { choices: []}
@@ -43,6 +43,10 @@ class Question extends React.Component {
             <br />
             Explanation: {explanation}
           </Card.Content>
+          <Button.Group>
+            <Button inverted color="purple">Edit</Button>
+            <Button inverted color="purple" >Delete</Button>
+          </Button.Group>
         </Card>
         {/* <ul>
           {choices.map( c => (
