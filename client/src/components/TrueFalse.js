@@ -25,8 +25,7 @@ class TrueFalse extends React.Component {
       correct_answer: correctAnswer === false ? true : false
     };
     const { quiz_id } = this.props;
-    axios
-      .post(`/api/quizzes/${quiz_id}/questions`, question)
+    axios.post(`/api/quizzes/${quiz_id}/questions`, question)
       .then(res => {
         this.props.addQuestion(res.data);
         axios.post(`/api/questions/${res.data.id}/choices`, choice1)
