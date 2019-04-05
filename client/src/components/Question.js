@@ -5,9 +5,22 @@ import { Card, Button, } from 'semantic-ui-react';
 class Question extends React.Component {
   state = {choices: []};
   componentDidMount() {
+<<<<<<< HEAD
     axios
       .get(`/api/questions/${this.props.id}/choices`)
       .then(res => this.setState({choices: res.data}));
+=======
+    axios.get(`/api/questions/${this.props.id}/choices`)
+      .then( res => (
+        this.setState({ choices: res.data, })
+      ))
+  }
+
+  
+  correctAnswer = () => {
+    const {choices} = this.state
+    return choices.filter(choice => choice.correctAnswer === true)    
+>>>>>>> 0a82f082fb7621fdfd32771f0606ba35fc81533d
   }
 
   quizTypeName = qType => {
@@ -53,12 +66,17 @@ class Question extends React.Component {
             Explanation: {explanation}
           </Card.Content>
           <Button.Group>
+<<<<<<< HEAD
             <Button inverted color="purple">
               Edit
             </Button>
             <Button inverted color="purple">
               Delete
             </Button>
+=======
+            <Button inverted color="purple">Edit</Button>
+            <Button inverted onClick={() => this.props.remove(this.props.id)} color="purple" >Delete</Button>
+>>>>>>> 0a82f082fb7621fdfd32771f0606ba35fc81533d
           </Button.Group>
         </Card>
       </>

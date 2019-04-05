@@ -5,14 +5,17 @@ import {Redirect} from 'react-router-dom';
 import axios from 'axios';
 
 class TeacherDashboard extends React.Component {
-  state = { name: "", info: "New Quiz", q_id:{}, qActive:[], redirect: false, quizzes:[]}
+  state = { name: "", info: "", q_id:{}, qActive:[], redirect: false, quizzes:[]}
 
   dater = (a) => {
-    let b = Date(a)
-    let c = b.split(" ").splice(1,3).join(" ")
-    return(c)
-}
-  setRedirect = (theChoosenOne) => {
+    let b = Date(a);
+    let c = b
+      .split(" ")
+      .splice(1, 3)
+      .join(" ");
+    return c;
+  };
+  setRedirect = theChoosenOne => {
     this.setState({
       redirect: true,
       q_id: theChoosenOne
@@ -43,7 +46,7 @@ class TeacherDashboard extends React.Component {
       const quiz = this.state.q_id
       return <Redirect quiz={quiz} to={`/${quiz.name}/${quiz.id}`} />
     }
-  }
+  };
 
   componentDidMount(){
     axios.get("/api/quizzes")
@@ -79,35 +82,47 @@ class TeacherDashboard extends React.Component {
 
 
   handleChange = (e) => {
-    const {name, value} = e.target;
-    this.setState({[name]: value, })
-  }
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
 
   handleSubmit = (e) => {
     e.preventDefault();
     const newQuiz = this.state;
-    axios.post("/api/quizzes", newQuiz)
-      .then( res => { 
-        this.setState({ name: "", info: "New Quiz", quizzes: [res.data, ...this.state.quizzes] });
-      })
-  }
+    axios.post("/api/quizzes", newQuiz).then(res => {
+      this.setState({
+        name: "",
+        info: "",
+        quizzes: [res.data, ...this.state.quizzes]
+      });
+    });
+  };
 
   render() {
     const { qActive, } = this.state
     console.log(qActive)
     return (
-      <div style={{textAlign: "center"}}>
+      <div style={{ textAlign: "center" }}>
         <Form onSubmit={this.handleSubmit}>
-          <Form.Input
-            placeholder="New Quiz Name"
-            name="name"
-            value={this.state.name}
-            required
-            onChange={this.handleChange}
-          />
+          <Form.Group widths="equal">
+            <Form.Input
+              placeholder="New Quiz Name"
+              name="name"
+              value={this.state.name}
+              required
+              onChange={this.handleChange}
+            />
+            <Form.Input
+              placeholder="Quiz Description"
+              name="info"
+              value={this.state.info}
+              required
+              onChange={this.handleChange}
+            />
+          </Form.Group>
           <Button inverted>Create New Quiz</Button>
-          </Form>
-          <Header as="h1" inverted>Your quizzes</Header>
+        </Form>
+        <Header as="h1" inverted>Your quizzes</Header>
           {qActive.length !== 0 ? 
           <div style={{backgroundColor:"#fff", borderRadius:"15px",}}>
           <Header as="h3" style={{textAlign:"center", color:"#6D55A3"}}inverted>Active Quizzes</Header>
@@ -137,7 +152,7 @@ class TeacherDashboard extends React.Component {
             </Card.Group>
           </div>
       </div>
-    )
+    );
   }
 }
 export default TeacherDashboard;
