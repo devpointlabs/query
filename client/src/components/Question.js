@@ -3,7 +3,7 @@ import axios from 'axios';
 import { Card } from 'semantic-ui-react';
 
 class Question extends React.Component {
-  state = { choices: []}
+  state = { choices: [], correctChoice: ""}
   componentDidMount() {
     axios.get(`/api/questions/${this.props.id}/choices`)
       .then( res => (
@@ -11,10 +11,10 @@ class Question extends React.Component {
       ))
   }
   
-  correctAnswer = () => {
-    const {choices} = this.state
-    return choices.filter(choice => choice.correctAnswer === true)    
-  }
+  // correctAnswer = () => {
+  //   const {choices} = this.state
+  //   const c =  choices.filter(choice => choice.correctAnswer === true)  
+  // }
 
   quizTypeName = ( qType ) => {
     switch (qType) {
@@ -29,6 +29,12 @@ class Question extends React.Component {
     }
   }
 
+  renderChoices = (choices) => {
+    const c = choices.map( choice => choice.correct_answer)
+    debugger
+    return c 
+  }
+
 
   render() {
     const { name, qType, explanation } = this.props
@@ -39,7 +45,7 @@ class Question extends React.Component {
           <Card.Content header={this.quizTypeName(qType)}/>
             <Card.Content description={name} />
             <Card.Content extra>
-            <b>correct answer: {this.correctAnswer()}</b>
+            <b>correct answer: {this.state.correctChoice}</b>
             <br />
             Explanation: {explanation}
           </Card.Content>

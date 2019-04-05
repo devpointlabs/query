@@ -34,7 +34,6 @@ class ShowQuiz extends React.Component {
 
   addChoice = (choice) => {
     this.setState({ choices: [...this.state.choices, choice] });
-    debugger
   };
 
   toggleMultiForm = () =>
