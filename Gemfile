@@ -14,6 +14,7 @@ gem 'cloudinary'
 group :development, :test do
   gem 'pry'
   gem 'dotenv-rails'
+  gem "faker"
 end
 
 group :development do

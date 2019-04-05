@@ -22,8 +22,7 @@ class Api::QuizzesController < ApplicationController
   def update
     if @quiz.update(quiz_params)
       render json: @quiz
-    else
-      render json: @quiz.errors
+     
     end
   end
 
@@ -34,7 +33,7 @@ class Api::QuizzesController < ApplicationController
   
   private 
     def quiz_params
-      params.require(:quiz).permit(:name, :info)
+      params.require(:quiz).permit(:name, :info, :active, :end)
     end
 
     def set_quiz
