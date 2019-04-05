@@ -1,7 +1,7 @@
 import React from 'react';
 // import useForm from './useForm';
 // import MultiForm from './MultiForm';
-import {Segment, Grid, Button, Form, Input, } from 'semantic-ui-react';
+import { Grid, Button, Form, Input, } from 'semantic-ui-react';
 import axios from 'axios';
 
 class MultiForm extends React.Component {
