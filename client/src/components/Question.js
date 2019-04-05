@@ -1,27 +1,19 @@
 import React from 'react';
 import axios from 'axios';
-import { Card, Button, } from 'semantic-ui-react';
+import {Card, Button} from 'semantic-ui-react';
 
 class Question extends React.Component {
   state = {choices: []};
   componentDidMount() {
-<<<<<<< HEAD
     axios
       .get(`/api/questions/${this.props.id}/choices`)
       .then(res => this.setState({choices: res.data}));
-=======
-    axios.get(`/api/questions/${this.props.id}/choices`)
-      .then( res => (
-        this.setState({ choices: res.data, })
-      ))
   }
 
-  
   correctAnswer = () => {
-    const {choices} = this.state
-    return choices.filter(choice => choice.correctAnswer === true)    
->>>>>>> 0a82f082fb7621fdfd32771f0606ba35fc81533d
-  }
+    const {choices} = this.state;
+    return choices.filter(choice => choice.correctAnswer === true);
+  };
 
   quizTypeName = qType => {
     switch (qType) {
@@ -43,7 +35,10 @@ class Question extends React.Component {
         return (
           <div key={c.id}>
             <h3 style={{display: 'inline'}}>{c.answer}</h3>
-            <h4 style={{display: 'inline' ,color: 'green'}}> &lt;= Correct Answer</h4>
+            <h4 style={{display: 'inline', color: 'green'}}>
+              {' '}
+              &lt;= Correct Answer
+            </h4>
           </div>
         );
       } else {
@@ -66,17 +61,15 @@ class Question extends React.Component {
             Explanation: {explanation}
           </Card.Content>
           <Button.Group>
-<<<<<<< HEAD
             <Button inverted color="purple">
               Edit
             </Button>
-            <Button inverted color="purple">
+            <Button
+              inverted
+              onClick={() => this.props.remove(this.props.id)}
+              color="purple">
               Delete
             </Button>
-=======
-            <Button inverted color="purple">Edit</Button>
-            <Button inverted onClick={() => this.props.remove(this.props.id)} color="purple" >Delete</Button>
->>>>>>> 0a82f082fb7621fdfd32771f0606ba35fc81533d
           </Button.Group>
         </Card>
       </>
