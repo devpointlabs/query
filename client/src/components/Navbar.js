@@ -1,6 +1,6 @@
 import React from "react";
 import { AuthConsumer } from "../providers/AuthProvider" 
-import { Dropdown, } from "semantic-ui-react";
+import { Dropdown, Icon } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 
 class Navbar extends React.Component {
@@ -25,6 +25,7 @@ class Navbar extends React.Component {
 
   signedIn(){
     const { auth: {handleLogout}, } = this.props
+    if(this.props.location.pathname === "/home"){
     return(
   <Dropdown icon={<img alt='logo' width="100" height="100"  src='https://imgur.com/TRzM7lf.png' />}>
   <Dropdown.Menu>
@@ -42,6 +43,12 @@ class Navbar extends React.Component {
   </Dropdown.Menu>
 </Dropdown>
     )}
+    else{
+      return(
+        <Icon name="arrow left" onClick={() => this.props.history.goBack()}/>
+      )
+    }
+  }
 
   signedOut(){
     return(
