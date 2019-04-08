@@ -51,7 +51,7 @@ class TeacherDashboard extends React.Component {
   componentDidMount(){
     axios.get("/api/quizzes")
         .then( res => {
-          res.data.map( q => { 
+          res.data.map( q => {
             console.log(q)
             if(q.active){
               this.setState({qActive: [q, ...this.state.qActive]})
@@ -89,13 +89,17 @@ class TeacherDashboard extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const newQuiz = this.state;
-    axios.post("/api/quizzes", newQuiz).then(res => {
+    axios.post("/api/quizzes", newQuiz)
+    .then(res => {
       this.setState({
         name: "",
         info: "",
         quizzes: [res.data, ...this.state.quizzes]
       });
-    });
+    })
+    .catch( err => {
+      alert("Something is Wrong\nTry Again!")   
+    })
   };
 
   render() {
