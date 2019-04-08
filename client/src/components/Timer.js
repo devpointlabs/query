@@ -1,5 +1,5 @@
 import React from 'react'
-import {Form, Message, Button, Header, ButtonGroup} from 'semantic-ui-react';
+import {Form, Message, Button, Header,} from 'semantic-ui-react';
 import axios from 'axios';
 
 class Timer extends React.Component {
@@ -16,15 +16,15 @@ class Timer extends React.Component {
       axios.get(`/api/quizzes/${this.props.id}`)
       .then( res => {
         this.setState({ active: res.data.active, end: res.data.end, })
+        if(this.state.end !== null && this.state.active === true){
+          this.setState({ timed: "y" })
+        }
       })
-      if(this.state.end !== ""){
-        this.setState({ timed: "y" })
-      }
       setInterval(this.timer, 1000);
     }
 
     static = () =>{
-      if(this.state.active === false){
+      if(this.state.active === null || this.state.active === false){
         axios.patch(`/api/quizzes/${this.props.id}`, {end: '', active: true })
         .then( res => { 
           this.setState({ timed: "n", active: true, end: ''});

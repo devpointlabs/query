@@ -54,15 +54,20 @@ renderRedirect = () => {
 }
 
 render(){
+  const{quiz} = this.props
   return(
     <Card color="red" 
     error
     link
     onClick={() => this.setRedirect(this.props.quiz)}
-    meta={this.dater(this.props.quiz.created_at)}                
-    header={this.props.quiz.name}
-    description={this.state.clock !== null ? this.state.clock : this.props.quiz.info}>
-    {this.renderRedirect()}
+    >
+    <Card.Content>
+      <Card.Meta style={this.state.clock !== null ? {color: "red"} : null}> {this.state.clock !== null ? this.state.clock : this.dater(quiz.created_at)} </Card.Meta>
+      <Card.Header style={{marginTop: "7px",}}>{quiz.name}</Card.Header>
+      <Card.Description>{quiz.info}</Card.Description>
+      {this.renderRedirect()}
+      </Card.Content>
+
     </Card>
  )}
 
