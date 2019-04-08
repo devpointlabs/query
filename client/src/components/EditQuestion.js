@@ -15,13 +15,25 @@ class EditQuestion extends React.Component {
     this.setState({ [name]: value, })
   }
 
+  handleChoiceChange = (e) => {
+    const choice = this.state.choices[e.target.name]
+    debugger
+    this.setState({ [this.state.choices[e.name].answer]: e.target.value})
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
     const question = { name: this.state.name, explanation: this.state.explanation}
     const { quiz_id, question_id, } =  this.props;
+    const { choices } =  this.state
     axios.put(`/api/quizzes/${quiz_id}/questions/${question_id}`, question)
       .then( res => console.log(res))
       .catch( err => console.log(err))
+    choices.map( choice => {
+      axios.put(`/api/questions/${question_id}/choices/${choice.id}`, choice)
+        .then( res => console.log(res))
+        .catch( err => console.log(err))
+    })
   }
 
   render() {
@@ -42,11 +54,13 @@ class EditQuestion extends React.Component {
         onChange={this.handleChange}
 
         />
-        {choices.map( choice => (
+        {choices.map( (choice, index ) => (
           <>
             <Form.Input
             label="Edit Choice"
-            value={choice.answer}
+            value={this.state.choices[index].answer}
+            name={index}
+            onChange={this.handleChoiceChange}
             />
             <Form.Checkbox
             checked={choice.correct_answer ? true : false}
