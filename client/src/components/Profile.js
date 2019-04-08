@@ -3,7 +3,7 @@ import { AuthConsumer, } from "../providers/AuthProvider";
 import { Form, Grid, Image, Container, Divider, Header, Button, Icon, } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 
-const defaultImage = 'https://imgur.com/TRzM7lf.png'
+const defaultImage = 'https://imgur.com/iV0juzG.png' 
 
 class Profile extends React.Component {
   
@@ -54,7 +54,7 @@ class Profile extends React.Component {
     return (
     <div>
         <Grid.Column width={4}>
-          <Image size="small" src={user.image || defaultImage} style={styles.dropzone}/>
+          <Image size="small" src={user.image || defaultImage }/>
         </Grid.Column>
         <br />
         <Grid.Column width={8}>
