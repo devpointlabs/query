@@ -89,13 +89,17 @@ class TeacherDashboard extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
     const newQuiz = this.state;
-    axios.post("/api/quizzes", newQuiz).then(res => {
+    axios.post("/api/quizzes", newQuiz)
+    .then(res => {
       this.setState({
         name: "",
         info: "",
         quizzes: [res.data, ...this.state.quizzes]
       });
-    });
+    })
+    .catch( err => {
+      alert("Something is Wrong\nTry Again!")   
+    })
   };
 
   render() {
