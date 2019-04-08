@@ -56,7 +56,7 @@ return(month[mm] + ' ' + dd + ' ' + yyyy)
       const quiz = this.state.q_id
       return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />
     }
-  }
+  };
 
 
 
@@ -92,18 +92,25 @@ return(month[mm] + ' ' + dd + ' ' + yyyy)
 
 
   handleChange = (e) => {
-    const {name, value} = e.target;
-    this.setState({[name]: value, })
-  }
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
+  };
 
   handleSubmit = (e) => {
    
     const newQuiz = this.state;
     axios.post("/api/quizzes", newQuiz)
-      .then( res => { 
-        this.setState({ name: "", info: "New Quiz", quizzes: [res.data, ...this.state.quizzes] });
-      })
-  }
+    .then(res => {
+      this.setState({
+        name: "",
+        info: "",
+        quizzes: [res.data, ...this.state.quizzes]
+      });
+    })
+    .catch( err => {
+      alert("Something is Wrong\nTry Again!")   
+    })
+  };
 
   render() {
     const { qActive, } = this.state
@@ -156,7 +163,7 @@ return(month[mm] + ' ' + dd + ' ' + yyyy)
             </Card.Group>
           </div>
       </div>
-    )
+    );
   }
 }
 export default TeacherDashboard;
