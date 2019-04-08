@@ -40,7 +40,7 @@ class Login extends React.Component {
         onChange={this.handleChange}
         type="password"
         />
-        <Button inverted color="white">Log-in</Button>
+        <Button inverted>Log-in</Button>
       </Form>
 </Grid.Column>
         </Grid>

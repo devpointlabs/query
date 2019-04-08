@@ -12,6 +12,7 @@ import { Container, } from 'semantic-ui-react';
 import { Route, Switch, } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute"
 
+
 const App = () => (
   <>
     <Navbar/>
@@ -24,7 +25,7 @@ const App = () => (
            <ProtectedRoute exact path="/profile" component={Profile} />
            <Route exact path="/register" component={Register} />
            <Route exact path="/register/teacher" component={Register} />
-           <ProtectedRoute exact path="/:name/:id" component={ShowQuiz} />
+           <Route exact path="/quizbuilder/:id" component={ShowQuiz} />
            <Route component={NoMatch} />
           </Switch>
         </Container>

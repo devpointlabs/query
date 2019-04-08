@@ -11,7 +11,6 @@ const Home = (props) => {
       { auth => (
         <div>{auth.authenticated ? 
           <div>
-           <Header style={{color: "#fff", fontSize: "75px", textAlign: "center",}}>Welcome, {auth.user.name}</Header>
             {auth.user.teacher ? 
               <TeacherDashboard /> 
             : 
