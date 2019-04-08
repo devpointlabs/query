@@ -49,7 +49,7 @@ setRedirect = (theChoosenOne) => {
 renderRedirect = () => {
   if (this.state.redirect) {
     const quiz = this.state.q_id
-    return <Redirect quiz={quiz} to={`/${quiz.name}/${quiz.id}`} />
+    return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />
   }
 }
 

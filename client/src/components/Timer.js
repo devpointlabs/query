@@ -3,13 +3,14 @@ import { Form, Message, Button, Header } from "semantic-ui-react";
 import axios from "axios";
 
 class Timer extends React.Component {
-  state = {
-    timed: "idk",
-    clock: null,
-    length: null,
-    active: null,
-    end: null
-  };
+  
+ state = {
+   timed: "idk",
+   clock: "",
+   length: "",
+   active: "",
+   end: ""
+    }
 
   componentDidMount() {
     axios.get(`/api/quizzes/${this.props.id}`).then(res => {
@@ -81,8 +82,7 @@ class Timer extends React.Component {
     let endTime = ("" + Date.now()).split("");
     endTime.splice(0, endTime.count - 13);
     endTime = parseInt(endTime.join("")) + this.state.length * 60000;
-    axios
-      .patch(`/api/quizzes/${this.props.id}`, { end: endTime, active: true })
+    axios.patch(`/api/quizzes/${this.props.id}`, { end: endTime, active: true })
       .then(res => {
         this.setState({ active: res.data.active, end: res.data.end });
       });
@@ -163,7 +163,39 @@ class Timer extends React.Component {
           </div>
         );
       }
-    }
+    
+    else{
+      if(this.state.timed === "idk"){
+        return(
+          <div style={{display: "flex", justifyContent: "center"}}>
+        <Button.Group>
+          <Button inverted onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
+          <Button inverted onClick={() => this.static()}>Start Static Quiz</Button>
+        </Button.Group>
+        </div>
+        )}
+      if(this.state.timed === "y"){
+        return(
+        <div style={{display: "flex", justifyContent: "center"}}>
+        <Form style={{width:"70%", }} onSubmit={this.handleSubmit}>
+        <Form.Input
+        autoFocus
+        required
+        type="number"
+        placeholder="Minutes the Quiz will be Open"
+        name="length"
+        value={this.state.length}
+        onChange={this.handleChange}
+        />
+        <div style={{display: "flex", justifyContent: "center"}}>
+        <Button inverted>Start Timed</Button>
+        <Button inverted onClick={() => this.setState({timed: "idk"})}>Cancel</Button>
+        </div>
+      </Form>
+        </div>
+     )}
+     }
+   }
   }
 }
 

@@ -4,17 +4,16 @@ import axios from 'axios';
 const AuthContext = React.createContext();
 export const AuthConsumer = AuthContext.Consumer;
 
-
 export class AuthProvider extends React.Component {
   state = { user: null, }
   handleRegister = (user, history) => {
     axios.post("/api/auth", user)
-    .then( res => {
+      .then( res => {
         this.setState({ user: res.data.data, })
         history.push("/home");
       })
       .catch( err => {
-        console.log(err);
+        alert("Please Double Check Your Work.\nSomething's not right here")
       })
   }
   handleLogin = (user, history) => {
@@ -23,8 +22,8 @@ export class AuthProvider extends React.Component {
         this.setState({ user: res.data.data, });
         history.push("/home");
       })
-      .catch( res => {
-        console.log(res);
+      .catch( err => {
+        alert("Wrong Login\nTry Again!")   
       })
   }
   handleLogout = (history) => {
@@ -32,8 +31,9 @@ export class AuthProvider extends React.Component {
       .then( res => {
         this.setState({ user: null, });
       })
-      .catch( res => {
-        console.log(res);
+      .catch( err => {
+        console.log(err);
+        alert("You Are Still Logged In.\nTry again!")
       })
       history.push('/');
   }

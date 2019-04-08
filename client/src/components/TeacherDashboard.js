@@ -81,10 +81,27 @@ class TeacherDashboard extends React.Component {
   };
   renderRedirect = () => {
     if (this.state.redirect) {
-      const quiz = this.state.q_id;
-      return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />;
+      const quiz = this.state.q_id
+      return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />
     }
   };
+
+
+
+  componentDidMount(){
+    axios.get("/api/quizzes")
+        .then( res => {
+          res.data.map( q => { 
+            if(q.active){
+              this.setState({qActive: [q, ...this.state.qActive]})
+            }
+            else{
+              this.setState({quizzes: [q, ...this.state.quizzes]})
+            }
+          })
+        })
+    }
+  
 
   componentDidMount() {
     axios.get("/api/quizzes").then(res => {
@@ -111,7 +128,7 @@ class TeacherDashboard extends React.Component {
     });
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
