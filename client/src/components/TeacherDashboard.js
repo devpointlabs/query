@@ -51,7 +51,7 @@ class TeacherDashboard extends React.Component {
   componentDidMount(){
     axios.get("/api/quizzes")
         .then( res => {
-          res.data.map( q => { 
+          res.data.map( q => {
             console.log(q)
             if(q.active){
               this.setState({qActive: [q, ...this.state.qActive]})

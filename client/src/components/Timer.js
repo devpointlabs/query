@@ -6,10 +6,10 @@ class Timer extends React.Component {
   
  state = {
    timed: "idk",
-   clock: null,
-   length: null,
-   active: null,
-   end: null
+   clock: "",
+   length: "",
+   active: "",
+   end: ""
     }
 
     componentDidMount(){
@@ -81,7 +81,7 @@ class Timer extends React.Component {
         <Message style={{width:"75%"}} negative>
         <Message.Header>
         <Header style={{display: "flex", justifyContent: "space-around" }}>THIS QUIZ IS CURRENTLY ACTIVE</Header> 
-          <div style={{display: "flex", justifyContent: "center", justifyContent: "center"}}>
+          <div style={{display: "flex", justifyContent: "center"}}>
       {this.state.timed === "y" ? <Header as="h1">{this.state.clock}</Header> : null} <Button size="tiny" inverted color="red" onClick={() => this.stopTimer()}>End</Button>
           </div>
         </Message.Header>
@@ -104,7 +104,7 @@ class Timer extends React.Component {
         <div style={{display: "flex", justifyContent: "center"}}>
         <Form style={{width:"70%", }} onSubmit={this.handleSubmit}>
         <Form.Input
-        autofocus
+        autoFocus
         required
         type="number"
         placeholder="Minutes the Quiz will be Open"
