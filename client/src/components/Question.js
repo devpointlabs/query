@@ -78,6 +78,7 @@ class Question extends React.Component {
             choices={this.state.choices} 
             quiz_id={this.props.quiz_id} 
             question_id={this.props.question_id}
+            toggleForm={this.toggleForm}
           />}
       </>
     );

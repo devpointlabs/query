@@ -1,5 +1,5 @@
 import React from 'react'
-import { Form, FormDropdown, } from 'semantic-ui-react'
+import { Form, } from 'semantic-ui-react'
 import axios from 'axios';
 
 class EditQuestion extends React.Component {
@@ -17,8 +17,26 @@ class EditQuestion extends React.Component {
 
   handleChoiceChange = (e) => {
     const choice = this.state.choices[e.target.name]
-    debugger
-    this.setState({ [this.state.choices[e.name].answer]: e.target.value})
+    choice.answer = e.target.value
+    const choices = this.state.choices.map( c => {
+      if (c.id === choice.id)
+        return choice
+      else
+        return c
+    })
+    this.setState({ choices: choices })
+  }
+
+  handleCorrectAnswer = (e, {name, value}) => {
+    const choice = this.state.choices[name]
+    choice.correct_answer = value
+    const choices = this.state.choices.map( c => {
+      if (c.id === choice.id)
+        return choice
+      else
+        return c
+    })
+    this.setState({ choices: choices })
   }
 
   handleSubmit = (e) => {
@@ -34,6 +52,8 @@ class EditQuestion extends React.Component {
         .then( res => console.log(res))
         .catch( err => console.log(err))
     })
+    this.setState({ name: "", explanation: "", choices: [], })
+    this.props.toggleForm()
   }
 
   render() {
@@ -63,7 +83,10 @@ class EditQuestion extends React.Component {
             onChange={this.handleChoiceChange}
             />
             <Form.Checkbox
+            value={!choice.correct_answer}
             checked={choice.correct_answer ? true : false}
+            onClick={this.handleCorrectAnswer}
+            name={index}
             />
           </>
         ))}
