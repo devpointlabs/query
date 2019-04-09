@@ -11,6 +11,7 @@ import ShowQuiz from './components/ShowQuiz'
 import { Container, } from 'semantic-ui-react';
 import { Route, Switch, } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute"
+import WireFrameCopy from './components/WireFrameCopy'
 
 
 const App = () => (
@@ -21,6 +22,7 @@ const App = () => (
           <Switch>
            <Route exact path="/" component={Landing} />
            <ProtectedRoute exact path="/home" component={Home} />
+           <ProtectedRoute exact path="/wireframecopy" component={WireFrameCopy} />
            <Route exact path="/login" component={Login} />
            <ProtectedRoute exact path="/profile" component={Profile} />
            <Route exact path="/register" component={Register} />
