@@ -1,12 +1,5 @@
 import React, { Component } from "react";
-import {
-  Form,
-  Input,
-  FormField,
-  TextArea,
-  Header,
-  Button
-} from "semantic-ui-react";
+import { Form, Button } from "semantic-ui-react";
 
 export default class WireFrameCopy extends Component {
   render() {
@@ -41,7 +34,7 @@ export default class WireFrameCopy extends Component {
         <button style={buttonStyle}> Poll </button>
         <button style={buttonStyle}> multiple choice</button>
         <button style={buttonStyle}> Free response </button>
-        <h1 style={{ marginLeft: "5%", paddingBottom: '15%' }}>People</h1>
+        <h1 style={{ marginLeft: "5%", paddingBottom: "15%" }}>People</h1>
         <Button fluid color="purple">
           Save
         </Button>
@@ -51,17 +44,12 @@ export default class WireFrameCopy extends Component {
 }
 
 const divStyle = {
-  marginBottom: '50px',
-  // justifyContent: "center",
+  marginBottom: "50px",
   backgroundColor: "white",
   textAlign: "left",
   color: "purple",
-  // position: "relative",
   marginLeft: "15%",
   marginRight: "15%",
-  // marginBottom: "20%",
-  // bottom: "100",
-  // border: "2px solid purple",
   borderRadius: "10px"
 };
 
@@ -75,50 +63,3 @@ const buttonStyle = {
   border: "1px solid",
   color: "purple"
 };
-
-// import React from 'react'
-// import { Card, Container, Form, Header, Button } from 'semantic-ui-react';
-
-// const WireFrameCopy = () => {
-//   document.body.style = 'background: #6D55A3;'
-
-//   return (
-//     <>
-//     <div className={divStyle}>
-//   <Form>
-//     <Form.Field >
-//       <label>First Name</label>
-//       <input/>
-//     </Form.Field>
-//     <Form.TextArea label='Prompt'/>
-//       </Form>
-//     </div>
-//     <Header as='h1'>Identified / Anonymous</Header>
-//     <Header as='h6'>you will know which submission belongs to an indivdual</Header>
-//     <Header as='h1'>Questions</Header>
-//     <Button.Group>
-//     <Button>poll</Button>
-//     <Button>multiple choice</Button>
-//     <Button>free response</Button>
-//   </Button.Group>
-//     <Header as='h2'> people </Header>
-//       <br />
-
-//       <br />
-//       <br />
-//       <br />
-//       <br />
-//       <br />
-//       <br />
-//     <Button color='violet' fluid> Save </Button>
-
-//     </>
-//   )
-// }
-
-// export default WireFrameCopy
-
-// const divStyle = {
-//   margin: '500px',
-//   border: '5px solid pink'
-// };
