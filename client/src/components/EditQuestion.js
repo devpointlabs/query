@@ -16,7 +16,7 @@ class EditQuestion extends React.Component {
   }
 
   handleChoiceChange = (e) => {
-    const choice = this.state.choices[e.target.name.parseInt()]
+    const choice = this.state.choices[e.target.name]
     choice.answer = e.target.value
     const choices = this.state.choices.map( c => {
       if (c.id === choice.id)
@@ -38,7 +38,7 @@ class EditQuestion extends React.Component {
       return c
     })
     if (qType === "TorF"){
-      if ( choices[0].correct_answer == true && choices[1].correct_answer == true){
+      if ( choices[0].correct_answer === true && choices[1].correct_answer === true){
         if (name === 0){
           const theOtherChoice = this.state.choices[1]
           theOtherChoice.correct_answer = false
@@ -69,17 +69,18 @@ class EditQuestion extends React.Component {
     const { quiz_id, question_id, qType, } =  this.props;
     const { choices } =  this.state
     axios.put(`/api/quizzes/${quiz_id}/questions/${question_id}`, question)
-      .then( res => console.log(res))
-      .catch( err => console.log(err))
-    if (qType !== "open"){
-      choices.map( choice => {
+      // .then( res => console.log(res))
+      // .catch( err => console.log(err))
+    if (qType !== "open")(
+      choices.map( choice => (
         axios.put(`/api/questions/${question_id}/choices/${choice.id}`, choice)
-          .then( res => console.log(res))
-          .catch( err => console.log(err))
-      })
-    }
+          // .then( res => console.log(res))
+          // .catch( err => console.log(err))
+      ))
+    )
     this.setState({ name: "", explanation: "", choices: [], })
-    this.props.toggleForm()
+    // this.props.toggleEdited();
+    this.props.toggleForm();
   }
 
   render() {
@@ -105,7 +106,7 @@ class EditQuestion extends React.Component {
             <Form.Input
             label="Edit Choice"
             value={this.state.choices[index].answer}
-            name={index.toString()}
+            name={index}
             onChange={this.handleChoiceChange}
             />
             <Form.Checkbox

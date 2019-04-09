@@ -15,7 +15,8 @@ class ShowQuiz extends React.Component {
     showMultiForm: false,
     showTrueFalseForm: false,
     showOpenForm: false,
-    showButtons: true
+    showButtons: true,
+    edited: false
   };
 
   componentDidMount() {
@@ -29,6 +30,22 @@ class ShowQuiz extends React.Component {
       });
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.edited !== prevState.edited){
+      axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
+        this.setState({ quiz: res.data });
+      });
+      axios
+        .get(`/api/quizzes/${this.props.match.params.id}/questions`)
+        .then(res => {
+          this.setState({ questions: res.data });
+        });
+    }
+  }
+
+  toggleEdited = () => this.setState({ edited: !this.state.edited, })
+ 
+
   removeQuestion = (id) => {
     axios.delete(`/api/quizzes/${this.props.match.params.id}/questions/${id}`)
       .then( res => {
@@ -39,7 +56,6 @@ class ShowQuiz extends React.Component {
 
   addQuestion = (question) => {
     this.setState({ questions: [...this.state.questions, question] });
-    debugger
   };
 
   addChoice = (choice) => {
@@ -86,8 +102,8 @@ class ShowQuiz extends React.Component {
         <br />
       <Timer id={this.props.match.params.id}/>
         <List>
-          {this.state.questions.map(q => (
-            <Question remove={this.removeQuestion} key={q.id} {...q} quiz_id={this.props.match.params.id} question_id={q.id} />
+          {questions.map(q => (
+            <Question remove={this.removeQuestion} key={q.id} {...q} quiz_id={this.props.match.params.id} question_id={q.id} toggleEdited={this.toggleEdited} />
           ))}
         </List>
         <p style={{ color: "white" }}>Add Question:</p>
