@@ -172,11 +172,11 @@ class TeacherDashboard extends React.Component {
                 {" "}
                 {this.nowDate()}{" "}
               </Card.Meta>
-              <Form size="tini" onSubmit={this.handleSubmit}>
+              <Form size="tiny" onSubmit={this.handleSubmit}>
                 <Form.Input
                   style={{ marginTop: "0px", marginBottom: "0px" }}
                   placeholder="New Quiz Name"
-                  autofocus
+                  autoFocus
                   name="name"
                   value={this.state.name}
                   required

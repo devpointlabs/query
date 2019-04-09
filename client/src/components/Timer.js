@@ -142,7 +142,7 @@ class Timer extends React.Component {
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Form style={{ width: "70%" }} onSubmit={this.handleSubmit}>
               <Form.Input
-                autofocus
+                autoFocus
                 required
                 type="number"
                 placeholder="Minutes the Quiz will be Open"
