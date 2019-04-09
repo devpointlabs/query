@@ -6,6 +6,7 @@ import MultiForm from './MultiForm';
 import OpenAnswerForm from './OpenAnswerForm';
 import TrueFalse from './TrueFalse';
 import Question from "./Question";
+import EditQuiz from './EditQuiz';
 
 class ShowQuiz extends React.Component {
   state = {
@@ -16,7 +17,9 @@ class ShowQuiz extends React.Component {
     showTrueFalseForm: false,
     showOpenForm: false,
     showButtons: true,
-    edited: false
+    edited: false,
+    showEditQuiz: false,
+
   };
 
   componentDidMount() {
@@ -48,10 +51,22 @@ class ShowQuiz extends React.Component {
 
   removeQuestion = (id) => {
     axios.delete(`/api/quizzes/${this.props.match.params.id}/questions/${id}`)
-      .then( res => {
+      .then(res => {
         const { questions, } = this.state;
         this.setState({ questions: questions.filter(r => r.id !== id), })
       })
+  }
+
+  handleDelete = () => {
+    const id = this.state.quiz.id
+    axios.delete(`/api/quizzes/${id}`)
+      .then(res => {
+        this.props.history.push("/home")
+  })
+  }
+
+  updateQuiz = (q) => {
+    this.setState({ quiz: {name: q.name, info: q.info} })
   }
 
   addQuestion = (question) => {
@@ -84,23 +99,33 @@ class ShowQuiz extends React.Component {
       showTrueFalseForm: false,
       showOpenForm: false
     });
+  toggleEditQuiz = () =>
+    this.setState({
+      showEditQuiz: !this.state.showEditQuiz
+    });
 
   render() {
     document.body.style = "background: #6D55A3;";
-    const { quiz, questions } = this.state;
+    const { quiz } = this.state;
     return (
       <Container>
+
+        {this.state.showEditQuiz ? 
+          <EditQuiz quiz={quiz} updateQuiz={this.updateQuiz} toggle={this.toggleEditQuiz} /> 
+        :
+          <div>
+            <Button inverted size="mini" onClick={this.toggleEditQuiz}>
+              Edit Title/Description
+            </Button>
+          </div>
+        }
+        <Button inverted size="mini" onClick={ () => this.handleDelete()}>
+              Delete
+        </Button>
         <Header as="h1" inverted>
           {quiz.name}
         </Header>
-        <Button>
-          Edit Title
-        </Button>
-        <Button>
-          Delete Quiz
-        </Button>
-        <br />
-      <Timer id={this.props.match.params.id}/>
+        <Timer id={this.props.match.params.id} />
         <List>
           {questions.map(q => (
             <Question remove={this.removeQuestion} key={q.id} {...q} quiz_id={this.props.match.params.id} question_id={q.id} toggleEdited={this.toggleEdited} />
@@ -128,7 +153,7 @@ class ShowQuiz extends React.Component {
             <TrueFalse quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />
           )}
           {this.state.showOpenForm && (
-            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion}  />
+            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} />
           )}
           {this.state.showButtons ? null : (
             <Button onClick={this.toggleButtons}>Cancel</Button>
