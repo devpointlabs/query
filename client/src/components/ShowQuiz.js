@@ -106,7 +106,7 @@ class ShowQuiz extends React.Component {
 
   render() {
     document.body.style = "background: #6D55A3;";
-    const { quiz } = this.state;
+    const { quiz, questions } = this.state;
     return (
       <Container>
 
