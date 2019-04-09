@@ -15,7 +15,7 @@ class TeacherDashboard extends React.Component {
     toggle: false
   };
 
-  dater = a => {
+  dater = (a) => {
     let b = Date(a);
     let c = b
       .split(" ")
@@ -101,19 +101,6 @@ class TeacherDashboard extends React.Component {
           })
         })
     }
-  
-
-  componentDidMount() {
-    axios.get("/api/quizzes").then(res => {
-      res.data.map(q => {
-        if (q.active) {
-          this.setState({ qActive: [q, ...this.state.qActive] });
-        } else {
-          this.setState({ quizzes: [q, ...this.state.quizzes] });
-        }
-      });
-    });
-  }
 
   shuffle = () => {
     this.setState({ qActive: [], quizzes: [] });
