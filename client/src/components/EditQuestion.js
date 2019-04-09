@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment, } from 'react'
 import { Form, } from 'semantic-ui-react'
 import axios from 'axios';
 
@@ -16,7 +16,7 @@ class EditQuestion extends React.Component {
   }
 
   handleChoiceChange = (e) => {
-    const choice = this.state.choices[e.target.name]
+    const choice = this.state.choices[e.target.name.parseInt()]
     choice.answer = e.target.value
     const choices = this.state.choices.map( c => {
       if (c.id === choice.id)
@@ -28,30 +28,56 @@ class EditQuestion extends React.Component {
   }
 
   handleCorrectAnswer = (e, {name, value}) => {
+    const { qType, } =  this.props
     const choice = this.state.choices[name]
     choice.correct_answer = value
-    const choices = this.state.choices.map( c => {
+    var choices = this.state.choices.map( c => {
       if (c.id === choice.id)
-        return choice
+      return choice
       else
-        return c
+      return c
     })
+    if (qType === "TorF"){
+      if ( choices[0].correct_answer == true && choices[1].correct_answer == true){
+        if (name === 0){
+          const theOtherChoice = this.state.choices[1]
+          theOtherChoice.correct_answer = false
+          choices = this.state.choices.map( c => {
+            if (c.id === theOtherChoice.id)
+            return theOtherChoice
+            else
+            return c
+          })
+        } else {
+          const theOtherChoice = choices[0]
+          theOtherChoice.correct_answer = false
+          choices = this.state.choices.map( c => {
+            if (c.id === theOtherChoice.id)
+            return theOtherChoice
+            else
+            return c
+          })
+        }
+      }
+    }
     this.setState({ choices: choices })
   }
 
   handleSubmit = (e) => {
     e.preventDefault();
     const question = { name: this.state.name, explanation: this.state.explanation}
-    const { quiz_id, question_id, } =  this.props;
+    const { quiz_id, question_id, qType, } =  this.props;
     const { choices } =  this.state
     axios.put(`/api/quizzes/${quiz_id}/questions/${question_id}`, question)
       .then( res => console.log(res))
       .catch( err => console.log(err))
-    choices.map( choice => {
-      axios.put(`/api/questions/${question_id}/choices/${choice.id}`, choice)
-        .then( res => console.log(res))
-        .catch( err => console.log(err))
-    })
+    if (qType !== "open"){
+      choices.map( choice => {
+        axios.put(`/api/questions/${question_id}/choices/${choice.id}`, choice)
+          .then( res => console.log(res))
+          .catch( err => console.log(err))
+      })
+    }
     this.setState({ name: "", explanation: "", choices: [], })
     this.props.toggleForm()
   }
@@ -75,20 +101,21 @@ class EditQuestion extends React.Component {
 
         />
         {choices.map( (choice, index ) => (
-          <>
+          <Fragment key={choice.id}>
             <Form.Input
             label="Edit Choice"
             value={this.state.choices[index].answer}
-            name={index}
+            name={index.toString()}
             onChange={this.handleChoiceChange}
             />
             <Form.Checkbox
+            label="Correct Answer? "
             value={!choice.correct_answer}
             checked={choice.correct_answer ? true : false}
             onClick={this.handleCorrectAnswer}
             name={index}
             />
-          </>
+          </Fragment>
         ))}
         <Form.Button inverted>Update</Form.Button>
       </Form>

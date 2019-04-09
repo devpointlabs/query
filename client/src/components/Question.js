@@ -73,6 +73,7 @@ class Question extends React.Component {
         </Card>
         { showForm && 
           <EditQuestion 
+            qType={qType}
             name={name} 
             explanation={explanation}   
             choices={this.state.choices} 

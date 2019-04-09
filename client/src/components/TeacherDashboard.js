@@ -52,7 +52,7 @@ class TeacherDashboard extends React.Component {
     axios.get("/api/quizzes")
         .then( res => {
           res.data.map( q => { 
-            console.log(q)
+            // console.log(q)
             if(q.active){
               this.setState({qActive: [q, ...this.state.qActive]})
             }
@@ -100,7 +100,7 @@ class TeacherDashboard extends React.Component {
 
   render() {
     const { qActive, } = this.state
-    console.log(qActive)
+    // console.log(qActive)
     return (
       <div style={{ textAlign: "center" }}>
         <Form onSubmit={this.handleSubmit}>
