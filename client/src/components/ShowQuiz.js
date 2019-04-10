@@ -13,6 +13,7 @@ import MultiForm from "./MultiForm";
 import OpenAnswerForm from "./OpenAnswerForm";
 import TrueFalse from "./TrueFalse";
 import Question from "./Question";
+import AddStudent from "./AddStudent";
 import EditQuiz from "./EditQuiz";
 
 class ShowQuiz extends React.Component {
@@ -20,6 +21,7 @@ class ShowQuiz extends React.Component {
     quiz: {},
     questions: [],
     choices: [],
+    email: [],
     showMultiForm: false,
     showTrueFalseForm: false,
     showOpenForm: false,
@@ -114,6 +116,9 @@ class ShowQuiz extends React.Component {
     this.setState({
       showEditQuiz: !this.state.showEditQuiz
     });
+    getEmail = (f) => {
+this.setState({email: [f, ...this.state.email]})
+    }
 
   render() {
     document.body.style = "background: #6D55A3;";
@@ -190,6 +195,7 @@ class ShowQuiz extends React.Component {
             : "You will know what submission belongs to an individual"}
         </header>
         <h1 style={{ marginLeft: "5%" }}>People</h1>
+        <AddStudent submail={this.state.email} pmail={this.getEmail} />
         <h1 style={{ marginLeft: "5%" }}>Questions</h1>
         {this.state.showButtons ? (
           <>
