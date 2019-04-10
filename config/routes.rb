@@ -11,5 +11,9 @@ Rails.application.routes.draw do
     resources :questions do
       resources :choices
     end
+
+    resources :submissions do
+      resources :submission_choices
+    end
   end
 end
