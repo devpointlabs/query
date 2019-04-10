@@ -19,7 +19,7 @@ class OpenAnswerForm extends React.Component {
   };
 
   render() {
-    document.body.style = "background: #6D55A3;";
+    document.body.style = "background: #5906A3;";
     const { name, explanation } = this.state;
 
     return (

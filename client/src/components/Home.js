@@ -4,7 +4,7 @@ import { Header, } from 'semantic-ui-react';
 import StudentDashboard from './StudentDashboard';
 import TeacherDashboard from './TeacherDashboard';
 const Home = (props) => {
-  document.body.style = 'background: #6D55A3;'
+  document.body.style = 'background: #5906A3;'
 
   return (
     <AuthConsumer>
