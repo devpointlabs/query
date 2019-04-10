@@ -170,7 +170,7 @@ class Timer extends React.Component {
           <div style={{display: "flex", justifyContent: "center"}}>
         <Button.Group>
           <Button inverted onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
-          <Button inverted onClick={() => this.static()}>Start Static Quiz</Button>
+          <Button inverted onClick={this.static}>Start Static Quiz</Button>
         </Button.Group>
         </div>
         )}
