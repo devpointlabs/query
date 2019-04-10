@@ -12,7 +12,8 @@ class TeacherDashboard extends React.Component {
     qActive: [],
     redirect: false,
     quizzes: [],
-    toggle: false
+    toggle: false,
+    anon: true
   };
 
   dater = (a) => {
