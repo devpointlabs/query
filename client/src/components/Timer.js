@@ -168,8 +168,8 @@ class Timer extends React.Component {
         return(
           <div style={{display: "flex", justifyContent: "center"}}>
         <Button.Group>
-          <Button inverted onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
-          <Button inverted onClick={this.static}>Start Static Quiz</Button>
+          <Button  onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
+          <Button  onClick={this.static}>Start Static Quiz</Button>
         </Button.Group>
         </div>
         )}
@@ -187,8 +187,8 @@ class Timer extends React.Component {
         onChange={this.handleChange}
         />
         <div style={{display: "flex", justifyContent: "center"}}>
-        <Button inverted>Start Timed</Button>
-        <Button inverted onClick={() => this.setState({timed: "idk"})}>Cancel</Button>
+        <Button >Start Timed</Button>
+        <Button  onClick={() => this.setState({timed: "idk"})}>Cancel</Button>
         </div>
       </Form>
         </div>
@@ -203,5 +203,6 @@ export default Timer;
 
 const buttonStyle = {
   border: "1px solid",
-  color: "purple"
+  color: "#9219FF",
+  backgroundColor: 'white'
 };
