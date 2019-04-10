@@ -57,7 +57,6 @@ render(){
   const{quiz} = this.props
   return(
     <Card color="red" 
-    error
     link
     onClick={() => this.setRedirect(this.props.quiz)}
     >
