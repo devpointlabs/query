@@ -150,7 +150,7 @@ class ShowQuiz extends React.Component {
         ) : null}
         <div>
           {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
-          {this.state.showMultiForm && <DynamicMCForm quiz_id={quiz.id}/> }
+          {this.state.showMultiForm && <DynamicMCForm quiz_id={quiz.id} toggleForm={this.toggleMultiForm} addQuestion={this.addQuestion} addChoice={this.addChoice}/> }
           {this.state.showTrueFalseForm && (
             <TrueFalse quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />
           )}
