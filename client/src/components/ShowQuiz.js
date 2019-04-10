@@ -1,13 +1,21 @@
-import React from 'react';
-import axios from 'axios';
-import Timer from './Timer'
-import { Button, Header, Container, List } from 'semantic-ui-react';
-import MultiForm from './MultiForm';
-import OpenAnswerForm from './OpenAnswerForm';
-import TrueFalse from './TrueFalse';
+import React from "react";
+import axios from "axios";
+import Timer from "./Timer";
+import {
+  Button,
+  Header,
+  Container,
+  List,
+  Form,
+  Input
+} from "semantic-ui-react";
+import MultiForm from "./MultiForm";
+import OpenAnswerForm from "./OpenAnswerForm";
+import TrueFalse from "./TrueFalse";
 import Question from "./Question";
 import EditQuiz from './EditQuiz';
 import DynamicMCForm from './DynamicMCForm';
+
 
 class ShowQuiz extends React.Component {
   state = {
@@ -20,7 +28,7 @@ class ShowQuiz extends React.Component {
     showButtons: true,
     edited: false,
     showEditQuiz: false,
-
+    anon: true,
   };
 
   componentDidMount() {
@@ -35,7 +43,7 @@ class ShowQuiz extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.edited !== prevState.edited){
+    if (this.state.edited !== prevState.edited) {
       axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
         this.setState({ quiz: res.data });
       });
@@ -47,34 +55,38 @@ class ShowQuiz extends React.Component {
     }
   }
 
-  toggleEdited = () => this.setState({ edited: !this.state.edited, })
- 
+  toggleEdited = () => this.setState({ edited: !this.state.edited });
 
-  removeQuestion = (id) => {
-    axios.delete(`/api/quizzes/${this.props.match.params.id}/questions/${id}`)
-      .then(res => {
-        const { questions, } = this.state;
-        this.setState({ questions: questions.filter(r => r.id !== id), })
-      })
+  toggleAnon = () => {
+    this.setState({anon: !this.state.anon})
+    axios.patch(`/api/quizzes/${this.props.match.params.id}`, { anon: this.state.anon })
   }
+
+  removeQuestion = id => {
+    axios
+      .delete(`/api/quizzes/${this.props.match.params.id}/questions/${id}`)
+      .then(res => {
+        const { questions } = this.state;
+        this.setState({ questions: questions.filter(r => r.id !== id) });
+      });
+  };
 
   handleDelete = () => {
-    const id = this.state.quiz.id
-    axios.delete(`/api/quizzes/${id}`)
-      .then(res => {
-        this.props.history.push("/home")
-  })
-  }
+    const id = this.state.quiz.id;
+    axios.delete(`/api/quizzes/${id}`).then(res => {
+      this.props.history.push("/home");
+    });
+  };
 
-  updateQuiz = (q) => {
-    this.setState({ quiz: {name: q.name, info: q.info} })
-  }
+  updateQuiz = q => {
+    this.setState({ quiz: { name: q.name, info: q.info } });
+  };
 
-  addQuestion = (question) => {
+  addQuestion = question => {
     this.setState({ questions: [...this.state.questions, question] });
   };
 
-  addChoice = (choice) => {
+  addChoice = choice => {
     this.setState({ choices: [...this.state.choices, choice] });
   };
 
@@ -109,50 +121,114 @@ class ShowQuiz extends React.Component {
     document.body.style = "background: #6D55A3;";
     const { quiz, questions } = this.state;
     return (
-      <Container>
-
-        {this.state.showEditQuiz ? 
+      <div style={divStyle}>
+        {/* {this.state.showEditQuiz ? 
           <EditQuiz quiz={quiz} updateQuiz={this.updateQuiz} toggle={this.toggleEditQuiz} /> 
-        :
+          :
           <div>
-            <Button inverted size="mini" onClick={this.toggleEditQuiz}>
-              Edit Title/Description
-            </Button>
+          <Button size="mini" onClick={this.toggleEditQuiz}>
+          Edit Title/Description
+          </Button>
           </div>
         }
-        <Button inverted size="mini" onClick={ () => this.handleDelete()}>
-              Delete
-        </Button>
-        <Header as="h1" inverted>
-          {quiz.name}
-        </Header>
+        <Button size="mini" onClick={ () => this.handleDelete()}>
+        Delete
+      </Button> */}
+        <Form>
+          <Form.Field
+            style={{
+              paddingTop: "5%",
+              marginLeft: "5%",
+              marginRight: "40%"
+            }}
+          >
+            <label style={{ color: "purple" }}>Name</label>
+            <Input style={{ inputStyle }} defaultValue={this.state.quiz.name} />
+          </Form.Field>
+          <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
+            <label style={{ color: "purple" }}>Prompt</label>
+            <input style={{ padding: "7%" }} />
+          </Form.Field>
+        </Form>
+        <br />
         <Timer id={this.props.match.params.id} />
-        <List>
-          {questions.map(q => (
-            <Question remove={this.removeQuestion} key={q.id} {...q} quiz_id={this.props.match.params.id} question_id={q.id} toggleEdited={this.toggleEdited} />
-          ))}
-        </List>
-        <p style={{ color: "white" }}>Add Question:</p>
+        <div
+          style={{
+            display: "flex",
+            fontSize: "25px",
+            marginLeft: "5%",
+            marginTop: "2%",
+            marginBottom: "2%"
+          }}
+        >
+          <div
+            onClick={() => this.toggleAnon()}
+            style={
+              this.state.anon
+                ? { color: "gray" }
+                : { color: "purple", fontWeight: "bold" }
+            }
+          >
+            Identified
+          </div>
+          <div style={{ color: "gray", marginLeft: "2%", marginRight: "2%" }}>
+            /
+          </div>
+          <div
+            onClick={() => this.toggleAnon()}
+            style={
+              this.state.anon !== true
+                ? { color: "gray" }
+                : { color: "purple", fontWeight: "bold" }
+            }
+          >
+            Anonymous
+          </div>
+        </div>
+        <header style={{ marginLeft: "5%", color: "gray" }}>
+          {" "}
+          {this.state.anon
+            ? "You will not know what submission belongs to an individual."
+            : "You will know what submission belongs to an individual"}
+        </header>
+        <h1 style={{ marginLeft: "5%" }}>People</h1>
+        <h1 style={{ marginLeft: "5%" }}>Questions</h1>
         {this.state.showButtons ? (
           <>
-            <Button.Group>
-              <Button inverted onClick={this.toggleMultiForm}>
-                Multiple Choice
-              </Button>
-              <Button inverted onClick={this.toggleTFForm}>
-                True or False
-              </Button>
-              <Button inverted onClick={this.toggleOpenForm}>
-                Open
-              </Button>
-            </Button.Group>
+            <Button style={buttonStyle} onClick={this.toggleMultiForm}>
+              Multiple Choice
+            </Button>
+            <Button style={buttonStyle} onClick={this.toggleTFForm}>
+              True or False
+            </Button>
+            <Button style={buttonStyle} onClick={this.toggleOpenForm}>
+              Open
+            </Button>
           </>
         ) : null}
+
+        <List style={{ marginLeft: "5%", marginRight: "5%" }}>
+          {this.state.questions.map(q => (
+            <Question
+              remove={this.removeQuestion}
+              key={q.id}
+              {...q}
+              quiz_id={this.props.match.params.id}
+              question_id={q.id}
+              toggleEdited={this.toggleEdited}
+            />
+          ))}
+        </List>
         <div>
           {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
           {this.state.showMultiForm && <DynamicMCForm quiz_id={quiz.id} toggleForm={this.toggleMultiForm} addQuestion={this.addQuestion} addChoice={this.addChoice}/> }
+
           {this.state.showTrueFalseForm && (
-            <TrueFalse quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />
+            <TrueFalse
+              quiz_id={quiz.id}
+              addQuestion={this.addQuestion}
+              addChoice={this.addChoice}
+            />
           )}
           {this.state.showOpenForm && (
             <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} />
@@ -161,8 +237,31 @@ class ShowQuiz extends React.Component {
             <Button onClick={this.toggleButtons}>Cancel</Button>
           )}
         </div>
-      </Container>
+      </div>
     );
   }
 }
 export default ShowQuiz;
+
+const divStyle = {
+  marginBottom: "50px",
+  backgroundColor: "white",
+  textAlign: "left",
+  color: "purple",
+  marginLeft: "15%",
+  marginRight: "15%",
+  borderRadius: "10px",
+  paddingBottom: "2%"
+};
+
+const buttonStyle = {
+  backgroundColor: "white",
+  marginLeft: "5%",
+  marginRight: "2%",
+  border: "1px solid",
+  color: "purple"
+};
+
+const inputStyle = {
+  color: "purple"
+};
