@@ -26,7 +26,7 @@ class ShowQuiz extends React.Component {
     showButtons: true,
     edited: false,
     showEditQuiz: false,
-    anon: true
+    anon: true,
   };
 
   componentDidMount() {
@@ -54,6 +54,11 @@ class ShowQuiz extends React.Component {
   }
 
   toggleEdited = () => this.setState({ edited: !this.state.edited });
+
+  toggleAnon = () => {
+    this.setState({anon: !this.state.anon})
+    axios.patch(`/api/quizzes/${this.props.match.params.id}`, { anon: this.state.anon })
+  }
 
   removeQuestion = id => {
     axios
@@ -145,19 +150,45 @@ class ShowQuiz extends React.Component {
         </Form>
         <br />
         <Timer id={this.props.match.params.id} />
-        <div style={{display: 'flex', fontSize: '25px', marginLeft: '5%', marginTop: '2%', marginBottom: '2%' }}>
-
-        <div onClick={() => this.setState({anon: false})} style={this.state.anon ? { color: "gray",  } : { color: "purple", fontWeight: 'bold'}}>
-          Identified
+        <div
+          style={{
+            display: "flex",
+            fontSize: "25px",
+            marginLeft: "5%",
+            marginTop: "2%",
+            marginBottom: "2%"
+          }}
+        >
+          <div
+            onClick={() => this.toggleAnon()}
+            style={
+              this.state.anon
+                ? { color: "gray" }
+                : { color: "purple", fontWeight: "bold" }
+            }
+          >
+            Identified
+          </div>
+          <div style={{ color: "gray", marginLeft: "2%", marginRight: "2%" }}>
+            /
+          </div>
+          <div
+            onClick={() => this.toggleAnon()}
+            style={
+              this.state.anon !== true
+                ? { color: "gray" }
+                : { color: "purple", fontWeight: "bold" }
+            }
+          >
+            Anonymous
+          </div>
         </div>
-        <div style={{color: 'gray', marginLeft: '2%', marginRight: '2%'}}>/</div>
-        <div onClick={() => this.setState({anon: true})} style={this.state.anon !== true ? { color: "gray",  } : { color: "purple", fontWeight: 'bold' }}>
-          Anonymous
-        </div>
-        </div>
-        <header style={{ marginLeft: "5%", color: 'gray' }}> {
-         this.state.anon ?  'You will not know what submission belongs to an individual.' : 'You will know what submission belongs to an individual'
-        }</header>
+        <header style={{ marginLeft: "5%", color: "gray" }}>
+          {" "}
+          {this.state.anon
+            ? "You will not know what submission belongs to an individual."
+            : "You will know what submission belongs to an individual"}
+        </header>
         <h1 style={{ marginLeft: "5%" }}>People</h1>
         <h1 style={{ marginLeft: "5%" }}>Questions</h1>
         {this.state.showButtons ? (
@@ -236,4 +267,3 @@ const buttonStyle = {
 const inputStyle = {
   color: "purple"
 };
-

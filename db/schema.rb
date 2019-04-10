@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_04_193447) do
+ActiveRecord::Schema.define(version: 2019_04_10_170707) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -22,20 +22,6 @@ ActiveRecord::Schema.define(version: 2019_04_04_193447) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["question_id"], name: "index_choices_on_question_id"
-  end
-
-  create_table "lists", force: :cascade do |t|
-    t.string "name"
-    t.bigint "pinboard_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["pinboard_id"], name: "index_lists_on_pinboard_id"
-  end
-
-  create_table "pinboards", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "questions", force: :cascade do |t|
@@ -55,14 +41,7 @@ ActiveRecord::Schema.define(version: 2019_04_04_193447) do
     t.string "info"
     t.boolean "active"
     t.string "end"
-  end
-
-  create_table "tasks", force: :cascade do |t|
-    t.string "name"
-    t.bigint "list_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["list_id"], name: "index_tasks_on_list_id"
+    t.boolean "anon"
   end
 
   create_table "users", force: :cascade do |t|
@@ -104,7 +83,5 @@ ActiveRecord::Schema.define(version: 2019_04_04_193447) do
   end
 
   add_foreign_key "choices", "questions"
-  add_foreign_key "lists", "pinboards"
   add_foreign_key "questions", "quizzes"
-  add_foreign_key "tasks", "lists"
 end
