@@ -162,6 +162,38 @@ class Timer extends React.Component {
           </div>
         );
       }
+    
+    else{
+      if(this.state.timed === "idk"){
+        return(
+          <div style={{display: "flex", justifyContent: "center"}}>
+        <Button.Group>
+          <Button inverted onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
+          <Button inverted onClick={this.static}>Start Static Quiz</Button>
+        </Button.Group>
+        </div>
+        )}
+      if(this.state.timed === "y"){
+        return(
+        <div style={{display: "flex", justifyContent: "center"}}>
+        <Form style={{width:"70%", }} onSubmit={this.handleSubmit}>
+        <Form.Input
+        autoFocus
+        required
+        type="number"
+        placeholder="Minutes the Quiz will be Open"
+        name="length"
+        value={this.state.length}
+        onChange={this.handleChange}
+        />
+        <div style={{display: "flex", justifyContent: "center"}}>
+        <Button inverted>Start Timed</Button>
+        <Button inverted onClick={() => this.setState({timed: "idk"})}>Cancel</Button>
+        </div>
+      </Form>
+        </div>
+     )}
+     }
    }
   }
 }
