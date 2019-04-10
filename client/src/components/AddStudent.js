@@ -2,9 +2,6 @@ import React from "react";
 import axios from "axios";
 import {
   Button,
-  Header,
-  Container,
-  List,
   Grid,
   Form,
   Input
@@ -60,21 +57,21 @@ class AddStudent extends React.Component {
 {this.state.showStudentForm && (
   <>
   <Form onSubmit={this.handleSubmit}>
-          <Form.Field
-            style={{
-              paddingTop: "5%",
-              marginLeft: "-14%",
-              marginRight: "40%"
-            }}
+    <Form.Field
+      style={{
+        paddingTop: "5%",
+        marginLeft: "-14%",
+        marginRight: "40%"
+        }}
           >
-            <label style={{ color: "purple" }}>Enter Email Address</label>
-            <Input style={{ inputStyle }} 
-            value={this.state.email}
-            name="email"
-            onChange={this.handleChange}
-             />
-          </Form.Field>
-          <Grid>
+        <label style={{ color: "purple" }}>Enter Email Address</label>
+          <Input style={{ inputStyle }} 
+          value={this.state.email}
+          name="email"
+          onChange={this.handleChange}
+          />
+    </Form.Field>
+      <Grid>
         <Grid.Column textAlign="right">
           <Button circular inverted color="purple" size="big" type="submit">
             Submit
