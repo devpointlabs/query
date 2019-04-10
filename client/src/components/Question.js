@@ -4,7 +4,7 @@ import {Card, Button} from 'semantic-ui-react';
 import EditQuestion from './EditQuestion'
 
 class Question extends React.Component {
-  state = {choices: [], showForm: false,};
+  state = {choices: [], showForm: false,  };
 
   componentDidMount() {
     axios
@@ -16,7 +16,8 @@ class Question extends React.Component {
     if (this.state.showForm !== prevState.showForm) {
       axios
       .get(`/api/questions/${this.props.id}/choices`)
-      .then(res => this.setState({choices: res.data}));
+      .then(res => {
+        this.setState({choices: [...res.data]})});
       this.props.toggleEdited();
     }
   }
@@ -34,7 +35,6 @@ class Question extends React.Component {
     }
   };
 
-  // toggleEdited = () => this.setState({edited: !this.state.edited})
 
   toggleForm = () => this.setState({ showForm: !this.state.showForm})
 
@@ -92,7 +92,6 @@ class Question extends React.Component {
             quiz_id={this.props.quiz_id} 
             question_id={this.props.question_id}
             toggleForm={this.toggleForm}
-            // toggleEdited={this.toggleEdited}
           />}
       </>
     );
