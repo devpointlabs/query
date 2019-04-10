@@ -221,17 +221,18 @@ class ShowQuiz extends React.Component {
         </List>
         <div>
           {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
-          {this.state.showMultiForm && <DynamicMCForm quiz_id={quiz.id} toggleForm={this.toggleMultiForm} addQuestion={this.addQuestion} addChoice={this.addChoice}/> }
+          {this.state.showMultiForm && <DynamicMCForm quiz_id={quiz.id} toggleForm={this.toggleMultiForm} addQuestion={this.addQuestion} addChoice={this.addChoice} toggleButtons={this.toggleButtons}/> }
 
           {this.state.showTrueFalseForm && (
             <TrueFalse
               quiz_id={quiz.id}
               addQuestion={this.addQuestion}
               addChoice={this.addChoice}
+              toggleButtons={this.toggleButtons}
             />
           )}
           {this.state.showOpenForm && (
-            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} />
+            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} toggleButtons={this.toggleButtons}/>
           )}
           {this.state.showButtons ? null : (
             <Button onClick={this.toggleButtons}>Cancel</Button>
