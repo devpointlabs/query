@@ -12,6 +12,7 @@ import { Container, } from 'semantic-ui-react';
 import { Route, Switch, } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute"
 import WireFrameCopy from './components/WireFrameCopy'
+import DynamicMCForm from './components/DynamicMCForm';
 
 
 const App = () => (

@@ -7,6 +7,7 @@ import OpenAnswerForm from './OpenAnswerForm';
 import TrueFalse from './TrueFalse';
 import Question from "./Question";
 import EditQuiz from './EditQuiz';
+import DynamicMCForm from './DynamicMCForm';
 
 class ShowQuiz extends React.Component {
   state = {
@@ -148,7 +149,8 @@ class ShowQuiz extends React.Component {
           </>
         ) : null}
         <div>
-          {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />}
+          {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
+          {this.state.showMultiForm && <DynamicMCForm quiz_id={quiz.id}/> }
           {this.state.showTrueFalseForm && (
             <TrueFalse quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />
           )}
