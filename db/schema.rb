@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_09_211333) do
+ActiveRecord::Schema.define(version: 2019_04_09_224528) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,6 +41,15 @@ ActiveRecord::Schema.define(version: 2019_04_09_211333) do
     t.string "info"
     t.boolean "active"
     t.string "end"
+  end
+
+  create_table "submission_choices", force: :cascade do |t|
+    t.bigint "submission_id"
+    t.bigint "choice_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["choice_id"], name: "index_submission_choices_on_choice_id"
+    t.index ["submission_id"], name: "index_submission_choices_on_submission_id"
   end
 
   create_table "submissions", force: :cascade do |t|
@@ -92,6 +101,8 @@ ActiveRecord::Schema.define(version: 2019_04_09_211333) do
 
   add_foreign_key "choices", "questions"
   add_foreign_key "questions", "quizzes"
+  add_foreign_key "submission_choices", "choices"
+  add_foreign_key "submission_choices", "submissions"
   add_foreign_key "submissions", "quizzes"
   add_foreign_key "submissions", "users"
 end
