@@ -135,7 +135,6 @@ class TeacherDashboard extends React.Component {
   render() {
 
     const { qActive } = this.state;
-    console.log(qActive);
     return (
       <div>
         {qActive.length !== 0 ? (

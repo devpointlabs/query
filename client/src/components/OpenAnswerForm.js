@@ -3,7 +3,7 @@ import axios from "axios";
 import { Form, Button, Grid } from "semantic-ui-react";
 
 class OpenAnswerForm extends React.Component {
-  state = { name: "", qType: "" };
+  state = { name: "", qType: "", explanation: "" };
 
   handleChange = (e, { name, value, }) => this.setState({ [name]: value,});
 
@@ -15,12 +15,12 @@ class OpenAnswerForm extends React.Component {
       this.props.addQuestion(res.data);
       console.log(res);
     });
-    this.setState({ name: "", qType: "" });
+    this.setState({ name: "", qType: "", explanation: "" });
   };
 
   render() {
     document.body.style = "background: #6D55A3;";
-    const { name, } = this.state;
+    const { name, explanation } = this.state;
 
     return (
       <>
@@ -34,6 +34,13 @@ class OpenAnswerForm extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Group>
+            <Form.Input
+              required
+              placeholder="Explanation for answer"
+              name="explanation"
+              value={explanation}
+              onChange={this.handleChange}
+            />
           <Grid>
             <Grid.Column textAlign="right">
               <Button circular inverted size="big" type="submit">
