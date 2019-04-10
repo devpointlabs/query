@@ -1,13 +1,24 @@
 import React from 'react';
 import axios from 'axios';
 import {Card, Button} from 'semantic-ui-react';
+import EditQuestion from './EditQuestion'
 
 class Question extends React.Component {
-  state = {choices: []};
+  state = {choices: [], showForm: false,};
+
   componentDidMount() {
     axios
       .get(`/api/questions/${this.props.id}/choices`)
       .then(res => this.setState({choices: res.data}));
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.showForm !== prevState.showForm) {
+      axios
+      .get(`/api/questions/${this.props.id}/choices`)
+      .then(res => this.setState({choices: res.data}));
+      this.props.toggleEdited();
+    }
   }
 
   quizTypeName = qType => {
@@ -22,6 +33,10 @@ class Question extends React.Component {
         return null;
     }
   };
+
+  // toggleEdited = () => this.setState({edited: !this.state.edited})
+
+  toggleForm = () => this.setState({ showForm: !this.state.showForm})
 
   render() {
     const {name, qType, explanation} = this.props;
@@ -45,6 +60,7 @@ class Question extends React.Component {
       }
     });
 
+    const { showForm, } = this.state;
     return (
       <>
         <Card fluid>
@@ -56,7 +72,7 @@ class Question extends React.Component {
             Explanation: {explanation}
           </Card.Content>
           <Button.Group>
-            <Button inverted color="purple">
+            <Button inverted color="purple" onClick={this.toggleForm}>
               Edit
             </Button>
             <Button
@@ -67,6 +83,17 @@ class Question extends React.Component {
             </Button>
           </Button.Group>
         </Card>
+        { showForm && 
+          <EditQuestion 
+            qType={qType}
+            name={name} 
+            explanation={explanation}   
+            choices={this.state.choices} 
+            quiz_id={this.props.quiz_id} 
+            question_id={this.props.question_id}
+            toggleForm={this.toggleForm}
+            // toggleEdited={this.toggleEdited}
+          />}
       </>
     );
   }

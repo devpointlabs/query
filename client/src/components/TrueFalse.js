@@ -5,9 +5,6 @@ import axios from "axios";
 class TrueFalse extends React.Component {
   state = { name: "", correctAnswer: "", explanation: "" };
 
-  toggleTF = value => {
-    this.setState({ correctAnswer: value });
-  };
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value });
   };
@@ -38,7 +35,7 @@ class TrueFalse extends React.Component {
       })
 
       .catch(err => console.log(err));
-      this.setState({ name: "", correctAnswer: "", explanation: ""})
+    this.setState({ name: "", correctAnswer: "", explanation: "" })
   };
 
 
@@ -72,7 +69,6 @@ class TrueFalse extends React.Component {
             value={true}
             onChange={this.handleChange}
             checked={this.state.correctAnswer === true}
-            // onClick={() => this.toggleTF(true)}
           />
           <Radio
             name="correctAnswer"
@@ -80,7 +76,6 @@ class TrueFalse extends React.Component {
             value={false}
             onChange={this.handleChange}
             checked={this.state.correctAnswer === false}
-            // onClick={() => this.toggleTF(false)}
           />
         </Form.Field>
         <br />

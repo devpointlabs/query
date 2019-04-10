@@ -3,7 +3,7 @@ import { AuthConsumer, } from "../providers/AuthProvider";
 import { Form, Grid, Image, Container, Divider, Header, Button, Icon, } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 
-const defaultImage = 'https://imgur.com/iV0juzG.png' 
+const defaultImage = 'http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg' 
 
 class Profile extends React.Component {
   

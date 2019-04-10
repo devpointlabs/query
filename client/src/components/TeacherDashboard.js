@@ -15,7 +15,7 @@ class TeacherDashboard extends React.Component {
     toggle: false
   };
 
-  dater = a => {
+  dater = (a) => {
     let b = Date(a);
     let c = b
       .split(" ")
@@ -101,19 +101,6 @@ class TeacherDashboard extends React.Component {
           })
         })
     }
-  
-
-  componentDidMount() {
-    axios.get("/api/quizzes").then(res => {
-      res.data.map(q => {
-        if (q.active) {
-          this.setState({ qActive: [q, ...this.state.qActive] });
-        } else {
-          this.setState({ quizzes: [q, ...this.state.quizzes] });
-        }
-      });
-    });
-  }
 
   shuffle = () => {
     this.setState({ qActive: [], quizzes: [] });
@@ -145,6 +132,7 @@ class TeacherDashboard extends React.Component {
   };
 
   render() {
+
     const { qActive } = this.state;
     console.log(qActive);
     return (
@@ -185,11 +173,11 @@ class TeacherDashboard extends React.Component {
                 {" "}
                 {this.nowDate()}{" "}
               </Card.Meta>
-              <Form size="tini" onSubmit={this.handleSubmit}>
+              <Form size="tiny" onSubmit={this.handleSubmit}>
                 <Form.Input
                   style={{ marginTop: "0px", marginBottom: "0px" }}
                   placeholder="New Quiz Name"
-                  autofocus
+                  autoFocus
                   name="name"
                   value={this.state.name}
                   required
