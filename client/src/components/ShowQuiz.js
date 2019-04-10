@@ -142,6 +142,7 @@ class ShowQuiz extends React.Component {
             <input style={{ padding: "7%" }} />
           </Form.Field>
         </Form>
+        <br />
         <Timer id={this.props.match.params.id} />
         <h2 style={{ color: "purple", marginLeft: "5%" }}>
           Identified / Anonymous

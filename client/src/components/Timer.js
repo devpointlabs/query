@@ -126,14 +126,14 @@ class Timer extends React.Component {
       if (this.state.timed === "idk") {
         return (
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button.Group>
-              <Button inverted onClick={() => this.setState({ timed: "y" })}>
+          
+              <button style={buttonStyle} onClick={() => this.setState({ timed: "y" })}>
                 Start Timed Quiz
-              </Button>
-              <Button inverted onClick={() => this.static()}>
+              </button>
+              <button style={buttonStyle} onClick={() => this.static()}>
                 Start Static Quiz
-              </Button>
-            </Button.Group>
+              </button>
+            
           </div>
         );
       }
@@ -151,52 +151,25 @@ class Timer extends React.Component {
                 onChange={this.handleChange}
               />
               <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button inverted>Start Timed</Button>
-                <Button
-                  inverted
+                <button style={buttonStyle}>Start Timed</button>
+                <button style={buttonStyle}        
                   onClick={() => this.setState({ timed: "idk" })}
                 >
                   Cancel
-                </Button>
+                </button>
               </div>
             </Form>
           </div>
         );
       }
-    
-    else{
-      if(this.state.timed === "idk"){
-        return(
-          <div style={{display: "flex", justifyContent: "center"}}>
-        <Button.Group>
-          <Button inverted onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
-          <Button inverted onClick={() => this.static()}>Start Static Quiz</Button>
-        </Button.Group>
-        </div>
-        )}
-      if(this.state.timed === "y"){
-        return(
-        <div style={{display: "flex", justifyContent: "center"}}>
-        <Form style={{width:"70%", }} onSubmit={this.handleSubmit}>
-        <Form.Input
-        autoFocus
-        required
-        type="number"
-        placeholder="Minutes the Quiz will be Open"
-        name="length"
-        value={this.state.length}
-        onChange={this.handleChange}
-        />
-        <div style={{display: "flex", justifyContent: "center"}}>
-        <Button inverted>Start Timed</Button>
-        <Button inverted onClick={() => this.setState({timed: "idk"})}>Cancel</Button>
-        </div>
-      </Form>
-        </div>
-     )}
-     }
    }
   }
 }
 
 export default Timer;
+
+
+const buttonStyle = {
+  border: "1px solid",
+  color: "purple"
+};
