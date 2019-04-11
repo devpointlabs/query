@@ -1,7 +1,6 @@
 class Api::SubmissionsController < ApplicationController
 
   def add_student_to_quiz
-    puts "hit"
     emails = params.require(:email)
       emails.each do |email|
       the_params(email)

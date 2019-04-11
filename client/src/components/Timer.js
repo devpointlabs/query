@@ -10,7 +10,8 @@ class Timer extends React.Component {
    clock: "",
    length: "",
    active: "",
-   end: ""
+   end: "",
+   interval: null
     }
 
   componentDidMount() {
@@ -20,7 +21,11 @@ class Timer extends React.Component {
         this.setState({ timed: "y" });
       }
     });
-    setInterval(this.timer, 1000);
+    this.setState({interval: setInterval(this.timer, 1000)})
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.state.interval);
   }
 
   static = () => {

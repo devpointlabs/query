@@ -55,6 +55,7 @@ class ShowQuiz extends React.Component {
         });
     }
   }
+  
 
   toggleEdited = () => this.setState({ edited: !this.state.edited });
 
