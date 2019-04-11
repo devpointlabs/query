@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Message, Button, Header } from "semantic-ui-react";
 import axios from "axios";
+import { AuthConsumer, } from "../providers/AuthProvider";
 
 class Timer extends React.Component {
   
@@ -9,7 +10,8 @@ class Timer extends React.Component {
    clock: "",
    length: "",
    active: "",
-   end: ""
+   end: "",
+   interval: null
     }
 
   componentDidMount() {
@@ -19,7 +21,11 @@ class Timer extends React.Component {
         this.setState({ timed: "y" });
       }
     });
-    setInterval(this.timer, 1000);
+    this.setState({interval: setInterval(this.timer, 1000)})
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.state.interval);
   }
 
   static = () => {
@@ -29,8 +35,10 @@ class Timer extends React.Component {
         .then(res => {
           this.setState({ timed: "n", active: true, end: "" });
         });
-    }
+      axios.post("/api/add_student_to_quiz", {quiz_id: this.props.id, email: this.props.email})
+      }
   };
+
 
   timer = () => {
     if (this.state.end !== "") {
@@ -79,6 +87,7 @@ class Timer extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    axios.post("/api/add_student_to_quiz", {quiz_id: this.props.id, email: this.props.email})
     let endTime = ("" + Date.now()).split("");
     endTime.splice(0, endTime.count - 13);
     endTime = parseInt(endTime.join("")) + this.state.length * 60000;

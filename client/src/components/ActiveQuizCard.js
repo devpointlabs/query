@@ -4,15 +4,19 @@ import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 
 class ActiveCard extends React.Component {
-  state = {clock: null }
+  state = {clock: null, interval: null, fire: true }
 
   componentDidMount(){
-    this.setState({q_id: this.props.quiz.id, active: this.props.quiz.active, end: this.props.quiz.end});
-    setInterval(this.timer, 1000);
+    this.setState({q_id: this.props.quiz.id, active: this.props.quiz.active, end: this.props.quiz.end, interval: setInterval(this.timer, 1000)});
+
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.state.interval);
   }
 
   timer = () => {
-    if(this.state.end !== ""){
+    if(this.state.end !== "" && this.state.fire === true){
   let time = (""+Date.now() ).split("");
   time.splice(0, time.count - 13)
   time = parseInt(time.join(''))
@@ -23,13 +27,11 @@ class ActiveCard extends React.Component {
     sec = "0" + sec
   }
   let clock = `Time Remaining [${min}:${sec}]  `
-  if( timer <= 0){
-    axios.patch(`/api/quizzes/${this.props.quiz.id}`, {end: "", active: false })
-    .then( res => { 
-      this.setState({active: res.data.active, end: res.data.end});
-      this.props.shuffle()
-    })
-  }
+  if( timer <= 0 && this.state.fire === true){
+    this.setState({fire: false})
+      this.props.shuffle(this.props.quiz.id)
+    }
+
   this.setState({clock: clock})
 }}
 
@@ -49,7 +51,7 @@ setRedirect = (theChoosenOne) => {
 renderRedirect = () => {
   if (this.state.redirect) {
     const quiz = this.state.q_id
-    return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />
+    return <Redirect quiz={quiz} to={this.props.user ? `/quizbuilder/${quiz.id}` : `/quizzes/${quiz.id}/quiz`} />
   }
 }
 

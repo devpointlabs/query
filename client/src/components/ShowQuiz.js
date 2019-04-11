@@ -58,6 +58,7 @@ class ShowQuiz extends React.Component {
         });
     }
   }
+  
 
   toggleEdited = () => this.setState({ edited: !this.state.edited });
 
@@ -170,7 +171,7 @@ this.setState({email: [f, ...this.state.email]})
           </Form.Field>
         </Form>
         <br />
-        <Timer id={this.props.match.params.id} />
+        <Timer email={this.state.email} id={this.props.match.params.id} />
         <div
           style={{
             display: "flex",

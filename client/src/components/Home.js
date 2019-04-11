@@ -12,7 +12,7 @@ const Home = (props) => {
         <div>{auth.authenticated ? 
           <div>
             {auth.user.teacher ? 
-              <TeacherDashboard /> 
+              <TeacherDashboard user={auth.user}/> 
             : 
               <StudentDashboard/>}
             {/* <Button onClick={() => auth.handleLogout(props.history)} inverted>Logout</Button> */}
