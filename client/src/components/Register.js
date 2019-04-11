@@ -26,7 +26,7 @@ class Register extends React.Component {
   }
 
   render() {
-    document.body.style = 'background: #6D55A3;'
+    document.body.style = 'background: #5906A3;'
     const {name, email, password, passwordConfirmation, } = this.state;
     return ( 
       <Grid>

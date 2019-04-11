@@ -7,14 +7,18 @@ import {
   Container,
   List,
   Form,
-  Input
+  Input,
+  Icon
 } from "semantic-ui-react";
 import MultiForm from "./MultiForm";
 import OpenAnswerForm from "./OpenAnswerForm";
 import TrueFalse from "./TrueFalse";
 import Question from "./Question";
+
 import AddStudent from "./AddStudent";
 import EditQuiz from "./EditQuiz";
+import DynamicMCForm from './DynamicMCForm';
+
 
 class ShowQuiz extends React.Component {
   state = {
@@ -28,7 +32,7 @@ class ShowQuiz extends React.Component {
     showButtons: true,
     edited: false,
     showEditQuiz: false,
-    anon: true,
+    anon: true
   };
 
   componentDidMount() {
@@ -58,9 +62,11 @@ class ShowQuiz extends React.Component {
   toggleEdited = () => this.setState({ edited: !this.state.edited });
 
   toggleAnon = () => {
-    this.setState({anon: !this.state.anon})
-    axios.patch(`/api/quizzes/${this.props.match.params.id}`, { anon: this.state.anon })
-  }
+    this.setState({ anon: !this.state.anon });
+    axios.patch(`/api/quizzes/${this.props.match.params.id}`, {
+      anon: this.state.anon
+    });
+  };
 
   removeQuestion = id => {
     axios
@@ -83,7 +89,7 @@ class ShowQuiz extends React.Component {
   };
 
   addQuestion = question => {
-    this.setState({ questions: [...this.state.questions, question] });
+    this.setState({ questions: [question, ...this.state.questions] });
   };
 
   addChoice = choice => {
@@ -112,19 +118,32 @@ class ShowQuiz extends React.Component {
       showTrueFalseForm: false,
       showOpenForm: false
     });
-  toggleEditQuiz = () =>
+    toggleEditQuiz = () =>
     this.setState({
       showEditQuiz: !this.state.showEditQuiz
     });
+
     getEmail = (f) => {
 this.setState({email: [f, ...this.state.email]})
     }
 
   render() {
     document.body.style = "background: #6D55A3;";
+
     const { quiz, questions } = this.state;
     return (
       <div style={divStyle}>
+      <div style={{textAlign: 'right'}}>
+  
+          <Button
+            style={{ color: "#DA0909" }}
+            inverted
+            size='big'
+            onClick={() => this.handleDelete()}
+            >
+            <Icon name='trash alternate' />
+          </Button>
+            </div>
         {/* {this.state.showEditQuiz ? 
           <EditQuiz quiz={quiz} updateQuiz={this.updateQuiz} toggle={this.toggleEditQuiz} /> 
           :
@@ -133,24 +152,21 @@ this.setState({email: [f, ...this.state.email]})
           Edit Title/Description
           </Button>
           </div>
-        }
-        <Button size="mini" onClick={ () => this.handleDelete()}>
-        Delete
-      </Button> */}
+        } */}
         <Form>
           <Form.Field
             style={{
-              paddingTop: "5%",
+              paddingTop: "0%",
               marginLeft: "5%",
               marginRight: "40%"
             }}
           >
-            <label style={{ color: "purple" }}>Name</label>
+            <label style={{ color: "#9219FF" }}>Name</label>
             <Input style={{ inputStyle }} defaultValue={this.state.quiz.name} />
           </Form.Field>
           <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
-            <label style={{ color: "purple" }}>Prompt</label>
-            <input style={{ padding: "7%" }} />
+            <label style={{ color: "#9219FF" }}>Prompt</label>
+            <Form.TextArea />
           </Form.Field>
         </Form>
         <br />
@@ -168,8 +184,8 @@ this.setState({email: [f, ...this.state.email]})
             onClick={() => this.toggleAnon()}
             style={
               this.state.anon
-                ? { color: "gray" }
-                : { color: "purple", fontWeight: "bold" }
+                ? { cursor: "pointer", color: "gray" }
+                : { color: "#9219FF", fontWeight: "bold" }
             }
           >
             Identified
@@ -181,8 +197,8 @@ this.setState({email: [f, ...this.state.email]})
             onClick={() => this.toggleAnon()}
             style={
               this.state.anon !== true
-                ? { color: "gray" }
-                : { color: "purple", fontWeight: "bold" }
+                ? { cursor: "pointer", color: "gray" }
+                : { color: "#9219FF", fontWeight: "bold" }
             }
           >
             Anonymous
@@ -211,6 +227,38 @@ this.setState({email: [f, ...this.state.email]})
           </>
         ) : null}
 
+        <div>
+          {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
+
+          {this.state.showMultiForm && (
+            <DynamicMCForm
+              quiz_id={quiz.id}
+              toggleForm={this.toggleMultiForm}
+              addQuestion={this.addQuestion}
+              addChoice={this.addChoice}
+            />
+          )}
+
+          {this.state.showTrueFalseForm && (
+            <TrueFalse
+              quiz_id={quiz.id}
+              addQuestion={this.addQuestion}
+              addChoice={this.addChoice}
+              toggleButtons={this.toggleButtons}
+            />
+          )}
+          {this.state.showOpenForm && (
+            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} toggleButtons={this.toggleButtons}/>
+          )}
+          {this.state.showButtons ? null : (
+            <button
+              style={{ color: "red", marginLeft: "5%" }}
+              onClick={this.toggleButtons}
+            >
+              Cancel question
+            </button>
+          )}
+        </div>
         <List style={{ marginLeft: "5%", marginRight: "5%" }}>
           {this.state.questions.map(q => (
             <Question
@@ -223,28 +271,6 @@ this.setState({email: [f, ...this.state.email]})
             />
           ))}
         </List>
-        <div>
-          {this.state.showMultiForm && (
-            <MultiForm
-              quiz_id={quiz.id}
-              addQuestion={this.addQuestion}
-              addChoice={this.addChoice}
-            />
-          )}
-          {this.state.showTrueFalseForm && (
-            <TrueFalse
-              quiz_id={quiz.id}
-              addQuestion={this.addQuestion}
-              addChoice={this.addChoice}
-            />
-          )}
-          {this.state.showOpenForm && (
-            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} />
-          )}
-          {this.state.showButtons ? null : (
-            <Button onClick={this.toggleButtons}>Cancel</Button>
-          )}
-        </div>
       </div>
     );
   }
@@ -255,7 +281,7 @@ const divStyle = {
   marginBottom: "50px",
   backgroundColor: "white",
   textAlign: "left",
-  color: "purple",
+  color: "#9219FF",
   marginLeft: "15%",
   marginRight: "15%",
   borderRadius: "10px",
@@ -267,9 +293,9 @@ const buttonStyle = {
   marginLeft: "5%",
   marginRight: "2%",
   border: "1px solid",
-  color: "purple"
+  color: "#9219FF"
 };
 
 const inputStyle = {
-  color: "purple"
+  color: "#9219FF"
 };

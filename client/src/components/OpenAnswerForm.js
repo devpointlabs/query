@@ -3,7 +3,7 @@ import axios from "axios";
 import { Form, Button, Grid } from "semantic-ui-react";
 
 class OpenAnswerForm extends React.Component {
-  state = { name: "", qType: "" };
+  state = { name: "", qType: "", explanation: "" };
 
   handleChange = (e, { name, value, }) => this.setState({ [name]: value,});
 
@@ -15,16 +15,17 @@ class OpenAnswerForm extends React.Component {
       this.props.addQuestion(res.data);
       console.log(res);
     });
-    this.setState({ name: "", qType: "" });
+    this.props.toggleButtons()
+    this.setState({ name: "", qType: "", explanation: "" });
   };
 
   render() {
-    document.body.style = "background: #6D55A3;";
-    const { name, } = this.state;
+    document.body.style = "background: #5906A3;";
+    const { name, explanation } = this.state;
 
     return (
       <>
-        <Form onSubmit={this.handeSubmit}>
+        <Form style={divStyle} onSubmit={this.handeSubmit}>
           <Form.Group widths="equal">
             <Form.Input
               required
@@ -34,11 +35,18 @@ class OpenAnswerForm extends React.Component {
               onChange={this.handleChange}
             />
           </Form.Group>
+            <Form.Input
+              required
+              placeholder="Explanation for answer"
+              name="explanation"
+              value={explanation}
+              onChange={this.handleChange}
+            />
           <Grid>
             <Grid.Column textAlign="right">
-              <Button circular inverted size="big" type="submit">
+              <button style={{color: '#9219FF', borderRadius: '10px'}}  type="submit">
                 Submit
-              </Button>
+              </button>
             </Grid.Column>
           </Grid>
         </Form>
@@ -48,3 +56,13 @@ class OpenAnswerForm extends React.Component {
 }
 
 export default OpenAnswerForm;
+
+const divStyle = {
+  backgroundColor: "white",
+  textAlign: "left",
+  color: "#9219FF",
+  marginLeft: "5%",
+  marginRight: "15%",
+  borderRadius: "10px",
+  paddingBottom: "2%"
+};

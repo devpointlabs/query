@@ -17,11 +17,11 @@ class TeacherDashboard extends React.Component {
   };
 
   dater = (a) => {
-    let b = Date(a);
-    let c = b
-      .split(" ")
-      .splice(1, 3)
-      .join(" ");
+    let b = new Date(a);
+    let c = b.toString()
+    .split(" ")
+    .splice(1, 3)
+    .join(" ");
     return c;
   };
 
@@ -135,7 +135,6 @@ class TeacherDashboard extends React.Component {
   render() {
 
     const { qActive } = this.state;
-    console.log(qActive);
     return (
       <div>
         {qActive.length !== 0 ? (

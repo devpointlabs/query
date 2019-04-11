@@ -1,6 +1,6 @@
 class Api::QuizzesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_quiz, only: [:update, :destroy, :show]
+  before_action :set_quiz, only: [:update, :destroy, :show, :take]
 
   def index
     render json: Quiz.all
@@ -24,6 +24,10 @@ class Api::QuizzesController < ApplicationController
       render json: @quiz
      
     end
+  end
+
+  def take
+    render json: @quiz
   end
 
   def destroy

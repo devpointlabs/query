@@ -69,17 +69,12 @@ class EditQuestion extends React.Component {
     const { quiz_id, question_id, qType, } =  this.props;
     const { choices } =  this.state
     axios.put(`/api/quizzes/${quiz_id}/questions/${question_id}`, question)
-      // .then( res => console.log(res))
-      // .catch( err => console.log(err))
     if (qType !== "open")(
       choices.map( choice => (
         axios.put(`/api/questions/${question_id}/choices/${choice.id}`, choice)
-          // .then( res => console.log(res))
-          // .catch( err => console.log(err))
       ))
     )
     this.setState({ name: "", explanation: "", choices: [], })
-    // this.props.toggleEdited();
     this.props.toggleForm();
   }
 
@@ -118,7 +113,7 @@ class EditQuestion extends React.Component {
             />
           </Fragment>
         ))}
-        <Form.Button inverted>Update</Form.Button>
+        <Form.Button >Update</Form.Button>
       </Form>
     )
   }
