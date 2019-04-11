@@ -15,6 +15,7 @@ class OpenAnswerForm extends React.Component {
       this.props.addQuestion(res.data);
       console.log(res);
     });
+    this.props.toggleButtons()
     this.setState({ name: "", qType: "", explanation: "" });
   };
 

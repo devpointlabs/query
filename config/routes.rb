@@ -6,6 +6,8 @@ Rails.application.routes.draw do
         resources :questions
     end
 
+    post '/quizzes/:id/quiz', to: 'quizzes#take'
+
     resources :users, only: :update
 
     resources :questions do
@@ -15,5 +17,8 @@ Rails.application.routes.draw do
     resources :submissions do
       resources :submission_choices
     end
+    post "add_student_to_quiz", to: "submissions#add_student_to_quiz"
   end
+
+
 end

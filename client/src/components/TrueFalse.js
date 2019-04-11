@@ -36,6 +36,7 @@ class TrueFalse extends React.Component {
 
       .catch(err => console.log(err));
     this.setState({ name: "", correctAnswer: "", explanation: "" })
+    this.props.toggleButtons()
   };
 
 

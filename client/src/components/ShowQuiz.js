@@ -14,14 +14,18 @@ import MultiForm from "./MultiForm";
 import OpenAnswerForm from "./OpenAnswerForm";
 import TrueFalse from "./TrueFalse";
 import Question from "./Question";
+
+import AddStudent from "./AddStudent";
 import EditQuiz from "./EditQuiz";
-import DynamicMCForm from "./DynamicMCForm";
+import DynamicMCForm from './DynamicMCForm';
+
 
 class ShowQuiz extends React.Component {
   state = {
     quiz: {},
     questions: [],
     choices: [],
+    email: [],
     showMultiForm: false,
     showTrueFalseForm: false,
     showOpenForm: false,
@@ -118,9 +122,14 @@ class ShowQuiz extends React.Component {
     this.setState({
       showEditQuiz: !this.state.showEditQuiz
     });
-    
-    render() {
-    document.body.style = "background: #5906A3;";
+
+    getEmail = (f) => {
+this.setState({email: [f, ...this.state.email]})
+    }
+
+  render() {
+    document.body.style = "background: #6D55A3;";
+
     const { quiz, questions } = this.state;
     return (
       <div style={divStyle}>
@@ -202,6 +211,7 @@ class ShowQuiz extends React.Component {
             : "You will know what submission belongs to an individual"}
         </header>
         <h1 style={{ marginLeft: "5%" }}>People</h1>
+        <AddStudent submail={this.state.email} pmail={this.getEmail} />
         <h1 style={{ marginLeft: "5%" }}>Questions</h1>
         {this.state.showButtons ? (
           <>
@@ -219,6 +229,7 @@ class ShowQuiz extends React.Component {
 
         <div>
           {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
+
           {this.state.showMultiForm && (
             <DynamicMCForm
               quiz_id={quiz.id}
@@ -233,10 +244,11 @@ class ShowQuiz extends React.Component {
               quiz_id={quiz.id}
               addQuestion={this.addQuestion}
               addChoice={this.addChoice}
+              toggleButtons={this.toggleButtons}
             />
           )}
           {this.state.showOpenForm && (
-            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} />
+            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} toggleButtons={this.toggleButtons}/>
           )}
           {this.state.showButtons ? null : (
             <button

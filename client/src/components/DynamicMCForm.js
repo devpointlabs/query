@@ -34,11 +34,9 @@ class DynamicMCForm extends React.Component {
         ))
       })
     this.props.toggleForm()
+    this.props.toggleButtons()
   }
 
-  // deleteChoice = (e) => {
-  //   debugger
-  // }
 
 
   render() {
@@ -65,10 +63,11 @@ class DynamicMCForm extends React.Component {
         <ul>
           {choices.map( choice => <li key={choice.id}>{choice.answer}
            {choice.correct_answer && <span> (correct choice)</span>}
-           {/* <Icon name="minus" onClick={this.deleteChoice}/> */}
            </li>)}
         </ul>
+
         <button style={{color: '#9219FF'}} type="button" onClick={this.toggleForm}>{this.state.addAChoice ? "Cancel" : "Add a Choice"}</button>
+
         <Form.Group widths="equal">
           {addAChoice ? 
           <>
@@ -90,11 +89,13 @@ class DynamicMCForm extends React.Component {
           null
         }
         </Form.Group>
+
         <div style={{textAlign: 'right'}}>
 
           <button style={{ color: '#9219FF', borderRadius: '10px'}} type='submit'>Submit</button>
         </div>
         <br />
+
       </Form>
     )
   }
