@@ -66,7 +66,7 @@ class TeacherDashboard extends React.Component {
         sec = "0" + sec;
       }
       let clock = `Time Remaining [${min}:${sec}]  `;
-      if (timer <= 0) {
+      if (timer <= 0 && this.state.end !== "") {
         axios
           .patch(`/api/quizzes/${this.props.id}`, { end: "", active: false })
           .then(res => {

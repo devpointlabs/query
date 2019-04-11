@@ -4,8 +4,7 @@ class Api::SubmissionsController < ApplicationController
     puts "hit"
     emails = params.require(:email)
       emails.each do |email|
-      sub = Submission.new(the_params(email))
-      sub.save
+      the_params(email)
     end
   end
 
@@ -43,7 +42,12 @@ class Api::SubmissionsController < ApplicationController
     student[0].quizzes.each do |q|
       q["id"] == quiz["quiz_id"] ? do_it = false : nil
     end
-    do_it ? quiz.merge({user_id: student[0].id.to_s}) : nil
+    if do_it  
+      sub = Submission.new(
+        quiz.merge({user_id: student[0].id.to_s})
+        )
+        sub.save
+    end
   end
 
   def quiz_params
