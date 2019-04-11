@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import Timer from './Timer'
-import { Grid, } from "semantic-ui-react"
+import { Grid, Form, Button, Icon, } from "semantic-ui-react"
 import { AuthConsumer, } from "../providers/AuthProvider"
 import styled from "styled-components"
 import MC from "../quiz_components/MC"
@@ -31,35 +31,61 @@ class TakeQuiz extends React.Component {
             })
     }
 
+    handleSubmit = () => {
+
+    }
+
 
     render() {
         const quiz_name = this.state.quiz.name
         const quiz_info = this.state.quiz.info
+        const anon = this.state.quiz.anon
+        document.body.style = 'background: #fff'
 
         return (
+
             <Grid divided='vertically'>
                 <DescContainer>
-                    <div >
+                    <div style={{ display: "flex", justifyContent: "center", flexDirection: "column",  margin: "30px", marginTop: "180px",}}>
                         <HeaderText fSize="medium">{quiz_name}</HeaderText>
                         <HeaderText>{quiz_info}</HeaderText>
-                        <HeaderText fSize="small">Submission is <strong>Anonymous</strong></HeaderText>
-                        <HeaderText fSize="tiny">The creator of this query won't know</HeaderText>
-                        <HeaderText fSize="tiny">which submission belongs to you.</HeaderText>
+                        <hr style={{
+                            backgroundColor: "#fff",
+                            borderRadius: "15px",
+                            width: "100%",
+                            height: "1px",
+                        }} />
+
+                        {anon ?
+                            <HeaderText fSize="small">Submission is <strong>Anonymous</strong></HeaderText>
+                            :
+                            <HeaderText fSize="small">Submission is <strong>Identified</strong></HeaderText>
+                        }
+                        {anon ?
+                            <HeaderText fSize="tiny">The creator of this query won't know who you are.</HeaderText>
+                            :
+                            <HeaderText fSize="tiny">The creator of this query will know who you are.</HeaderText>
+                        }
                         <HeaderText fSize="tiny">Time Remaining:</HeaderText>
                         <HeaderText fSize="tiny">5 minutes</HeaderText>
                     </div>
                 </DescContainer>
                 <QuesContainer>
                     {/* Depending on the question type it will render a component that formats the question */}
-                    {this.state.questions.map(question => {
-                        if (question.qType === "MC") {
-                            return <MC question={question.name} choices={question.choices} />
-                        } else if (question.qType === "open") {
-                            return <Open question={question.name} />
-                        } else if (question.qType === "TorF") {
-                            return <TorF question={question.name} choices={question.choices} />
-                        }
-                    })}
+                    <Form onSubmit={this.handleSubmit}>
+                        {this.state.questions.map(question => {
+                            if (question.qType === "MC") {
+                                return <MC question={question.name} choices={question.choices} />
+                            } else if (question.qType === "open") {
+                                return <Open question={question.name} />
+                            } else if (question.qType === "TorF") {
+                                return <TorF question={question.name} choices={question.choices} />
+                            }
+                        })}
+                        <Button style={{ marginTop: "-20", backgroundColor: "#5906A3", borderRadius: "100%", position: "fixed", right: "0", bottom: "0" }} icon>
+                            <Icon inverted size="huge" name="paper plane" />
+                        </Button>
+                    </Form>
                 </QuesContainer>
             </Grid>
         )
@@ -68,26 +94,32 @@ class TakeQuiz extends React.Component {
 
 
 const DescContainer = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-background: #6D55A3;
-height: 100vh;
-width: 40%
+// display: flex;
+// justify-content: center;
+// align-items: center;
+// flex-direction: column;
+background: #5906A3;
+height: 120vh;
+width: 40%;
+position: fixed;
 `
 
 const QuesContainer = styled.div`
-display: flex;
-// justify-content: center;
+// display: flex;
+// justify-content: flex-end;
 // align-items: center;
-flex-direction: column;
+// flex-direction: column;
 height: 100vh;
 width: 60%;
+margin-top: 100px;
+position: absolute;
+right: 0;
+top: 0;
 `
 
 const HeaderText = styled.h1`
 color: white !important;
+font-family: menlo;
 font-size: ${props => fontSize(props.fSize)} !important;
 `
 const fontSize = (size) => {

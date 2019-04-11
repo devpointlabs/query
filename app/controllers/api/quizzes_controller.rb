@@ -26,9 +26,6 @@ class Api::QuizzesController < ApplicationController
     end
   end
 
-  def take
-    render json: @quiz
-  end
 
   def destroy
     @quiz.destroy

@@ -8,13 +8,13 @@ class Open extends React.Component {
     render() {
         return (
             <ListItem>
-                <strong>
+                <strong style={{fontFamily: 'menlo'}}>
                     {this.props.question}
                 </strong>
                 <br />  
                 <br />
                 <Form>
-                    <TextArea placeholder='Input your answer...' />
+                    <TextArea style={{fontFamily: 'menlo'}} placeholder='Input your answer...' />
                 </Form>
             </ListItem>
         )
