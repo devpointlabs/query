@@ -24,6 +24,20 @@ ActiveRecord::Schema.define(version: 2019_04_10_170707) do
     t.index ["question_id"], name: "index_choices_on_question_id"
   end
 
+  create_table "lists", force: :cascade do |t|
+    t.string "name"
+    t.bigint "pinboard_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["pinboard_id"], name: "index_lists_on_pinboard_id"
+  end
+
+  create_table "pinboards", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "name"
     t.bigint "quiz_id"
@@ -60,6 +74,14 @@ ActiveRecord::Schema.define(version: 2019_04_10_170707) do
     t.datetime "updated_at", null: false
     t.index ["quiz_id"], name: "index_submissions_on_quiz_id"
     t.index ["user_id"], name: "index_submissions_on_user_id"
+  end
+
+  create_table "tasks", force: :cascade do |t|
+    t.string "name"
+    t.bigint "list_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["list_id"], name: "index_tasks_on_list_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -101,9 +123,11 @@ ActiveRecord::Schema.define(version: 2019_04_10_170707) do
   end
 
   add_foreign_key "choices", "questions"
+  add_foreign_key "lists", "pinboards"
   add_foreign_key "questions", "quizzes"
   add_foreign_key "submission_choices", "choices"
   add_foreign_key "submission_choices", "submissions"
   add_foreign_key "submissions", "quizzes"
   add_foreign_key "submissions", "users"
+  add_foreign_key "tasks", "lists"
 end
