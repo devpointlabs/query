@@ -71,17 +71,17 @@ class Question extends React.Component {
             <br />
             Explanation: {explanation}
           </Card.Content>
-          <Button.Group>
-            <Button inverted color="purple" onClick={this.toggleForm}>
+          <div style={{ textAlign: 'right'}}>
+            <button style={buttonStyle} onClick={this.toggleForm}>
               Edit
-            </Button>
-            <Button
-              inverted
+            </button>
+            <button
+              style={buttonStyle}
               onClick={() => this.props.remove(this.props.id)}
-              color="purple">
+              >
               Delete
-            </Button>
-          </Button.Group>
+            </button>
+          </div>
         </Card>
         { showForm && 
           <EditQuestion 
@@ -98,3 +98,12 @@ class Question extends React.Component {
   }
 }
 export default Question;
+
+const buttonStyle = {
+  borderRadius: '2px',
+  backgroundColor: "white",
+  marginLeft: "2%",
+  marginRight: "2%",
+  border: "1px solid",
+  color: "#9219FF"
+};
