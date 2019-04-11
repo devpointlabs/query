@@ -116,7 +116,7 @@ class Profile extends React.Component {
   }
   
   render() {
-    document.body.style = 'background: #6D55A3;'
+    document.body.style = 'background: #5906A3;'
 
     const { editing, } = this.state;
     return (

@@ -54,32 +54,7 @@ class TeacherDashboard extends React.Component {
     });
   };
 
-  timer = () => {
-    if (this.state.end !== "") {
-      let time = ("" + Date.now()).split("");
-      time.splice(0, time.count - 13);
-      time = parseInt(time.join(""));
-      let timer = parseInt(this.state.end) - time;
-      let min = Math.floor((timer / 1000 / 60) << 0);
-      let sec = Math.floor((timer / 1000) % 60);
-      if (sec < 10) {
-        sec = "0" + sec;
-      }
-      let clock = `Time Remaining [${min}:${sec}]  `;
-      if (timer <= 0) {
-        axios
-          .patch(`/api/quizzes/${this.props.id}`, { end: "", active: false })
-          .then(res => {
-            this.setState({
-              lenght: null,
-              active: res.data.active,
-              end: res.data.end
-            });
-          });
-      }
-      this.setState({ clock: clock });
-    }
-  };
+  
   renderRedirect = () => {
     if (this.state.redirect) {
       const quiz = this.state.q_id
@@ -91,30 +66,33 @@ class TeacherDashboard extends React.Component {
 
   componentDidMount(){
     axios.get("/api/quizzes")
-        .then( res => {
-          res.data.map( q => { 
-            if(q.active){
-              this.setState({qActive: [q, ...this.state.qActive]})
-            }
-            else{
-              this.setState({quizzes: [q, ...this.state.quizzes]})
-            }
-          })
-        })
-    }
-
-  shuffle = () => {
-    this.setState({ qActive: [], quizzes: [] });
-    axios.get("/api/quizzes").then(res => {
-      res.data.map(q => {
-        if (q.active) {
-          this.setState({ qActive: [q, ...this.state.qActive] });
-        } else {
-          this.setState({ quizzes: [q, ...this.state.quizzes] });
+    .then( res => {
+      res.data.map( q => { 
+        if(q.active){
+          this.setState({qActive: [q, ...this.state.qActive]})
         }
-      });
-    });
-  };
+        else{
+          this.setState({quizzes: [q, ...this.state.quizzes]})
+        }
+      })
+    })}
+
+  shuffle = (id) => {
+    axios.patch(`/api/quizzes/${id}`, {end: "", active: false })
+    .then( nub => { 
+    this.setState({qActive: [], quizzes: [], })
+    axios.get("/api/quizzes")
+    .then( res => {
+      res.data.map( q => { 
+        if(q.active){
+          this.setState({qActive: [q, ...this.state.qActive]})
+        }
+        else{
+          this.setState({quizzes: [q, ...this.state.quizzes]})
+        }
+      })
+    })
+})}
 
   handleChange = (e) => {
     const { name, value } = e.target;
@@ -122,8 +100,9 @@ class TeacherDashboard extends React.Component {
   };
 
   handleSubmit = e => {
-    const newQuiz = this.state;
-    axios.post("/api/quizzes", newQuiz).then(res => {
+    const {name, info, anon,} = this.state
+    const newQuiz = {name: name, info: info, anon: anon, user_id: this.props.user.id}
+    axios.post("/api/submissions", {quiz: newQuiz}).then(res => {
       this.setState({
         name: "",
         info: "New Quiz",
@@ -133,7 +112,6 @@ class TeacherDashboard extends React.Component {
   };
 
   render() {
-
     const { qActive } = this.state;
     return (
       <div>
@@ -149,9 +127,10 @@ class TeacherDashboard extends React.Component {
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
                 <ActiveCard
+                  user={this.props.user}
                   quiz={quiz}
                   key={quiz.id}
-                  shuffle={() => this.shuffle()}
+                  shuffle={this.shuffle}
                 />
               ))}
             </Card.Group>
