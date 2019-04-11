@@ -47,11 +47,9 @@ class AddStudent extends React.Component {
     return (
       <div style={divStyle}>
       {this.state.showButtons ? (
-  <div style={{display: "flex", justifyContent: "flex-start"}}>
     <Button style={buttonStyle} onClick={this.toggleStudentForm}>
       Add Student
     </Button>
-  </div>
 ) : null}
 
 {this.state.showStudentForm && (
@@ -70,14 +68,15 @@ class AddStudent extends React.Component {
           name="email"
           onChange={this.handleChange}
           />
-    </Form.Field>
-      <Grid>
-        <Grid.Column textAlign="right">
-          <Button circular inverted color="purple" size="big" type="submit">
+          <Button circular inverted color="purple" size="big" type="submit"
+          style={{
+            display: "flex",
+            marginLeft: "73%",
+            marginTop: "2%",
+          }}>
             Submit
           </Button>
-        </Grid.Column>
-      </Grid>
+        </Form.Field>
   </Form>
   </>
 )}
