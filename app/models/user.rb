@@ -8,5 +8,5 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
 
   has_many :submissions, dependent: :destroy
-  has_many :quizzes, through: :submissions
+  has_many :quizzes, through: :submissions, dependent: :destroy
 end
