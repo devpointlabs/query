@@ -105,7 +105,7 @@ class TeacherDashboard extends React.Component {
 
   shuffle = () => {
     this.setState({ qActive: [], quizzes: [] });
-    axios.get("/api/quizzes").then(res => {
+    axios.get("/api/quizzes", ).then(res => {
       res.data.map(q => {
         if (q.active) {
           this.setState({ qActive: [q, ...this.state.qActive] });
@@ -122,8 +122,9 @@ class TeacherDashboard extends React.Component {
   };
 
   handleSubmit = e => {
-    const newQuiz = this.state;
-    axios.post("/api/quizzes", newQuiz).then(res => {
+    const {name, info, anon,} = this.state
+    const newQuiz = {name: name, info: info, anon: anon, user_id: this.props.user.id}
+    axios.post("/api/submissions", {quiz: newQuiz}).then(res => {
       this.setState({
         name: "",
         info: "New Quiz",

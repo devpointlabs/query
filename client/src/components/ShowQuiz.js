@@ -155,7 +155,7 @@ this.setState({email: [f, ...this.state.email]})
           </Form.Field>
         </Form>
         <br />
-        <Timer id={this.props.match.params.id} />
+        <Timer email={this.state.email} id={this.props.match.params.id} />
         <div
           style={{
             display: "flex",
