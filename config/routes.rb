@@ -13,6 +13,11 @@ Rails.application.routes.draw do
     resources :questions do
       resources :choices
     end
+
+    resources :submissions do
+      resources :submission_choices
+    end
+    post "add_student_to_quiz", to: "submissions#add_student_to_quiz"
   end
 
 

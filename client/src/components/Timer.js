@@ -44,7 +44,7 @@ class Timer extends React.Component {
         sec = "0" + sec;
       }
       let clock = `Time Remaining [${min}:${sec}]  `;
-      if (timer <= 0) {
+      if (timer <= 0 && this.state.end !== "") {
         axios
           .patch(`/api/quizzes/${this.props.id}`, { end: "", active: false })
           .then(res => {
@@ -126,14 +126,14 @@ class Timer extends React.Component {
       if (this.state.timed === "idk") {
         return (
           <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button.Group>
-              <Button inverted onClick={() => this.setState({ timed: "y" })}>
+          
+              <button style={buttonStyle} onClick={() => this.setState({ timed: "y" })}>
                 Start Timed Quiz
-              </Button>
-              <Button inverted onClick={() => this.static()}>
+              </button>
+              <button style={buttonStyle} onClick={() => this.static()}>
                 Start Static Quiz
-              </Button>
-            </Button.Group>
+              </button>
+            
           </div>
         );
       }
@@ -151,13 +151,12 @@ class Timer extends React.Component {
                 onChange={this.handleChange}
               />
               <div style={{ display: "flex", justifyContent: "center" }}>
-                <Button inverted>Start Timed</Button>
-                <Button
-                  inverted
+                <button style={buttonStyle}>Start Timed</button>
+                <button style={buttonStyle}        
                   onClick={() => this.setState({ timed: "idk" })}
                 >
                   Cancel
-                </Button>
+                </button>
               </div>
             </Form>
           </div>
@@ -170,7 +169,7 @@ class Timer extends React.Component {
           <div style={{display: "flex", justifyContent: "center"}}>
         <Button.Group>
           <Button inverted onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
-          <Button inverted onClick={() => this.static()}>Start Static Quiz</Button>
+          <Button inverted onClick={this.static}>Start Static Quiz</Button>
         </Button.Group>
         </div>
         )}
@@ -200,3 +199,9 @@ class Timer extends React.Component {
 }
 
 export default Timer;
+
+
+const buttonStyle = {
+  border: "1px solid",
+  color: "purple"
+};
