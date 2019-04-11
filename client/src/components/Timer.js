@@ -1,6 +1,7 @@
 import React from "react";
 import { Form, Message, Button, Header } from "semantic-ui-react";
 import axios from "axios";
+import { AuthConsumer, } from "../providers/AuthProvider";
 
 class Timer extends React.Component {
   
@@ -9,7 +10,8 @@ class Timer extends React.Component {
    clock: "",
    length: "",
    active: "",
-   end: ""
+   end: "",
+   interval: null
     }
 
   componentDidMount() {
@@ -19,7 +21,11 @@ class Timer extends React.Component {
         this.setState({ timed: "y" });
       }
     });
-    setInterval(this.timer, 1000);
+    this.setState({interval: setInterval(this.timer, 1000)})
+  }
+
+  componentWillUnmount(){
+    clearInterval(this.state.interval);
   }
 
   static = () => {
@@ -29,8 +35,10 @@ class Timer extends React.Component {
         .then(res => {
           this.setState({ timed: "n", active: true, end: "" });
         });
-    }
+      axios.post("/api/add_student_to_quiz", {quiz_id: this.props.id, email: this.props.email})
+      }
   };
+
 
   timer = () => {
     if (this.state.end !== "") {
@@ -79,6 +87,7 @@ class Timer extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    axios.post("/api/add_student_to_quiz", {quiz_id: this.props.id, email: this.props.email})
     let endTime = ("" + Date.now()).split("");
     endTime.splice(0, endTime.count - 13);
     endTime = parseInt(endTime.join("")) + this.state.length * 60000;
@@ -168,8 +177,8 @@ class Timer extends React.Component {
         return(
           <div style={{display: "flex", justifyContent: "center"}}>
         <Button.Group>
-          <Button inverted onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
-          <Button inverted onClick={this.static}>Start Static Quiz</Button>
+          <Button  onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
+          <Button  onClick={this.static}>Start Static Quiz</Button>
         </Button.Group>
         </div>
         )}
@@ -187,8 +196,8 @@ class Timer extends React.Component {
         onChange={this.handleChange}
         />
         <div style={{display: "flex", justifyContent: "center"}}>
-        <Button inverted>Start Timed</Button>
-        <Button inverted onClick={() => this.setState({timed: "idk"})}>Cancel</Button>
+        <Button >Start Timed</Button>
+        <Button  onClick={() => this.setState({timed: "idk"})}>Cancel</Button>
         </div>
       </Form>
         </div>
@@ -203,5 +212,6 @@ export default Timer;
 
 const buttonStyle = {
   border: "1px solid",
-  color: "purple"
+  color: "#9219FF",
+  backgroundColor: 'white'
 };

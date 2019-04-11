@@ -3,7 +3,7 @@ class Api::QuizzesController < ApplicationController
   before_action :set_quiz, only: [:update, :destroy, :show, :take]
 
   def index
-    render json: Quiz.all
+    render json: current_user.quizzes
   end
 
   def create
@@ -34,7 +34,7 @@ class Api::QuizzesController < ApplicationController
   
   private 
     def quiz_params
-      params.require(:quiz).permit(:name, :info, :active, :end)
+      params.require(:quiz).permit(:name, :info, :active, :end, :anon)
     end
 
     def set_quiz
