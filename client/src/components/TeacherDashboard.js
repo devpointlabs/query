@@ -150,6 +150,7 @@ class TeacherDashboard extends React.Component {
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
                 <ActiveCard
+                  user={this.props.user}
                   quiz={quiz}
                   key={quiz.id}
                   shuffle={() => this.shuffle()}
