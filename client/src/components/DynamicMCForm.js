@@ -39,8 +39,6 @@ class DynamicMCForm extends React.Component {
     this.props.toggleButtons()
   }
 
-
-
   render() {
     const { name, explanation, choices, addAChoice } =  this.state
     return (

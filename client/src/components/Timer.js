@@ -134,7 +134,7 @@ class Timer extends React.Component {
     } else {
       if (this.state.timed === "idk") {
         return (
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div style={ this.props.width < 500 ? { display: "flex", justifyContent: "space-evenly" } : { display: "flex", justifyContent: "center" } }>
           
               <button style={buttonStyle} onClick={() => this.setState({ timed: "y" })}>
                 Start Timed Quiz

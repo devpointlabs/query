@@ -32,10 +32,15 @@ class ShowQuiz extends React.Component {
     showButtons: true,
     edited: false,
     showEditQuiz: false,
-    anon: true
+    anon: true,
+    width: 0,
+    height: 0,
+
   };
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
     axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
       this.setState({ quiz: res.data });
     });
@@ -59,6 +64,14 @@ class ShowQuiz extends React.Component {
     }
   }
   
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
 
   toggleEdited = () => this.setState({ edited: !this.state.edited });
 
@@ -134,9 +147,8 @@ this.setState({email: [f, ...this.state.email]})
     const { quiz, questions } = this.state;
     return (
       <div>
-
       <Navbar />
-      <div style={divStyle}>
+      <div style={this.state.width < 500 ? divStyle.mobile : divStyle.desktop}>
       <div style={{textAlign: 'right'}}>
   
           <Button
@@ -174,7 +186,8 @@ this.setState({email: [f, ...this.state.email]})
           </Form.Field>
         </Form>
         <br />
-        <Timer email={this.state.email} id={this.props.match.params.id} />
+
+        <Timer email={this.state.email} id={this.props.match.params.id} width={this.state.width} />
         <div
           style={{
             display: "flex",
@@ -215,8 +228,9 @@ this.setState({email: [f, ...this.state.email]})
             : "You will know what submission belongs to an individual"}
         </header>
         <h1 style={{ marginLeft: "5%" }}>People</h1>
-        <AddStudent submail={this.state.email} pmail={this.getEmail} />
+        <AddStudent submail={this.state.email} pmail={this.getEmail} width={this.state.width} />
         <h1 style={{ marginLeft: "5%" }}>Questions</h1>
+        <div style={ this.state.width < 500 ? {display: "flex"}: null}>
         {this.state.showButtons ? (
           <>
             <Button style={buttonStyle} onClick={this.toggleMultiForm}>
@@ -230,6 +244,7 @@ this.setState({email: [f, ...this.state.email]})
             </Button>
           </>
         ) : null}
+        </div>
 
         <div>
           {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
@@ -284,6 +299,7 @@ this.setState({email: [f, ...this.state.email]})
 export default ShowQuiz;
 
 const divStyle = {
+  desktop: {
   marginBottom: "50px",
   backgroundColor: "white",
   textAlign: "left",
@@ -292,7 +308,15 @@ const divStyle = {
   marginRight: "15%",
   borderRadius: "10px",
   paddingBottom: "2%"
-};
+}, mobile: {
+  marginBottom: "50px",
+  backgroundColor: "white",
+  textAlign: "left",
+  color: "purple",
+  borderRadius: "10px",
+  paddingBottom: "2%"
+}};
+
 
 const buttonStyle = {
   backgroundColor: "white",
