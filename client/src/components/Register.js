@@ -1,6 +1,6 @@
 import React from 'react';
 import { AuthConsumer, } from '../providers/AuthProvider';
-import { Button, Form, Header, Grid} from 'semantic-ui-react';
+import { Button, Form, Header, Grid, Container} from 'semantic-ui-react';
 class Register extends React.Component {
   state = {teacher: false, name: "", email: "", password: "", passwordConfirmation: "", }
 
@@ -29,6 +29,8 @@ class Register extends React.Component {
     document.body.style = 'background: #5906A3;'
     const {name, email, password, passwordConfirmation, } = this.state;
     return ( 
+      <Container>
+
       <Grid>
         <Grid.Column textAlign="center">
       <Header style={{color: "#fff", fontSize: "100px", textAlign: "center",}}>
@@ -74,6 +76,7 @@ class Register extends React.Component {
       </Form>
       </Grid.Column>
         </Grid>
+        </Container>
     )
   }
 }

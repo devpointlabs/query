@@ -4,12 +4,13 @@ import {Card, Button} from 'semantic-ui-react';
 import EditQuestion from './EditQuestion'
 
 class Question extends React.Component {
-  state = {choices: [], showForm: false,  };
+  state = {choices: [], showForm: false, toogle: false };
 
   componentDidMount() {
     axios
       .get(`/api/questions/${this.props.id}/choices`)
-      .then(res => this.setState({choices: res.data}));
+      .then(res => {
+        this.setState({choices: [...res.data]})});
   }
 
   componentDidUpdate(prevProps, prevState) {
