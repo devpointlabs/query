@@ -56,7 +56,7 @@ handleSubmit = (e) => {
 
   render () {
     const { choiceOneA, choiceOneC, choiceTwoA, choiceTwoC, choiceThreeA, choiceThreeC, question, } = this.state
- document.body.style = 'background: #6D55A3;'
+ document.body.style = 'background: #5906A3;'
 
     return(
     <form onSubmit={this.handleSubmit}>

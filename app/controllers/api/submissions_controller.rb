@@ -1,8 +1,10 @@
 class Api::SubmissionsController < ApplicationController
 
   def add_student_to_quiz
-    student = User.where(email: params[:email])
-    render json: student
+    emails = params.require(:email)
+      emails.each do |email|
+      the_params(email)
+    end
   end
 
   def index
@@ -14,12 +16,13 @@ class Api::SubmissionsController < ApplicationController
   end
 
   def create
-    submission = current_user.submissions.new(submission_params)
-
-    if submission.save
-      render json: current_user.submission
+    @quiz = current_user.quizzes.new(quiz_params)
+    if @quiz.save
+      sub = current_user.submissions.new({quiz_id: @quiz.id, user_id: params.require(:quiz)["user_id"]})
+      sub.save
+     render json: @quiz
     else
-      render json: submission.errors, status: 422
+      render json: @quiz.errors, status: 422
     end
   end
 
@@ -31,7 +34,27 @@ class Api::SubmissionsController < ApplicationController
 
   private
 
-  def submissions_params
-    params.require(:submissions).permit(current_user)
+  def the_params(email)
+    do_it = true
+    student= User.where(email: email)
+    quiz= params.require(:submission).permit(:quiz_id)
+    student[0].quizzes.each do |q|
+      q["id"] == quiz["quiz_id"] ? do_it = false : nil
+    end
+    if do_it  
+      sub = Submission.new(
+        quiz.merge({user_id: student[0].id.to_s})
+        )
+        sub.save
+    end
+  end
+
+  def quiz_params
+    params.require(:quiz).permit(:name, :info, :anon)
+  end
+
+  def submissions_params(quiz)
+
+
   end
 end

@@ -41,9 +41,9 @@ class TrueFalse extends React.Component {
 
 
   render() {
-    document.body.style = "background: #6D55A3;";
+    document.body.style = "background: #5906A3;";
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form style={divStyle} onSubmit={this.handleSubmit}>
         <Form.Field>
           <Input
             placeholder="Type your true or false question here"
@@ -71,7 +71,9 @@ class TrueFalse extends React.Component {
             onChange={this.handleChange}
             checked={this.state.correctAnswer === true}
           />
+
           <Radio
+            style={{paddingLeft: '5px'}}
             name="correctAnswer"
             label="False"
             value={false}
@@ -82,9 +84,9 @@ class TrueFalse extends React.Component {
         <br />
         <Grid>
           <Grid.Column textAlign="right">
-            <Button circular inverted size="big" type="submit">
+            <button style={{color: '#9219FF', borderRadius: '10px'}} type="submit">
               Submit
-            </Button>
+            </button>
           </Grid.Column>
         </Grid>
       </Form>
@@ -93,3 +95,13 @@ class TrueFalse extends React.Component {
 }
 
 export default TrueFalse;
+
+const divStyle = {
+  backgroundColor: "white",
+  textAlign: "left",
+  color: "#9219FF",
+  marginLeft: "5%",
+  marginRight: "15%",
+  borderRadius: "10px",
+  paddingBottom: "2%"
+};

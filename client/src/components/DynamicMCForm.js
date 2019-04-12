@@ -42,7 +42,7 @@ class DynamicMCForm extends React.Component {
   render() {
     const { name, explanation, choices, addAChoice } =  this.state
     return (
-      <Form onSubmit={this.handleSubmit}>
+      <Form style={divStyle} onSubmit={this.handleSubmit}>
         <Form.Group widths="equal">
           <Form.Input
           placeholder="Question Text"
@@ -59,13 +59,15 @@ class DynamicMCForm extends React.Component {
           required
           />
         </Form.Group>
-        {choices.length > 0 && <Header as="h4" inverted>Choices</Header>}
+        {choices.length > 0 && <Header as="h4" >Choices</Header>}
         <ul>
           {choices.map( choice => <li key={choice.id}>{choice.answer}
            {choice.correct_answer && <span> (correct choice)</span>}
            </li>)}
         </ul>
-        <Button type="button" onClick={this.toggleForm}>{this.state.addAChoice ? "Cancel" : "Add a Choice"}</Button>
+
+        <button style={{color: '#9219FF'}} type="button" onClick={this.toggleForm}>{this.state.addAChoice ? "Cancel" : "Add a Choice"}</button>
+
         <Form.Group widths="equal">
           {addAChoice ? 
           <>
@@ -81,17 +83,31 @@ class DynamicMCForm extends React.Component {
             checked={this.state.choiceCorrectAnswerPlaceholder}
             onChange={this.toggle}
             />
-            <Icon name="add" onClick={this.addChoice}/>
+          <Icon name="add" onClick={this.addChoice}/>
           </>
           :
           null
-          }
+        }
         </Form.Group>
-          <Form.Button>Submit your question</Form.Button>
-        
+
+        <div style={{textAlign: 'right'}}>
+
+          <button style={{ color: '#9219FF', borderRadius: '10px'}} type='submit'>Submit</button>
+        </div>
+        <br />
+
       </Form>
     )
   }
 }
 export default DynamicMCForm;
     
+const divStyle = {
+  backgroundColor: "white",
+  textAlign: "left",
+  color: "#9219FF",
+  marginLeft: "5%",
+  marginRight: "15%",
+  borderRadius: "10px",
+  paddingBottom: "2%"
+};
