@@ -2,6 +2,8 @@ import React, { Fragment, } from 'react';
 import { AuthConsumer, } from "../providers/AuthProvider";
 import { Form, Grid, Image, Container, Divider, Header, Button, Icon, Card, } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
+import Navbar from './Navbar';
+
 
 const defaultImage = 'http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg' 
 
@@ -70,7 +72,7 @@ class Profile extends React.Component {
     const { auth: { user }, } = this.props;
     const { formValues: { name, email, file, } } = this.state;
     const blob = new Blob([file], {type: 'image/png'});
-    const url = URL.createObjectURL(blob);
+    // const url = URL.createObjectURL(blob);
     
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -88,8 +90,8 @@ class Profile extends React.Component {
                 
               >
                 <input {...getInputProps()} />
-                { isDragActive ? <Card.Content>Drop files here...</Card.Content> 
-                : <Image src={ blob.size === 0 ? user.image || defaultImage : url } />
+                { isDragActive ? <h1>Drop files here...</h1> 
+                : <Image src={ blob.size === 0 ? user.image || defaultImage : <h1>Drop files here...</h1>  } />
 
                 }
               </Card>
@@ -124,6 +126,8 @@ class Profile extends React.Component {
 
     const { editing, } = this.state;
     return (
+      <div>
+<Navbar />
       <Container>
         <Divider hidden />
         <br />
@@ -136,6 +140,7 @@ class Profile extends React.Component {
           </Grid.Row>
         </Grid>
       </Container>
+      </div>
     )
   }
 }
