@@ -95,13 +95,6 @@ class StudentDashboard extends React.Component {
       <Container>
         {qActive.length !== 0 ? (
           <div>
-            <Header
-              as="h3"
-              style={{ textAlign: "center", color: "#6D55A3" }}
-              inverted
-            >
-              Active Quizzes
-            </Header>
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
                 <ActiveCard
