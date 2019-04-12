@@ -1,6 +1,7 @@
 import React from 'react';
 import { AuthConsumer, } from '../providers/AuthProvider';
 import { Button, Form, Header, Grid, Container} from 'semantic-ui-react';
+import Navbar from './Navbar';
 class Register extends React.Component {
   state = {teacher: false, name: "", email: "", password: "", passwordConfirmation: "", }
 
@@ -29,6 +30,8 @@ class Register extends React.Component {
     document.body.style = 'background: #5906A3;'
     const {name, email, password, passwordConfirmation, } = this.state;
     return ( 
+      <div>
+        <Navbar />
       <Container>
 
       <Grid>
@@ -77,6 +80,7 @@ class Register extends React.Component {
       </Grid.Column>
         </Grid>
         </Container>
+        </div>
     )
   }
 }
