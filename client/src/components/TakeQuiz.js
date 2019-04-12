@@ -11,7 +11,7 @@ import TorF from "../quiz_components/TorF"
 
 
 class TakeQuiz extends React.Component {
-    state = { quiz: {}, questions: [], choices: [], questionsIds: [], student_choice: "", }
+    state = { quiz: {}, questions: [], choices: [], questionsIds: [], student_answer: "", }
 
     componentDidMount() {
         const quiz_id = this.props.match.params.id
@@ -35,10 +35,15 @@ class TakeQuiz extends React.Component {
 
     }
 
+    addStudentAnswer = () => {
+
+    }
+
 
     render() {
         const quiz_name = this.state.quiz.name
         const quiz_info = this.state.quiz.info
+        const quiz_id = this.state.quiz.id
         const anon = this.state.quiz.anon
         document.body.style = 'background: #fff'
 
@@ -46,7 +51,7 @@ class TakeQuiz extends React.Component {
 
             <Grid divided='vertically'>
                 <DescContainer>
-                    <div style={{ display: "flex", justifyContent: "center", flexDirection: "column",  margin: "30px", marginTop: "180px",}}>
+                    <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", margin: "30px", marginTop: "260px", }}>
                         <HeaderText fSize="medium">{quiz_name}</HeaderText>
                         <HeaderText>{quiz_info}</HeaderText>
                         <hr style={{
@@ -75,11 +80,28 @@ class TakeQuiz extends React.Component {
                     <Form onSubmit={this.handleSubmit}>
                         {this.state.questions.map(question => {
                             if (question.qType === "MC") {
-                                return <MC question={question.name} choices={question.choices} />
+                                return <MC
+                                    handleSubmit={this.handleSubmit}
+                                    question={question.name}
+                                    addStudentAnswer={this.addStudentAnswer}
+                                    choices={question.choices}
+                                    quiz_id={quiz_id}
+                                />
                             } else if (question.qType === "open") {
-                                return <Open question={question.name} />
+                                return <Open
+                                    handleSubmit={this.handleSubmit}
+                                    question={question.name}
+                                    addStudentAnswer={this.addStudentAnswer}
+                                    quiz_id={quiz_id}
+                                />
                             } else if (question.qType === "TorF") {
-                                return <TorF question={question.name} choices={question.choices} />
+                                return <TorF
+                                    handleSubmit={this.handleSubmit}
+                                    question={question.name}
+                                    addStudentAnswer={this.addStudentAnswer}
+                                    choices={question.choices}
+                                    quiz_id={quiz_id}
+                                />
                             }
                         })}
                         <Button style={{ marginTop: "-20", backgroundColor: "#5906A3", borderRadius: "100%", position: "fixed", right: "0", bottom: "0" }} icon>

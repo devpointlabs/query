@@ -5,9 +5,19 @@ import { List, Radio, Form } from "semantic-ui-react";
 
 
 class MC extends React.Component {
-    state = { answer: "" }
+    state = { answer: [], }
+    
+    handleChange = (e, { name, value, }) => {
+        this.setState({ [name]: value, });
+        // this.props.handleSubmit()
+    }
 
-    handleChange = (e, { name, value, }) => this.setState({ [name]: value,});
+    // handleClick = (e) => {
+    //     e.preventDefault()
+    //     const { name, checked } = e.target;
+    //     this.setState({ [name]: checked });
+    // };
+
 
 
     render() {
@@ -16,13 +26,15 @@ class MC extends React.Component {
                 <strong style={{ fontFamily: 'menlo' }}>{this.props.question}</strong>
                 {this.props.choices.map(choice => {
                     return (
-                        <Form.Field>
-                            <ChoiceItem key={choice.id}>
-                                <Radio 
-                                label={choice.answer} 
-                                name="answer" 
-                                value={this.state.answer}
-                                onChange={this.handleChange}
+                        <Form.Field key={choice.id}>
+                            <ChoiceItem >
+                                <Radio
+                                    label={choice.answer}
+                                    name="answer"
+                                    value={choice.answer}
+                                    onClick={this.handleChange}
+                                    // onClick={this.handleClick} 
+                                    // checked={this.state.value === choice.answer }
                                 />
                             </ChoiceItem>
                         </Form.Field>

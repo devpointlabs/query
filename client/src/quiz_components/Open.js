@@ -5,6 +5,8 @@ import { Form, TextArea, } from "semantic-ui-react"
 
 
 class Open extends React.Component {
+
+    
     render() {
         return (
             <ListItem>
