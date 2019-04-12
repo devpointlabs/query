@@ -54,6 +54,35 @@ class AddStudent extends React.Component {
 
 {this.state.showStudentForm && (
   <>
+  <div style={this.props.width < 500 ? { textAlign: "center"} : null}>
+    <Form onSubmit={this.handleSubmit} >
+      <Form.Field
+        style={ this.props.width < 500 ? 
+          null 
+          :
+          {
+          paddingTop: "5%",
+          marginLeft: "-14%",
+          marginRight: "40%"
+          }}
+            >
+          <label style={{ color: "purple" }}>Enter Email Address</label>
+            <Input style={{ inputStyle }} 
+            value={this.state.email}
+            name="email"
+            onChange={this.handleChange}
+            />
+      </Form.Field>
+        <Grid>
+          <Grid.Column textAlign={this.props.width < 500 ? "center" : "right"}>
+            <Button circular inverted color="purple" size={this.props.width < 500 ? "small" : "big"} type="submit">
+              Submit
+            </Button>
+          </Grid.Column>
+        </Grid>
+    </Form>
+  </div>
+  
   <Form onSubmit={this.handleSubmit}>
     <Form.Field
       style={{
@@ -81,7 +110,9 @@ class AddStudent extends React.Component {
   </>
 )}
 {this.state.showButtons ? null : (
+  <div style={this.props.width < 500 ? {textAlign: "center"} : null}>
   <Button onClick={this.toggleButtons}>Cancel</Button>
+  </div>
 )}
     </div>
     );

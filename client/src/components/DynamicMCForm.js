@@ -34,7 +34,6 @@ class DynamicMCForm extends React.Component {
         ))
       })
     this.props.toggleForm()
-    this.props.toggleButtons()
   }
 
 
