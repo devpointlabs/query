@@ -23,7 +23,7 @@ class TrueFalse extends React.Component {
     const { quiz_id } = this.props;
     axios.post(`/api/quizzes/${quiz_id}/questions`, question)
       .then(res => {
-        this.props.addQuestion(res.data);
+        const qres = res
         axios.post(`/api/questions/${res.data.id}/choices`, choice1)
           .then(res => {
             this.props.addChoice(res.data);
@@ -32,6 +32,10 @@ class TrueFalse extends React.Component {
           .then(res => {
             this.props.addChoice(res.data);
           });
+          axios.get(`/api/questions/${qres.data.id}/choices`)
+          .then( x => {
+          this.props.addQuestion({...qres.data, choices: [...x.data]})
+        })
       })
 
       .catch(err => console.log(err));

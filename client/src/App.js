@@ -16,7 +16,6 @@ import ProtectedRoute from "./components/ProtectedRoute"
 
 const App = () => (
   <>
-    {/* <Navbar/> */}
       <FetchUser>
         {/* <Container> */}
           <Switch>

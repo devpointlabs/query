@@ -1,6 +1,6 @@
 import React from "react";
 import ActiveCard from "./ActiveQuizCard";
-import { Header, Card, } from "semantic-ui-react";
+import { Header, Card, Container, } from "semantic-ui-react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
@@ -92,16 +92,9 @@ class StudentDashboard extends React.Component {
     const { qActive } = this.state;
     console.log(qActive);
     return (
-      <div>
+      <Container>
         {qActive.length !== 0 ? (
           <div>
-            <Header
-              as="h3"
-              style={{ textAlign: "center", color: "#6D55A3" }}
-              inverted
-            >
-              Active Quizzes
-            </Header>
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
                 <ActiveCard
@@ -143,7 +136,7 @@ class StudentDashboard extends React.Component {
             ))}
           </Card.Group>
         </div>
-      </div>
+      </Container>
     );
   }
 }
