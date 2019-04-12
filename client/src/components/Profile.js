@@ -75,31 +75,27 @@ class Profile extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Grid.Column width={4}>
-          <Dropzone
-            onDrop={this.onDrop}
-            multiple={false}
-            previewContainer={true}
-          >
-            {({ getRootProps, getInputProps, isDragActive }) => {
-              return (
-                <Card
-
+        <Dropzone
+          onDrop={this.onDrop}
+          multiple={false}
+          previewContainer={true}
+        >
+          {({ getRootProps, getInputProps, isDragActive }) => {
+            return (
+              <Card
+                style={styles.dropzone}
+                {...getRootProps()}
                 
-                  {...getRootProps()}
-                  style={styles.dropzone}
-                  >
-                  <input {...getInputProps()} />
-                  <Card.Content> bubbles </Card.Content>
-                  {
-                    isDragActive ?
-                    <Card.Content>Drop files here...</Card.Content>
-                    : <Image src={ blob.size === 0 ? user.image || defaultImage : url } />
-                  }
-               
-                  </Card>
-              )
-            }}
-          </Dropzone>
+              >
+                <input {...getInputProps()} />
+                { isDragActive ? <Card.Content>Drop files here...</Card.Content> 
+                : <Image src={ blob.size === 0 ? user.image || defaultImage : url } />
+
+                }
+              </Card>
+            )
+          }}
+        </Dropzone>
         </Grid.Column>
       <br />
       <Grid.Column width={8}>
