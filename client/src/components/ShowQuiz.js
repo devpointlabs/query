@@ -90,7 +90,6 @@ class ShowQuiz extends React.Component {
   };
 
   addQuestion = (question, open) => {
-
     if(open){
       this.setState({ questions: [question, ...this.state.questions] })
     }
