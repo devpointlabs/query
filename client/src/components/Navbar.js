@@ -74,6 +74,8 @@ class Navbar extends React.Component {
       `/quizbuilder/${this.props.location.pathname.split("/").pop()}` 
       ||
       '/profile'
+      ||
+      `/quizzes/${this.props.location.pathname.split("/").pop()}` 
     ) {
       return (
         <div style={{ width: "100%", display: "flex" }}>
