@@ -254,6 +254,7 @@ this.setState({email: [f, ...this.state.email]})
               toggleForm={this.toggleMultiForm}
               addQuestion={this.addQuestion}
               addChoice={this.addChoice}
+              toggleButtons={this.toggleButtons}
             />
           )}
 
