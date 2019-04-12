@@ -82,31 +82,6 @@ class AddStudent extends React.Component {
         </Grid>
     </Form>
   </div>
-  
-  <Form onSubmit={this.handleSubmit}>
-    <Form.Field
-      style={{
-        paddingTop: "5%",
-        marginLeft: "-14%",
-        marginRight: "40%"
-        }}
-          >
-        <label style={{ color: "purple" }}>Enter Email Address</label>
-          <Input style={{ inputStyle }} 
-          value={this.state.email}
-          name="email"
-          onChange={this.handleChange}
-          />
-          <Button circular inverted color="purple" size="big" type="submit"
-          style={{
-            display: "flex",
-            marginLeft: "73%",
-            marginTop: "2%",
-          }}>
-            Submit
-          </Button>
-        </Form.Field>
-  </Form>
   </>
 )}
 {this.state.showButtons ? null : (
