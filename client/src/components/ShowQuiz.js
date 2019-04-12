@@ -89,9 +89,16 @@ class ShowQuiz extends React.Component {
     this.setState({ quiz: { name: q.name, info: q.info } });
   };
 
-  addQuestion = question => {
-    this.setState({ questions: [question, ...this.state.questions] });
-  };
+  addQuestion = (question, open) => {
+
+    if(open){
+      this.setState({ questions: [question, ...this.state.questions] })
+    }
+    else{
+    axios.get(`/api/questions/${question.data.id}/choices`)
+              .then( res => {
+    this.setState({ questions: [{...question.data, choices: [...res.data]} , ...this.state.questions] })})
+  }};
 
   addChoice = choice => {
     this.setState({ choices: [...this.state.choices, choice] });

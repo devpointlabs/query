@@ -30,10 +30,7 @@ class DynamicMCForm extends React.Component {
           axios.post(`/api/questions/${qres.data.id}/choices`, choice)
           .then( x =>{console.log(x)})
         ))
-              axios.get(`/api/questions/${qres.data.id}/choices`)
-              .then( res => {
-              this.props.addQuestion({...qres.data, choices: [...res.data]})
-            })
+              this.props.addQuestion(qres, false)
           })
     this.props.toggleForm()
     this.props.toggleButtons()

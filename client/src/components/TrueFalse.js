@@ -32,10 +32,7 @@ class TrueFalse extends React.Component {
           .then(res => {
             this.props.addChoice(res.data);
           });
-          axios.get(`/api/questions/${qres.data.id}/choices`)
-          .then( x => {
-          this.props.addQuestion({...qres.data, choices: [...x.data]})
-        })
+          this.props.addQuestion(qres, false)
       })
 
       .catch(err => console.log(err));
