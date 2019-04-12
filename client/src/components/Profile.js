@@ -1,6 +1,6 @@
 import React, { Fragment, } from 'react';
 import { AuthConsumer, } from "../providers/AuthProvider";
-import { Form, Grid, Image, Container, Divider, Header, Button, Icon, } from 'semantic-ui-react';
+import { Form, Grid, Image, Container, Divider, Header, Button, Icon, Card, } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 
 const defaultImage = 'http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg' 
@@ -69,26 +69,34 @@ class Profile extends React.Component {
   editView = () => {
     const { auth: { user }, } = this.props;
     const { formValues: { name, email, file, } } = this.state;
+    const blob = new Blob([file], {type: 'image/png'});
+    const url = URL.createObjectURL(blob);
+    
     return (
       <Form onSubmit={this.handleSubmit}>
         <Grid.Column width={4}>
           <Dropzone
             onDrop={this.onDrop}
             multiple={false}
+            previewContainer={true}
           >
             {({ getRootProps, getInputProps, isDragActive }) => {
               return (
-                <div
+                <Card
+
+                
                   {...getRootProps()}
                   style={styles.dropzone}
-                >
+                  >
                   <input {...getInputProps()} />
+                  <Card.Content> bubbles </Card.Content>
                   {
                     isDragActive ?
-                      <p>Drop files here...</p> :
-                      <p>Try dropping some files here, or click to select files to upload.</p>
+                    <Card.Content>Drop files here...</Card.Content>
+                    : <Image src={ blob.size === 0 ? user.image || defaultImage : url } />
                   }
-                </div>
+               
+                  </Card>
               )
             }}
           </Dropzone>
