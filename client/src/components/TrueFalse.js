@@ -5,35 +5,39 @@ import axios from "axios";
 class TrueFalse extends React.Component {
   state = { name: "", correctAnswer: "", explanation: "" };
 
+  choiceUno = (res) => {
+    const choice1 = {
+      answer: "True",
+      correct_answer: this.state.correctAnswer === true ? true : false
+    };
+    axios.post(`/api/questions/${res.data.id}/choices`, choice1)
+}
+
+  choiceDos = (res) => {
+    const choice2 = {
+      answer: "False",
+      correct_answer: this.state.correctAnswer === false ? true : false
+    };
+    axios.post(`/api/questions/${res.data.id}/choices`, choice2)
+}
+
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value });
   };
   handleSubmit = e => {
     e.preventDefault();
-    const { name, correctAnswer, explanation } = this.state;
+    const { name, explanation } = this.state;
     const question = { name: name, qType: "TorF", explanation: explanation };
-    const choice1 = {
-      answer: "True",
-      correct_answer: correctAnswer === true ? true : false
-    };
-    const choice2 = {
-      answer: "False",
-      correct_answer: correctAnswer === false ? true : false
-    };
+    
     const { quiz_id } = this.props;
     axios.post(`/api/quizzes/${quiz_id}/questions`, question)
       .then(res => {
         const qres = res
-        axios.post(`/api/questions/${res.data.id}/choices`, choice1)
-          .then(res => {
-            this.props.addChoice(res.data);
-          });
-        axios.post(`/api/questions/${res.data.id}/choices`, choice2)
-          .then(res => {
-            this.props.addChoice(res.data);
-          });
+        axios.all([this.choiceUno(qres), this.choiceDos(qres)])
+          .then( avocado =>{
           this.props.addQuestion(qres, false)
       })
+    })
 
       .catch(err => console.log(err));
     this.setState({ name: "", correctAnswer: "", explanation: "" })
