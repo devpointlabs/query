@@ -5,7 +5,7 @@ import { AuthConsumer, } from '../providers/AuthProvider';
 import { useWindowWidth, } from '../hooks/useWindowWidth'
 
 const Landing = () => {
-  document.body.style = 'background: #6D55A3;'
+  document.body.style = 'background: #5906A3';
   const width = useWindowWidth();
   return (
     <AuthConsumer>
