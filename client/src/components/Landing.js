@@ -19,7 +19,7 @@ const Landing = () => {
           style={width < 500 ? 
             {fontSize: '100px',
             fontWeight: 'normal',
-            marginBottom: "25px",
+            marginBottom: "25pxap",
             marginTop: '15px',} 
             : 
             {

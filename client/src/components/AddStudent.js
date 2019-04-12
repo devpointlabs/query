@@ -53,6 +53,7 @@ class AddStudent extends React.Component {
 ) : null}
 
 {this.state.showStudentForm && (
+  <>
   <div style={this.props.width < 500 ? { textAlign: "center"} : null}>
     <Form onSubmit={this.handleSubmit} >
       <Form.Field
@@ -81,7 +82,7 @@ class AddStudent extends React.Component {
         </Grid>
     </Form>
   </div>
-  <>
+  
   <Form onSubmit={this.handleSubmit}>
     <Form.Field
       style={{
