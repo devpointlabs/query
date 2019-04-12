@@ -1,6 +1,7 @@
 import React from 'react';
 import { AuthConsumer, } from '../providers/AuthProvider';
 import { Button, Form, Header, Grid, Container} from 'semantic-ui-react';
+import Navbar from "./Navbar"
 class Login extends React.Component {
   state = { email: "", password: ""}
 
@@ -18,9 +19,10 @@ class Login extends React.Component {
   render() {
     document.body.style = 'background: #5906A3;'
     const { email, password, } = this.state;
-    return ( 
+    return (  
+      <div>
+<Navbar />
       <Container>
-
       <Grid>
         <Grid.Column textAlign="center">
       <Header style={{color: "#fff", fontSize: "100px", textAlign: "center",}}>
@@ -47,6 +49,7 @@ class Login extends React.Component {
 </Grid.Column>
         </Grid>
         </Container>
+        </div>
     )
   }
 }

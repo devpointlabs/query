@@ -14,7 +14,7 @@ import MultiForm from "./MultiForm";
 import OpenAnswerForm from "./OpenAnswerForm";
 import TrueFalse from "./TrueFalse";
 import Question from "./Question";
-
+import Navbar from "./Navbar"
 import AddStudent from "./AddStudent";
 import EditQuiz from "./EditQuiz";
 import DynamicMCForm from './DynamicMCForm';
@@ -133,6 +133,9 @@ this.setState({email: [f, ...this.state.email]})
 
     const { quiz, questions } = this.state;
     return (
+      <div>
+
+      <Navbar />
       <div style={divStyle}>
       <div style={{textAlign: 'right'}}>
   
@@ -237,7 +240,8 @@ this.setState({email: [f, ...this.state.email]})
               toggleForm={this.toggleMultiForm}
               addQuestion={this.addQuestion}
               addChoice={this.addChoice}
-            />
+              toggleButtons={this.toggleButtons}
+              />
           )}
 
           {this.state.showTrueFalseForm && (
@@ -246,15 +250,15 @@ this.setState({email: [f, ...this.state.email]})
               addQuestion={this.addQuestion}
               addChoice={this.addChoice}
               toggleButtons={this.toggleButtons}
-            />
+              />
           )}
           {this.state.showOpenForm && (
             <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} toggleButtons={this.toggleButtons}/>
           )}
           {this.state.showButtons ? null : (
             <button
-              style={{ color: "red", marginLeft: "5%" }}
-              onClick={this.toggleButtons}
+            style={{ color: "red", marginLeft: "5%" }}
+            onClick={this.toggleButtons}
             >
               Cancel question
             </button>
@@ -269,9 +273,10 @@ this.setState({email: [f, ...this.state.email]})
               quiz_id={this.props.match.params.id}
               question_id={q.id}
               toggleEdited={this.toggleEdited}
-            />
-          ))}
+              />
+              ))}
         </List>
+              </div>
       </div>
     );
   }
