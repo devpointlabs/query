@@ -1,6 +1,7 @@
 import React from 'react'
 import {Container, Header, Button, Grid} from 'semantic-ui-react'
 import { Link } from "react-router-dom";
+import Navbar from "./Navbar"
 import { AuthConsumer, } from '../providers/AuthProvider';
 import { useWindowWidth, } from '../hooks/useWindowWidth'
 
@@ -8,6 +9,8 @@ const Landing = () => {
   document.body.style = 'background: #5906A3';
   const width = useWindowWidth();
   return (
+    <div>
+      <Navbar />
     <AuthConsumer>
       { auth => (
         <Container>
@@ -28,7 +31,7 @@ const Landing = () => {
             marginBottom: 0,
             marginTop: '15px',
           }}
-        />
+          />
         { auth.authenticated ? 
         <div>
           <Header inverted as="h3" textAlign="center">You are signed in as {auth.user.email}</Header>
@@ -51,6 +54,7 @@ const Landing = () => {
         </Container>
       )}
     </AuthConsumer>
+      </div>
   )
 }
 
