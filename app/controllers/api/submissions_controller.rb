@@ -1,4 +1,5 @@
 class Api::SubmissionsController < ApplicationController
+  before_action :set_submission , only: [:show]
 
   def add_student_to_quiz
     emails = params.require(:email)
@@ -13,6 +14,12 @@ class Api::SubmissionsController < ApplicationController
 
   def show
     render json: @submission
+  end
+
+  def student_submissions
+    # get submissions where the user owning the submission is not a teacher
+    render json: Submission.joins(:user).where(users: { teacher: false })
+    # render json: Submission.where(user.teacher: false )
   end
 
   def create
@@ -56,5 +63,9 @@ class Api::SubmissionsController < ApplicationController
   def submissions_params(quiz)
 
 
+  end
+
+  def set_submission
+    @submission = Submission.find(params[:id])
   end
 end
