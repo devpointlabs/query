@@ -32,6 +32,7 @@ class ShowQuiz extends React.Component {
     edited: false,
     showEditQuiz: false,
     anon: true,
+    go: false,
     width: 0,
     height: 0,
   };
@@ -54,13 +55,17 @@ class ShowQuiz extends React.Component {
       axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
         this.setState({quiz: res.data});
       });
+    }
+    if (this.state.go === true) {
       axios
         .get(`/api/quizzes/${this.props.match.params.id}/questions`)
         .then(res => {
-          this.setState({questions: res.data});
+          this.setState({ questions: res.data, go: false });
         });
     }
   }
+
+  toggleGo = () => this.setState({ go: !this.state.go });
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions);
@@ -99,8 +104,19 @@ class ShowQuiz extends React.Component {
     this.setState({quiz: {name: q.name, info: q.info}});
   };
 
-  addQuestion = question => {
-    this.setState({questions: [question, ...this.state.questions]});
+  addQuestion = (question, open) => {
+    if (open) {
+      this.setState({ questions: [question, ...this.state.questions] });
+    } else {
+      axios.get(`/api/questions/${question.data.id}/choices`).then(res => {
+        this.setState({
+          questions: [
+            { ...question.data, choices: [...res.data] },
+            ...this.state.questions
+          ]
+        });
+      });
+    }
   };
 
   addChoice = choice => {
@@ -309,9 +325,10 @@ class ShowQuiz extends React.Component {
               </button>
             )}
           </div>
-          <List style={{marginLeft: '5%', marginRight: '5%'}}>
+          <List style={{ marginLeft: "5%", marginRight: "5%" }}>
             {this.state.questions.map(q => (
               <Question
+                toggleGo={this.toggleGo}
                 remove={this.removeQuestion}
                 key={q.id}
                 {...q}
