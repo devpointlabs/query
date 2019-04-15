@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       resources :submission_choices
     end
     post "add_student_to_quiz", to: "submissions#add_student_to_quiz"
+
+    get '*other', to: 'static#index'
   end
 
 
