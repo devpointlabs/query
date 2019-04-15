@@ -23,11 +23,12 @@ class AddStudent extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const { email } = this.state
+    const { email, pupil } = this.state
     // axios.post("/api/add_student_to_quiz", {email: email})
     // .then(res => this.setState({user: res.data}))
     this.props.pmail(email)
     this.setState({email: ""})
+    this.setState({ pupil: [...pupil, email] });
   };
 
   toggleStudentForm = () =>
@@ -58,62 +59,72 @@ class AddStudent extends React.Component {
     <Form onSubmit={this.handleSubmit} >
       <Form.Field
         style={ this.props.width < 500 ? 
-          null 
-          :
-          {
-          paddingTop: "5%",
-          marginLeft: "-14%",
+          null :{
+          paddingTop: "1%",
+          marginLeft: "5%",
           marginRight: "40%"
           }}
-            >
-          <label style={{ color: "purple" }}>Enter Email Address</label>
-            <Input style={{ inputStyle }} 
-            value={this.state.email}
-            name="email"
-            onChange={this.handleChange}
-            />
+          >
+      <label style={{ color: "#9219FF" }}>Enter Email Address</label>
+        < Input style={{ inputStyle }} 
+          value={this.state.email}
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={this.handleChange}
+          />
       </Form.Field>
-        <Grid>
-          <Grid.Column textAlign={this.props.width < 500 ? "center" : "right"}>
-            <Button circular inverted color="purple" size={this.props.width < 500 ? "small" : "big"} type="submit">
-              Submit
-            </Button>
-          </Grid.Column>
-        </Grid>
+    <Grid>
+      <Grid.Column>
+        <button style={{color: '#9219FF', marginLeft: "53%", borderRadius: '10px'}}  type="submit">
+        Submit
+        </button>
+      </Grid.Column>
+    </Grid>
     </Form>
   </div>
   </>
 )}
 {this.state.showButtons ? null : (
-  <div style={this.props.width < 500 ? {textAlign: "center"} : null}>
-  <Button onClick={this.toggleButtons}>Cancel</Button>
-  </div>
+  <button style={{ color: "red", marginLeft: "5%" }}
+      onClick={this.toggleButtons}>
+      Cancel
+  </button>        
 )}
     </div>
-    );
-  }
-}
+);
+}}
+
 export default AddStudent;
 
 const divStyle = {
+  desktop: {
   marginBottom: "50px",
   backgroundColor: "white",
   textAlign: "left",
-  color: "purple",
+  color: "#9219FF",
   marginLeft: "15%",
   marginRight: "15%",
   borderRadius: "10px",
   paddingBottom: "2%"
-};
+}, mobile: {
+  marginBottom: "50px",
+  backgroundColor: "white",
+  textAlign: "left",
+  color: "purple",
+  borderRadius: "10px",
+  paddingBottom: "2%"
+}};
+
 
 const buttonStyle = {
   backgroundColor: "white",
-  marginLeft: "-14%",
+  marginLeft: "5%",
   marginRight: "2%",
   border: "1px solid",
-  color: "purple"
+  color: "#9219FF"
 };
 
 const inputStyle = {
-  color: "purple"
+  color: "#9219FF"
 };
