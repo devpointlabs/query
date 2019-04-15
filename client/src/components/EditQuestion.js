@@ -72,7 +72,7 @@ class EditQuestion extends React.Component {
         axios.put(`/api/questions/${question_id}/choices/${choice.id}`, choice)
       );
     this.setState({ name: "", explanation: "", choices: [] });
-    this.props.toggleForm();
+    this.props.toggleForm(1);
   };
 
   render() {
