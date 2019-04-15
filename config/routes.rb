@@ -6,8 +6,6 @@ Rails.application.routes.draw do
         resources :questions
     end
 
-    post '/quizzes/:id/quiz', to: 'quizzes#take'
-
     resources :users, only: :update
 
     resources :questions do
@@ -18,10 +16,12 @@ Rails.application.routes.draw do
       resources :submission_choices
     end
     post "add_student_to_quiz", to: "submissions#add_student_to_quiz"
+
     get "student_submissions", to: "submissions#student_submissions"
     get ":submission_id/student_choices", to: "submission_choices#index_with_choice_name"
     get "submissions/:id/get_grade", to: "submissions#get_grade"
   end
-
+  
+  
   get '*other', to: 'static#index'
 end
