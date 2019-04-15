@@ -1,6 +1,7 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios'
 import { Card } from 'semantic-ui-react';
+import Choices from './Choices'
 
 const Results = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -8,7 +9,7 @@ const Results = () => {
   useEffect(() => {
     axios.get("/api/student_submissions") 
       .then( res => {
-        debugger 
+        setSubmissions(res.data)
       })
       .catch( err => console.log(err))
   }, [])
@@ -16,10 +17,15 @@ const Results = () => {
   const renderSubmissions = () => {
 
     return submissions.map( sub => {
-      debugger
       return (
-      <Card key={sub.id}>
-        <Card.Header></Card.Header>
+      <Card key={sub.submission.id}>
+        <Card.Header>{sub.quiz}</Card.Header>
+        <Card.Meta>{sub.email}</Card.Meta>
+        <Card.Content>
+          <ul>
+            <Choices id={sub.submission.id} />
+          </ul>
+        </Card.Content>
       </Card>)
     })
   }
@@ -28,7 +34,8 @@ const Results = () => {
   return (
     <>
       <Card.Group>
-       { renderSubmissions()}
+       { renderSubmissions() }
+       
       </Card.Group>
     </>
   )

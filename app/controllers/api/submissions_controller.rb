@@ -19,13 +19,18 @@ class Api::SubmissionsController < ApplicationController
   def student_submissions
     # get submissions where the user owning the submission is not a teacher
     student_subs = Submission.joins(:user).where(users: { teacher: false })
+    arr = []
+    
     student_subs.each do |sub|
-      render json: {
+      ob = {
         submission: sub,
-        quiz: sub.quiz.name,
-        user: sub.user.email
-    }.to_json
+        email: sub.user.email,
+        quiz: sub.quiz.name
+      }
+      arr << ob
     end
+    render json: arr.to_json
+  
     # TODO: make this return an array of submissions
   end
 
