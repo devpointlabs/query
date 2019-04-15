@@ -6,6 +6,22 @@ class Api::SubmissionChoicesController < ApplicationController
     render json: @submission.submission_choices
   end
 
+  def index_with_choice_name
+    choices = @submission.submission_choices
+    arr = []
+    
+    choices.each do |c|
+      ob = {
+        choice: c,
+        answer: c.choice.answer,
+        correct: c.choice.correct_answer,
+        question_text: c.choice.question.name
+      }
+      arr << ob
+    end
+    render json: arr.to_json
+  end
+
   def show
     render json: @submission_choice
   end

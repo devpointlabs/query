@@ -14,6 +14,24 @@ class Api::SubmissionsController < ApplicationController
     render json: @submission
   end
 
+  def student_submissions
+    # get submissions where the user owning the submission is not a teacher
+    student_subs = Submission.joins(:user).where(users: { teacher: false })
+    arr = []
+    
+    student_subs.each do |sub|
+      ob = {
+        submission: sub,
+        email: sub.user.email,
+        quiz: sub.quiz.name
+      }
+      arr << ob
+    end
+    render json: arr.to_json
+  
+    # TODO: make this return an array of submissions
+  end
+
   def create
     @quiz = current_user.quizzes.new(quiz_params)
     if @quiz.save
@@ -54,5 +72,9 @@ class Api::SubmissionsController < ApplicationController
 
   def submissions_params(quiz)
 
+  end
+
+  def set_submission
+    @submission = Submission.find(params[:id])
   end
 end
