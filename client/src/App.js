@@ -13,6 +13,8 @@ import { Container, } from 'semantic-ui-react';
 import { Route, Switch, } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute"
 
+import StudentQuizGraded from "./components/StudentQuizGraded"
+
 
 const App = () => (
   <>
@@ -27,6 +29,7 @@ const App = () => (
            <Route exact path="/register" component={Register} />
            <Route exact path="/register/teacher" component={Register} />
            <Route exact path="/quizbuilder/:id" component={ShowQuiz} />
+           <Route exact path="/graded/" component={StudentQuizGraded} />
            <Route component={NoMatch} />
           </Switch>
         {/* </Container> */}
