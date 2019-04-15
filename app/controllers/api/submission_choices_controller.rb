@@ -11,7 +11,7 @@ class Api::SubmissionChoicesController < ApplicationController
   end
 
   def create
-    submission_choice = submission.submission_choices.new(submission_choice_params)
+    submission_choice = @submission.submission_choices.new(submission_choice_params)
 
     if submission_choice.save
       render json: submission_choice
@@ -35,7 +35,6 @@ class Api::SubmissionChoicesController < ApplicationController
   private
 
   def set_submission
-    binding.pry
     @submission = Submission.find(params[:submission_id])
   end
   

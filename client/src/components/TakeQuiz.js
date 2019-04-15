@@ -11,7 +11,7 @@ import TorF from "../quiz_components/TorF"
 
 
 class TakeQuiz extends React.Component {
-    state = { quiz: {}, questions: [], choices: [], questionsIds: [], student_answer: [], }
+    state = { quiz: {}, questions: [], choices: [], questionsIds: [], student_answer: [], press: false, sub_id: '', }
 
     componentDidMount() {
         const quiz_id = this.props.match.params.id
@@ -30,18 +30,28 @@ class TakeQuiz extends React.Component {
                         })
                 }
             })
+        axios.get(`/api/submissions`)
+            .then(res => {
+                res.data.map(sub => {
+                    if (quiz_id == sub.quiz_id)
+                        this.setState({ sub_id: sub.id })
+                }
+                )
+            })
     }
 
     handleSubmit = () => {
-        // debugger
-        // this.addStudentAnswer()
+        this.setState({ press: true })
     }
 
-    addStudentAnswer = (answer) => {
-        this.setState({ student_answer: [...this.state.student_answer, answer]})
-        // debugger
+    addStudentAnswer = (student_answer, choice_id) => {
+        const id = this.state.sub_id
+        const answer = { submission_id: id, student_answer: student_answer, choice_id: choice_id }
+        debugger
+        axios.post(`/api/submissions/${id}/submission_choices`, answer)
     }
 
+    // this.setState({ student_answer: [...this.state.student_answer, answer] })
 
     render() {
         const quiz_name = this.state.quiz.name
@@ -52,7 +62,7 @@ class TakeQuiz extends React.Component {
 
         return (
 
-            <Grid divided='vertically'>
+            <Grid divided='vertically' >
                 <DescContainer>
                     <div style={{ display: "flex", justifyContent: "center", flexDirection: "column", margin: "30px", marginTop: "260px", }}>
                         <HeaderText fSize="medium">{quiz_name}</HeaderText>
@@ -84,7 +94,7 @@ class TakeQuiz extends React.Component {
                         {this.state.questions.map(question => {
                             if (question.qType === "MC") {
                                 return <MC
-                                    handleSubmit={this.handleSubmit}
+                                    press={this.state.press}
                                     question={question.name}
                                     addStudentAnswer={this.addStudentAnswer}
                                     choices={question.choices}
@@ -92,15 +102,15 @@ class TakeQuiz extends React.Component {
                                 />
                             } else if (question.qType === "open") {
                                 return <Open
-                                    handleSubmit={this.handleSubmit}
+                                    press={this.state.press}
                                     question={question.name}
                                     addStudentAnswer={this.addStudentAnswer}
                                     quiz_id={quiz_id}
-                                    handleSubmit={this.handleSubmit}
+                                    choices={question.choices}
                                 />
                             } else if (question.qType === "TorF") {
                                 return <TorF
-                                    handleSubmit={this.handleSubmit}
+                                    press={this.state.press}
                                     question={question.name}
                                     addStudentAnswer={this.addStudentAnswer}
                                     choices={question.choices}

@@ -1,4 +1,4 @@
-
+class Api::SubmissionsController < ApplicationController
   def add_student_to_quiz
     emails = params.require(:email)
       emails.each do |email|
@@ -53,7 +53,6 @@
   end
 
   def submissions_params(quiz)
-
 
   end
 end

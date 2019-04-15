@@ -5,42 +5,43 @@ import { List, Radio, Form } from "semantic-ui-react";
 
 
 class MC extends React.Component {
-    state = { answer: "", }
+    state = { answer: "", choice_id: "", press: true }
 
     handleOptionChange = changeEvent => {
         let student_answer = changeEvent.target.value
-        this.setState({ answer: student_answer })
-       
+        let id = changeEvent.target.id
+        this.setState({ answer: student_answer, choice_id: id })
     }
 
-    handleSubmit = (e) => {
-        let student_answer = this.state.answer
-        this.props.addStudentAnswer(student_answer)
-        debugger
+    componentDidUpdate() {
+        const student_answer = this.state.answer
+        const choice_id = this.state.choice_id
+        if (this.props.press && this.state.press) {
+            this.setState({press: false})
+            this.props.addStudentAnswer(student_answer, choice_id )
+        }
     }
-
 
     render() {
         return (
             <ListItem>
                 <strong style={{ fontFamily: 'menlo' }}>{this.props.question}</strong>
                 {/* <fieldset> */}
-                    {this.props.choices.map(choice => {
-                        return (
-                            <ChoiceItem key={choice.id}>
-                                <input
-                                    type="radio"
-                                    name={choice.answer}
-                                    id={choice.id}
-                                    value={choice.answer}
-                                    onChange={this.handleOptionChange}
-                                    checked={this.state.answer === choice.answer}
-                                    handleSubmit={this.props.handleSubmit}
-                                />
-                                {choice.answer}
-                            </ChoiceItem>
-                        )
-                    })}
+                {this.props.choices.map(choice => {
+                    return (
+                        <ChoiceItem key={choice.id}>
+                            <input
+                                type="radio"
+                                name={choice.answer}
+                                id={choice.id}
+                                value={choice.answer}
+                                onChange={this.handleOptionChange}
+                                checked={this.state.answer === choice.answer}
+                            />
+                            {choice.answer}
+                        </ChoiceItem>
+                    )
+                })}
                 {/* </fieldset> */}
             </ListItem>
         )

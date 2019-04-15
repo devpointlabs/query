@@ -5,18 +5,23 @@ import { Form, TextArea, } from "semantic-ui-react"
 
 
 class Open extends React.Component {
-    state = { answer: "", }
+    state = { answer: "", choice_id: "", press: true }
 
-    // handleSubmit = () => {
-    //     debugger
-    // }
-    
-    handleChange = (e, { name, value, }) => {
-        e.preventDefault()
-        this.setState({ [name]: value, })
-        // let answer = this.state.answer.slice(-1)
-        // this.props.addStudentAnswer(answer)
+    componentDidUpdate() {
+        const student_answer = this.state.answer
+        const choice_id = this.state.choice_id
+        if (this.props.press && this.state.press) {
+            debugger
+            this.setState({press: false})
+            this.props.addStudentAnswer(student_answer, choice_id )
+        }
     }
+    
+    handleOptionChange = changeEvent => {
+        let student_answer = changeEvent.target.value
+        let id = changeEvent.target.id
+        this.setState({ answer: student_answer, choice_id: id })
+    } 
 
     render() {
         return (
@@ -31,9 +36,9 @@ class Open extends React.Component {
                         style={{ fontFamily: 'menlo' }}
                         placeholder='Input your answer...'
                         name="answer"
+                        id={this.props.choices[0].id}
                         value={this.state.answer}
-                        onChange={this.handleChange}
-                        // handleSubmit={this.props.handleSubmit}
+                        onChange={this.handleOptionChange}
                     />
                 </Form>
             </ListItem>
