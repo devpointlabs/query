@@ -47,7 +47,6 @@ class TakeQuiz extends React.Component {
     addStudentAnswer = (student_answer, choice_id) => {
         const id = this.state.sub_id
         const answer = { submission_id: id, student_answer: student_answer, choice_id: choice_id }
-        debugger
         axios.post(`/api/submissions/${id}/submission_choices`, answer)
     }
 
@@ -179,21 +178,3 @@ const QuizList = styled.ul`
 
 
 export default TakeQuiz
-
-
-
-        // <ListItem key={question.id}>
-        //     <strong>
-        //         {question.qType}
-        //     </strong>
-        //     <QuizList>
-        //         {question.choices.map(choice => {
-        //             debugger
-        //             return (
-        //                 <ChoiceItem>
-        //                     {choice.answer}
-        //                 </ChoiceItem>
-        //             )
-        //         })}
-        //     </QuizList>
-        // </ListItem>

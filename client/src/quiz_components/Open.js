@@ -11,7 +11,6 @@ class Open extends React.Component {
         const student_answer = this.state.answer
         const choice_id = this.state.choice_id
         if (this.props.press && this.state.press) {
-            debugger
             this.setState({press: false})
             this.props.addStudentAnswer(student_answer, choice_id )
         }
