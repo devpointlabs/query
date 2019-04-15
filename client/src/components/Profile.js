@@ -1,7 +1,9 @@
 import React, { Fragment, } from 'react';
 import { AuthConsumer, } from "../providers/AuthProvider";
-import { Form, Grid, Image, Container, Divider, Header, Button, Icon, } from 'semantic-ui-react';
+import { Form, Grid, Image, Container, Divider, Header, Button, Icon, Card, } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
+import Navbar from './Navbar';
+
 
 const defaultImage = 'http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg' 
 
@@ -15,7 +17,7 @@ class Profile extends React.Component {
     
   componentDidMount() {
     const { auth: { user: { name, email, }, }, } = this.props;
-    this.setState({ formValues: { name, email, }, });
+    this.setState({ formValues: { name, email, file: '' }, });
   }
   
   toggleEdit = () => {
@@ -69,29 +71,33 @@ class Profile extends React.Component {
   editView = () => {
     const { auth: { user }, } = this.props;
     const { formValues: { name, email, file, } } = this.state;
+    const blob = new Blob([file], {type: 'image/png'});
+    const url = URL.createObjectURL(blob);
+    
     return (
       <Form onSubmit={this.handleSubmit}>
         <Grid.Column width={4}>
-          <Dropzone
-            onDrop={this.onDrop}
-            multiple={false}
-          >
-            {({ getRootProps, getInputProps, isDragActive }) => {
-              return (
-                <div
-                  {...getRootProps()}
-                  style={styles.dropzone}
-                >
-                  <input {...getInputProps()} />
-                  {
-                    isDragActive ?
-                      <p>Drop files here...</p> :
-                      <p>Try dropping some files here, or click to select files to upload.</p>
-                  }
-                </div>
-              )
-            }}
-          </Dropzone>
+        <Dropzone
+          onDrop={this.onDrop}
+          multiple={false}
+          previewContainer={true}
+        >
+          {({ getRootProps, getInputProps, isDragActive }) => {
+            return (
+              <Card
+                style={styles.dropzone}
+                {...getRootProps()}
+                
+              >
+                <input {...getInputProps()} />
+                { isDragActive ? <h1>Drop files here...</h1> 
+                : <Image src={ blob.size === 0 ? user.image || defaultImage : url } />
+
+                }
+              </Card>
+            )
+          }}
+        </Dropzone>
         </Grid.Column>
       <br />
       <Grid.Column width={8}>
@@ -120,6 +126,8 @@ class Profile extends React.Component {
 
     const { editing, } = this.state;
     return (
+      <div>
+<Navbar />
       <Container>
         <Divider hidden />
         <br />
@@ -132,6 +140,7 @@ class Profile extends React.Component {
           </Grid.Row>
         </Grid>
       </Container>
+      </div>
     )
   }
 }
