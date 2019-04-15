@@ -5,18 +5,36 @@ import { Form, TextArea, } from "semantic-ui-react"
 
 
 class Open extends React.Component {
+    state = { answer: "", }
 
+    // handleSubmit = () => {
+    //     debugger
+    // }
     
+    handleChange = (e, { name, value, }) => {
+        e.preventDefault()
+        this.setState({ [name]: value, })
+        // let answer = this.state.answer.slice(-1)
+        // this.props.addStudentAnswer(answer)
+    }
+
     render() {
         return (
             <ListItem>
-                <strong style={{fontFamily: 'menlo'}}>
+                <strong style={{ fontFamily: 'menlo' }}>
                     {this.props.question}
                 </strong>
-                <br />  
+                <br />
                 <br />
                 <Form>
-                    <TextArea style={{fontFamily: 'menlo'}} placeholder='Input your answer...' />
+                    <TextArea
+                        style={{ fontFamily: 'menlo' }}
+                        placeholder='Input your answer...'
+                        name="answer"
+                        value={this.state.answer}
+                        onChange={this.handleChange}
+                        // handleSubmit={this.props.handleSubmit}
+                    />
                 </Form>
             </ListItem>
         )

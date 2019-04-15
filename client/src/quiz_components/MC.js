@@ -5,41 +5,43 @@ import { List, Radio, Form } from "semantic-ui-react";
 
 
 class MC extends React.Component {
-    state = { answer: [], }
-    
-    handleChange = (e, { name, value, }) => {
-        this.setState({ [name]: value, });
-        // this.props.handleSubmit()
+    state = { answer: "", }
+
+    handleOptionChange = changeEvent => {
+        let student_answer = changeEvent.target.value
+        this.setState({ answer: student_answer })
+       
     }
 
-    // handleClick = (e) => {
-    //     e.preventDefault()
-    //     const { name, checked } = e.target;
-    //     this.setState({ [name]: checked });
-    // };
-
+    handleSubmit = (e) => {
+        let student_answer = this.state.answer
+        this.props.addStudentAnswer(student_answer)
+        debugger
+    }
 
 
     render() {
         return (
             <ListItem>
                 <strong style={{ fontFamily: 'menlo' }}>{this.props.question}</strong>
-                {this.props.choices.map(choice => {
-                    return (
-                        <Form.Field key={choice.id}>
-                            <ChoiceItem >
-                                <Radio
-                                    label={choice.answer}
-                                    name="answer"
+                {/* <fieldset> */}
+                    {this.props.choices.map(choice => {
+                        return (
+                            <ChoiceItem key={choice.id}>
+                                <input
+                                    type="radio"
+                                    name={choice.answer}
+                                    id={choice.id}
                                     value={choice.answer}
-                                    onClick={this.handleChange}
-                                    // onClick={this.handleClick} 
-                                    // checked={this.state.value === choice.answer }
+                                    onChange={this.handleOptionChange}
+                                    checked={this.state.answer === choice.answer}
+                                    handleSubmit={this.props.handleSubmit}
                                 />
+                                {choice.answer}
                             </ChoiceItem>
-                        </Form.Field>
-                    )
-                })}
+                        )
+                    })}
+                {/* </fieldset> */}
             </ListItem>
         )
     }

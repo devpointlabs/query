@@ -6,17 +6,29 @@ import { Radio, Form } from "semantic-ui-react"
 
 class TorF extends React.Component {
     state = { answer: "" }
+
+    handleOptionChange = changeEvent => {
+        let student_answer = changeEvent.target.value
+        this.setState({ answer: student_answer })
+        this.props.addStudentAnswer(student_answer)
+    }
+
+
     render() {
         return (
             <ListItem>
-                <strong style={{fontFamily: 'menlo'}}>{this.props.question}</strong>
+                <strong style={{ fontFamily: 'menlo' }}>{this.props.question}</strong>
                 {this.props.choices.map(choice => {
                     return (
                         <ChoiceItem key={choice.id}>
                             <Form.Field>
-                                <Radio
-                                    value={this.state.answer}
-                                    onChange={this.handleChange}
+                                <input
+                                    type="radio"
+                                    name={choice.answer}
+                                    id={choice.id}
+                                    value={choice.answer}
+                                    onChange={this.handleOptionChange}
+                                    checked={this.state.answer === choice.answer}
                                 />
                                 {choice.answer}
                             </Form.Field>

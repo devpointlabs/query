@@ -11,7 +11,7 @@ import TorF from "../quiz_components/TorF"
 
 
 class TakeQuiz extends React.Component {
-    state = { quiz: {}, questions: [], choices: [], questionsIds: [], student_answer: "", }
+    state = { quiz: {}, questions: [], choices: [], questionsIds: [], student_answer: [], }
 
     componentDidMount() {
         const quiz_id = this.props.match.params.id
@@ -26,17 +26,20 @@ class TakeQuiz extends React.Component {
                     axios.get(`/api/questions/${ques_id}/choices`)
                         .then(res => {
                             this.setState({ questions: [{ ...ques, choices: res.data }, ...this.state.questions] })
+                            this.state.questions.sort()
                         })
                 }
             })
     }
 
     handleSubmit = () => {
-
+        // debugger
+        // this.addStudentAnswer()
     }
 
-    addStudentAnswer = () => {
-
+    addStudentAnswer = (answer) => {
+        this.setState({ student_answer: [...this.state.student_answer, answer]})
+        // debugger
     }
 
 
@@ -93,6 +96,7 @@ class TakeQuiz extends React.Component {
                                     question={question.name}
                                     addStudentAnswer={this.addStudentAnswer}
                                     quiz_id={quiz_id}
+                                    handleSubmit={this.handleSubmit}
                                 />
                             } else if (question.qType === "TorF") {
                                 return <TorF
