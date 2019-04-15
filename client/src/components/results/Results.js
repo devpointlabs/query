@@ -7,30 +7,56 @@ const Results = () => {
 
   useEffect(() => {
     axios.get("/api/student_submissions") 
-      .then( res => setSubmissions(res.data))
+      .then( res => {
+        debugger 
+      })
       .catch( err => console.log(err))
   }, [])
 
   const renderSubmissions = () => {
-    debugger
-    return submissions.map( sub => (
-      <Card key={sub.id}>
-        <Card.Header>{sub.quiz}</Card.Header>
 
-      </Card>
-    ))
+    return submissions.map( sub => {
+      debugger
+      return (
+      <Card key={sub.id}>
+        <Card.Header></Card.Header>
+      </Card>)
+    })
   }
+
 
   return (
     <>
       <Card.Group>
-        {submissions.map( sub => (
-          <Card key={sub.id}>
-            <Card.Header>{sub.quiz}</Card.Header>
-          </Card>
-        ))}
+       { renderSubmissions()}
       </Card.Group>
     </>
   )
 }
+
+
+// class Results extends React.Component {
+//   state = { submissions: []}
+
+//   componentDidMount() {
+//     axios.get("/api/student_submissions") 
+//       .then( res => this.setState({submissions: res.data}))
+//       .catch( err => console.log(err))
+
+//   }
+
+//   render() {
+//     return (
+//       <>
+//         <Card.Group>
+//           {this.state.submissions.map( sub => (
+//             <Card key={sub.id}>
+//               <Card.Header>balls</Card.Header>
+//             </Card>
+//           ))}
+//         </Card.Group>
+//       </>
+//     )
+//   }
+// }
 export default Results;
