@@ -14,11 +14,10 @@ import MultiForm from "./MultiForm";
 import OpenAnswerForm from "./OpenAnswerForm";
 import TrueFalse from "./TrueFalse";
 import Question from "./Question";
-import Navbar from "./Navbar"
+import Navbar from "./Navbar";
 import AddStudent from "./AddStudent";
 import EditQuiz from "./EditQuiz";
-import DynamicMCForm from './DynamicMCForm';
-
+import DynamicMCForm from "./DynamicMCForm";
 
 class ShowQuiz extends React.Component {
   state = {
@@ -32,7 +31,8 @@ class ShowQuiz extends React.Component {
     showButtons: true,
     edited: false,
     showEditQuiz: false,
-    anon: true
+    anon: true,
+    go: false
   };
 
   componentDidMount() {
@@ -51,14 +51,17 @@ class ShowQuiz extends React.Component {
       axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
         this.setState({ quiz: res.data });
       });
+    }
+    if (this.state.go === true) {
       axios
         .get(`/api/quizzes/${this.props.match.params.id}/questions`)
         .then(res => {
-          this.setState({ questions: res.data });
+          this.setState({ questions: res.data, go: false });
         });
     }
   }
-  
+
+  toggleGo = () => this.setState({ go: !this.state.go });
 
   toggleEdited = () => this.setState({ edited: !this.state.edited });
 
@@ -90,14 +93,19 @@ class ShowQuiz extends React.Component {
   };
 
   addQuestion = (question, open) => {
-    if(open){
-      this.setState({ questions: [question, ...this.state.questions] })
+    if (open) {
+      this.setState({ questions: [question, ...this.state.questions] });
+    } else {
+      axios.get(`/api/questions/${question.data.id}/choices`).then(res => {
+        this.setState({
+          questions: [
+            { ...question.data, choices: [...res.data] },
+            ...this.state.questions
+          ]
+        });
+      });
     }
-    else{
-    axios.get(`/api/questions/${question.data.id}/choices`)
-              .then( res => {
-    this.setState({ questions: [{...question.data, choices: [...res.data]} , ...this.state.questions] })})
-  }};
+  };
 
   addChoice = choice => {
     this.setState({ choices: [...this.state.choices, choice] });
@@ -125,14 +133,14 @@ class ShowQuiz extends React.Component {
       showTrueFalseForm: false,
       showOpenForm: false
     });
-    toggleEditQuiz = () =>
+  toggleEditQuiz = () =>
     this.setState({
       showEditQuiz: !this.state.showEditQuiz
     });
 
-    getEmail = (f) => {
-this.setState({email: [f, ...this.state.email]})
-    }
+  getEmail = f => {
+    this.setState({ email: [f, ...this.state.email] });
+  };
 
   render() {
     document.body.style = "background: #6D55A3;";
@@ -140,21 +148,19 @@ this.setState({email: [f, ...this.state.email]})
     const { quiz, questions } = this.state;
     return (
       <div>
-
-      <Navbar />
-      <div style={divStyle}>
-      <div style={{textAlign: 'right'}}>
-  
-          <Button
-            style={{ color: "#DA0909" }}
-            inverted
-            size='big'
-            onClick={() => this.handleDelete()}
+        <Navbar />
+        <div style={divStyle}>
+          <div style={{ textAlign: "right" }}>
+            <Button
+              style={{ color: "#DA0909" }}
+              inverted
+              size="big"
+              onClick={() => this.handleDelete()}
             >
-            <Icon name='trash alternate' />
-          </Button>
-            </div>
-        {/* {this.state.showEditQuiz ? 
+              <Icon name="trash alternate" />
+            </Button>
+          </div>
+          {/* {this.state.showEditQuiz ? 
           <EditQuiz quiz={quiz} updateQuiz={this.updateQuiz} toggle={this.toggleEditQuiz} /> 
           :
           <div>
@@ -163,126 +169,134 @@ this.setState({email: [f, ...this.state.email]})
           </Button>
           </div>
         } */}
-        <Form>
-          <Form.Field
+          <Form>
+            <Form.Field
+              style={{
+                paddingTop: "0%",
+                marginLeft: "5%",
+                marginRight: "40%"
+              }}
+            >
+              <label style={{ color: "#9219FF" }}>Name</label>
+              <Input
+                style={{ inputStyle }}
+                defaultValue={this.state.quiz.name}
+              />
+            </Form.Field>
+            <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
+              <label style={{ color: "#9219FF" }}>Prompt</label>
+              <Form.TextArea />
+            </Form.Field>
+          </Form>
+          <br />
+          <Timer email={this.state.email} id={this.props.match.params.id} />
+          <div
             style={{
-              paddingTop: "0%",
+              display: "flex",
+              fontSize: "25px",
               marginLeft: "5%",
-              marginRight: "40%"
+              marginTop: "2%",
+              marginBottom: "2%"
             }}
           >
-            <label style={{ color: "#9219FF" }}>Name</label>
-            <Input style={{ inputStyle }} defaultValue={this.state.quiz.name} />
-          </Form.Field>
-          <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
-            <label style={{ color: "#9219FF" }}>Prompt</label>
-            <Form.TextArea />
-          </Form.Field>
-        </Form>
-        <br />
-        <Timer email={this.state.email} id={this.props.match.params.id} />
-        <div
-          style={{
-            display: "flex",
-            fontSize: "25px",
-            marginLeft: "5%",
-            marginTop: "2%",
-            marginBottom: "2%"
-          }}
-        >
-          <div
-            onClick={() => this.toggleAnon()}
-            style={
-              this.state.anon
-                ? { cursor: "pointer", color: "gray" }
-                : { color: "#9219FF", fontWeight: "bold" }
-            }
-          >
-            Identified
-          </div>
-          <div style={{ color: "gray", marginLeft: "2%", marginRight: "2%" }}>
-            /
-          </div>
-          <div
-            onClick={() => this.toggleAnon()}
-            style={
-              this.state.anon !== true
-                ? { cursor: "pointer", color: "gray" }
-                : { color: "#9219FF", fontWeight: "bold" }
-            }
-          >
-            Anonymous
-          </div>
-        </div>
-        <header style={{ marginLeft: "5%", color: "gray" }}>
-          {" "}
-          {this.state.anon
-            ? "You will not know what submission belongs to an individual."
-            : "You will know what submission belongs to an individual"}
-        </header>
-        <h1 style={{ marginLeft: "5%" }}>People</h1>
-        <AddStudent submail={this.state.email} pmail={this.getEmail} />
-        <h1 style={{ marginLeft: "5%" }}>Questions</h1>
-        {this.state.showButtons ? (
-          <>
-            <Button style={buttonStyle} onClick={this.toggleMultiForm}>
-              Multiple Choice
-            </Button>
-            <Button style={buttonStyle} onClick={this.toggleTFForm}>
-              True or False
-            </Button>
-            <Button style={buttonStyle} onClick={this.toggleOpenForm}>
-              Open
-            </Button>
-          </>
-        ) : null}
-
-        <div>
-          {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
-
-          {this.state.showMultiForm && (
-            <DynamicMCForm
-              quiz_id={quiz.id}
-              toggleForm={this.toggleMultiForm}
-              addQuestion={this.addQuestion}
-              addChoice={this.addChoice}
-              toggleButtons={this.toggleButtons}
-              />
-          )}
-
-          {this.state.showTrueFalseForm && (
-            <TrueFalse
-              quiz_id={quiz.id}
-              addQuestion={this.addQuestion}
-              addChoice={this.addChoice}
-              toggleButtons={this.toggleButtons}
-              />
-          )}
-          {this.state.showOpenForm && (
-            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} toggleButtons={this.toggleButtons}/>
-          )}
-          {this.state.showButtons ? null : (
-            <button
-            style={{ color: "red", marginLeft: "5%" }}
-            onClick={this.toggleButtons}
+            <div
+              onClick={() => this.toggleAnon()}
+              style={
+                this.state.anon
+                  ? { cursor: "pointer", color: "gray" }
+                  : { color: "#9219FF", fontWeight: "bold" }
+              }
             >
-              Cancel question
-            </button>
-          )}
-        </div>
-        <List style={{ marginLeft: "5%", marginRight: "5%" }}>
-          {this.state.questions.map(q => (
-            <Question
-              remove={this.removeQuestion}
-              key={q.id}
-              {...q}
-              quiz_id={this.props.match.params.id}
-              question_id={q.id}
-              toggleEdited={this.toggleEdited}
+              Identified
+            </div>
+            <div style={{ color: "gray", marginLeft: "2%", marginRight: "2%" }}>
+              /
+            </div>
+            <div
+              onClick={() => this.toggleAnon()}
+              style={
+                this.state.anon !== true
+                  ? { cursor: "pointer", color: "gray" }
+                  : { color: "#9219FF", fontWeight: "bold" }
+              }
+            >
+              Anonymous
+            </div>
+          </div>
+          <header style={{ marginLeft: "5%", color: "gray" }}>
+            {" "}
+            {this.state.anon
+              ? "You will not know what submission belongs to an individual."
+              : "You will know what submission belongs to an individual"}
+          </header>
+          <h1 style={{ marginLeft: "5%" }}>People</h1>
+          <AddStudent submail={this.state.email} pmail={this.getEmail} />
+          <h1 style={{ marginLeft: "5%" }}>Questions</h1>
+          {this.state.showButtons ? (
+            <>
+              <Button style={buttonStyle} onClick={this.toggleMultiForm}>
+                Multiple Choice
+              </Button>
+              <Button style={buttonStyle} onClick={this.toggleTFForm}>
+                True or False
+              </Button>
+              <Button style={buttonStyle} onClick={this.toggleOpenForm}>
+                Open
+              </Button>
+            </>
+          ) : null}
+
+          <div>
+            {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
+
+            {this.state.showMultiForm && (
+              <DynamicMCForm
+                quiz_id={quiz.id}
+                toggleForm={this.toggleMultiForm}
+                addQuestion={this.addQuestion}
+                addChoice={this.addChoice}
+                toggleButtons={this.toggleButtons}
               />
-              ))}
-        </List>
-              </div>
+            )}
+
+            {this.state.showTrueFalseForm && (
+              <TrueFalse
+                quiz_id={quiz.id}
+                addQuestion={this.addQuestion}
+                addChoice={this.addChoice}
+                toggleButtons={this.toggleButtons}
+              />
+            )}
+            {this.state.showOpenForm && (
+              <OpenAnswerForm
+                quiz_id={quiz.id}
+                addQuestion={this.addQuestion}
+                toggleButtons={this.toggleButtons}
+              />
+            )}
+            {this.state.showButtons ? null : (
+              <button
+                style={{ color: "red", marginLeft: "5%" }}
+                onClick={this.toggleButtons}
+              >
+                Cancel question
+              </button>
+            )}
+          </div>
+          <List style={{ marginLeft: "5%", marginRight: "5%" }}>
+            {this.state.questions.map(q => (
+              <Question
+                toggleGo={this.toggleGo}
+                remove={this.removeQuestion}
+                key={q.id}
+                {...q}
+                quiz_id={this.props.match.params.id}
+                question_id={q.id}
+                toggleEdited={this.toggleEdited}
+              />
+            ))}
+          </List>
+        </div>
       </div>
     );
   }
