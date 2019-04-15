@@ -20,5 +20,5 @@ Rails.application.routes.draw do
     post "add_student_to_quiz", to: "submissions#add_student_to_quiz"
   end
 
-
+  get '*other', to: 'static#index'
 end
