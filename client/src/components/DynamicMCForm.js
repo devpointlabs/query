@@ -98,8 +98,8 @@ class DynamicMCForm extends React.Component {
 
       </Form>
     )
-  }
-}
+  }}
+  
 export default DynamicMCForm;
     
 const divStyle = {
