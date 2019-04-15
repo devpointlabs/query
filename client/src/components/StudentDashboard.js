@@ -49,51 +49,64 @@ class StudentDashboard extends React.Component {
     });
   }
 
-  shuffle = () => {
-    this.setState({ qActive: [], quizzes: [] });
-    axios.get("/api/quizzes").then(res => {
-      res.data.map(q => {
-        if (q.active) {
-          this.setState({ qActive: [q, ...this.state.qActive] });
-        } else {
-          this.setState({ quizzes: [q, ...this.state.quizzes] });
-        }
+  componentWillUnmount() {
+    clearInterval(this.setState.interval);
+  }
+
+  shuffle = id => {
+    axios.patch(`/api/quizzes/${id}`, { end: "", active: false }).then(nub => {
+      this.setState({ qActive: [], quizzes: [] });
+      axios.get("/api/quizzes").then(res => {
+        res.data.map(q => {
+          if (q.active) {
+            this.setState({ qActive: [q, ...this.state.qActive] });
+          } else {
+            this.setState({ quizzes: [q, ...this.state.quizzes] });
+          }
+        });
       });
     });
   };
 
   render() {
     const { qActive } = this.state;
-    console.log(qActive);
     return (
       <Container>
         {qActive.length !== 0 ? (
           <div>
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
-                <ActiveCard
-                  quiz={quiz}
-                  key={quiz.id}
-                  shuffle={() => this.shuffle()}
-                />
+                <ActiveCard 
+                  quiz={quiz} 
+                  key={quiz.id} 
+                  shuffle={this.shuffle} />
               ))}
             </Card.Group>
-            <div
-              style={{
-                backgroundColor: "#fff",
-                borderRadius: "15px",
-                width: "100%",
-                height: "5px",
-                margin: "25px"
-              }}
-            />
           </div>
-        ) : null}
+        ) : (
+          <h1
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              color: "white"
+            }}
+          >
+            You currently have no active quizzes
+          </h1>
+        )}
+        <div
+          style={{
+            backgroundColor: "#fff",
+            borderRadius: "15px",
+            width: "100%",
+            height: "5px",
+            margin: "25px"
+          }}
+        />
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Card.Group centered>
             {this.state.quizzes.map(quiz => (
               <Card
-                color="violet"
                 key={quiz.id}
                 link
                 onClick={() => this.setRedirect(quiz)}
