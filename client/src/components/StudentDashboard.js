@@ -30,33 +30,6 @@ class StudentDashboard extends React.Component {
     });
   };
 
-  timer = () => {
-    if (this.state.end !== "") {
-      let time = ("" + Date.now()).split("");
-      time.splice(0, time.count - 13);
-      time = parseInt(time.join(""));
-      let timer = parseInt(this.state.end) - time;
-      let min = Math.floor((timer / 1000 / 60) << 0);
-      let sec = Math.floor((timer / 1000) % 60);
-      if (sec < 10) {
-        sec = "0" + sec;
-      }
-      let clock = `Time Remaining [${min}:${sec}]  `;
-      if (timer <= 0) {
-        axios
-          .patch(`/api/quizzes/${this.props.id}`, { end: "", active: false })
-          .then(res => {
-            this.setState({
-              lenght: null,
-              active: res.data.active,
-              end: res.data.end
-            });
-          });
-      }
-      this.setState({ clock: clock });
-    }
-  };
-
   renderRedirect = () => {
     if (this.state.redirect) {
       const quiz = this.state.q_id;

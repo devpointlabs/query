@@ -12,7 +12,7 @@ class OpenAnswerForm extends React.Component {
     const { quiz_id } = this.props;
     const question = { ...this.state, quiz_id: quiz_id, qType: "open" };
     axios.post(`/api/quizzes/${quiz_id}/questions`, question).then(res => {
-      this.props.addQuestion(res.data);
+      this.props.addQuestion(res.data, true);
       console.log(res);
     });
     this.props.toggleButtons()
