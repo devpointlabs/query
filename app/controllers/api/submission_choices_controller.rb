@@ -59,7 +59,7 @@ class Api::SubmissionChoicesController < ApplicationController
   end
 
   def submission_choice_params
-    params.require(:submission_choice).permit(:submission_id, :choice_id)
+    params.require(:submission_choice).permit(:choice_id, :student_answer)
   end
 
 end
