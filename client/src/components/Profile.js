@@ -17,7 +17,7 @@ class Profile extends React.Component {
     
   componentDidMount() {
     const { auth: { user: { name, email, }, }, } = this.props;
-    this.setState({ formValues: { name, email, }, });
+    this.setState({ formValues: { name, email, file: '' }, });
   }
   
   toggleEdit = () => {
@@ -72,7 +72,7 @@ class Profile extends React.Component {
     const { auth: { user }, } = this.props;
     const { formValues: { name, email, file, } } = this.state;
     const blob = new Blob([file], {type: 'image/png'});
-    // const url = URL.createObjectURL(blob);
+    const url = URL.createObjectURL(blob);
     
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -91,7 +91,7 @@ class Profile extends React.Component {
               >
                 <input {...getInputProps()} />
                 { isDragActive ? <h1>Drop files here...</h1> 
-                : <Image src={ blob.size === 0 ? user.image || defaultImage : <h1>Drop files here...</h1>  } />
+                : <Image src={ blob.size === 0 ? user.image || defaultImage : url } />
 
                 }
               </Card>
