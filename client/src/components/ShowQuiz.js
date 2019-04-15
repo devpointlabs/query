@@ -32,10 +32,14 @@ class ShowQuiz extends React.Component {
     edited: false,
     showEditQuiz: false,
     anon: true,
-    go: false
+    go: false,
+    width: 0,
+    height: 0,
   };
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
     axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
       this.setState({ quiz: res.data });
     });
@@ -62,6 +66,14 @@ class ShowQuiz extends React.Component {
   }
 
   toggleGo = () => this.setState({ go: !this.state.go });
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
 
   toggleEdited = () => this.setState({ edited: !this.state.edited });
 
@@ -148,14 +160,16 @@ class ShowQuiz extends React.Component {
     const { quiz, questions } = this.state;
     return (
       <div>
-        <Navbar />
-        <div style={divStyle}>
-          <div style={{ textAlign: "right" }}>
-            <Button
-              style={{ color: "#DA0909" }}
-              inverted
-              size="big"
-              onClick={() => this.handleDelete()}
+
+      <Navbar />
+      <div style={this.state.width < 500 ? divStyle.mobile : divStyle.desktop}>
+      <div style={{textAlign: 'right'}}>
+  
+          <Button
+            style={{ color: "#DA0909" }}
+            inverted
+            size='big'
+            onClick={() => this.handleDelete()}
             >
               <Icon name="trash alternate" />
             </Button>
@@ -199,53 +213,74 @@ class ShowQuiz extends React.Component {
               marginBottom: "2%"
             }}
           >
-            <div
-              onClick={() => this.toggleAnon()}
-              style={
-                this.state.anon
-                  ? { cursor: "pointer", color: "gray" }
-                  : { color: "#9219FF", fontWeight: "bold" }
-              }
-            >
-              Identified
-            </div>
-            <div style={{ color: "gray", marginLeft: "2%", marginRight: "2%" }}>
-              /
-            </div>
-            <div
-              onClick={() => this.toggleAnon()}
-              style={
-                this.state.anon !== true
-                  ? { cursor: "pointer", color: "gray" }
-                  : { color: "#9219FF", fontWeight: "bold" }
-              }
-            >
-              Anonymous
-            </div>
-          </div>
-          <header style={{ marginLeft: "5%", color: "gray" }}>
-            {" "}
-            {this.state.anon
-              ? "You will not know what submission belongs to an individual."
-              : "You will know what submission belongs to an individual"}
-          </header>
-          <h1 style={{ marginLeft: "5%" }}>People</h1>
-          <AddStudent submail={this.state.email} pmail={this.getEmail} />
-          <h1 style={{ marginLeft: "5%" }}>Questions</h1>
-          {this.state.showButtons ? (
-            <>
-              <Button style={buttonStyle} onClick={this.toggleMultiForm}>
-                Multiple Choice
-              </Button>
-              <Button style={buttonStyle} onClick={this.toggleTFForm}>
-                True or False
-              </Button>
-              <Button style={buttonStyle} onClick={this.toggleOpenForm}>
-                Open
-              </Button>
-            </>
-          ) : null}
+            <label style={{ color: "#9219FF" }}>Name</label>
+            <Input style={{ inputStyle }} defaultValue={this.state.quiz.name} />
+          </Form.Field>
+          <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
+            <label style={{ color: "#9219FF" }}>Prompt</label>
+            <Form.TextArea />
+          </Form.Field>
+        </Form>
+        <br />
 
+        <Timer email={this.state.email} id={this.props.match.params.id} width={this.state.width} />
+        <div
+          style={{
+            display: "flex",
+            fontSize: "25px",
+            marginLeft: "5%",
+            marginTop: "2%",
+            marginBottom: "2%"
+          }}
+        >
+          <div
+            onClick={() => this.toggleAnon()}
+            style={
+              this.state.anon
+                ? { cursor: "pointer", color: "gray" }
+                : { color: "#9219FF", fontWeight: "bold" }
+            }
+          >
+            Identified
+          </div>
+          <div style={{ color: "gray", marginLeft: "2%", marginRight: "2%" }}>
+            /
+          </div>
+          <div
+            onClick={() => this.toggleAnon()}
+            style={
+              this.state.anon !== true
+                ? { cursor: "pointer", color: "gray" }
+                : { color: "#9219FF", fontWeight: "bold" }
+            }
+          >
+            Anonymous
+          </div>
+        </div>
+        <header style={{ marginLeft: "5%", color: "gray" }}>
+          {" "}
+          {this.state.anon
+            ? "You will not know what submission belongs to an individual."
+            : "You will know what submission belongs to an individual"}
+        </header>
+        <h1 style={{ marginLeft: "5%" }}>People</h1>
+        <AddStudent submail={this.state.email} pmail={this.getEmail} width={this.state.width} />
+        <h1 style={{ marginLeft: "5%" }}>Questions</h1>
+        <div style={ this.state.width < 500 ? {display: "flex"}: null}>
+        {this.state.showButtons ? (
+          <>
+            <Button style={buttonStyle} onClick={this.toggleMultiForm}>
+              Multiple Choice
+            </Button>
+            <Button style={buttonStyle} onClick={this.toggleTFForm}>
+              True or False
+            </Button>
+            <Button style={buttonStyle} onClick={this.toggleOpenForm}>
+              Open
+            </Button>
+          </>
+        ) : null}
+        </div>
           <div>
             {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
 
@@ -304,6 +339,7 @@ class ShowQuiz extends React.Component {
 export default ShowQuiz;
 
 const divStyle = {
+  desktop: {
   marginBottom: "50px",
   backgroundColor: "white",
   textAlign: "left",
@@ -312,7 +348,15 @@ const divStyle = {
   marginRight: "15%",
   borderRadius: "10px",
   paddingBottom: "2%"
-};
+}, mobile: {
+  marginBottom: "50px",
+  backgroundColor: "white",
+  textAlign: "left",
+  color: "purple",
+  borderRadius: "10px",
+  paddingBottom: "2%"
+}};
+
 
 const buttonStyle = {
   backgroundColor: "white",
