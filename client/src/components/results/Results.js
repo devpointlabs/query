@@ -40,7 +40,7 @@ const Results = () => {
   return (
     <>
       <Navbar />
-      <Card.Group>
+      <Card.Group centered>
        { renderSubmissions() }
        
       </Card.Group>

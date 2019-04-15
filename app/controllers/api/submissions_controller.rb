@@ -1,5 +1,9 @@
 class Api::SubmissionsController < ApplicationController
-  before_action :set_submission , only: [:show]
+  before_action :set_submission , only: [:show, :get_grade]
+
+def get_grade
+    render json: { grade: @submission.grade}.to_json
+  end
 
   def add_student_to_quiz
     emails = params.require(:email)
