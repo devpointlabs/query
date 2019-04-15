@@ -14,11 +14,10 @@ import MultiForm from "./MultiForm";
 import OpenAnswerForm from "./OpenAnswerForm";
 import TrueFalse from "./TrueFalse";
 import Question from "./Question";
-import Navbar from "./Navbar"
+import Navbar from "./Navbar";
 import AddStudent from "./AddStudent";
 import EditQuiz from "./EditQuiz";
-import DynamicMCForm from './DynamicMCForm';
-
+import DynamicMCForm from "./DynamicMCForm";
 
 class ShowQuiz extends React.Component {
   state = {
@@ -33,9 +32,9 @@ class ShowQuiz extends React.Component {
     edited: false,
     showEditQuiz: false,
     anon: true,
+    go: false,
     width: 0,
     height: 0,
-
   };
 
   componentDidMount() {
@@ -56,14 +55,17 @@ class ShowQuiz extends React.Component {
       axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
         this.setState({ quiz: res.data });
       });
+    }
+    if (this.state.go === true) {
       axios
         .get(`/api/quizzes/${this.props.match.params.id}/questions`)
         .then(res => {
-          this.setState({ questions: res.data });
+          this.setState({ questions: res.data, go: false });
         });
     }
   }
-  
+
+  toggleGo = () => this.setState({ go: !this.state.go });
 
   componentWillUnmount() {
     window.removeEventListener('resize', this.updateWindowDimensions);
@@ -102,8 +104,19 @@ class ShowQuiz extends React.Component {
     this.setState({ quiz: { name: q.name, info: q.info } });
   };
 
-  addQuestion = question => {
-    this.setState({ questions: [question, ...this.state.questions] });
+  addQuestion = (question, open) => {
+    if (open) {
+      this.setState({ questions: [question, ...this.state.questions] });
+    } else {
+      axios.get(`/api/questions/${question.data.id}/choices`).then(res => {
+        this.setState({
+          questions: [
+            { ...question.data, choices: [...res.data] },
+            ...this.state.questions
+          ]
+        });
+      });
+    }
   };
 
   addChoice = choice => {
@@ -132,14 +145,14 @@ class ShowQuiz extends React.Component {
       showTrueFalseForm: false,
       showOpenForm: false
     });
-    toggleEditQuiz = () =>
+  toggleEditQuiz = () =>
     this.setState({
       showEditQuiz: !this.state.showEditQuiz
     });
 
-    getEmail = (f) => {
-this.setState({email: [f, ...this.state.email]})
-    }
+  getEmail = f => {
+    this.setState({ email: [f, ...this.state.email] });
+  };
 
   render() {
     document.body.style = "background: #6D55A3;";
@@ -147,6 +160,7 @@ this.setState({email: [f, ...this.state.email]})
     const { quiz, questions } = this.state;
     return (
       <div>
+
       <Navbar />
       <div style={this.state.width < 500 ? divStyle.mobile : divStyle.desktop}>
       <div style={{textAlign: 'right'}}>
@@ -157,10 +171,10 @@ this.setState({email: [f, ...this.state.email]})
             size='big'
             onClick={() => this.handleDelete()}
             >
-            <Icon name='trash alternate' />
-          </Button>
-            </div>
-        {/* {this.state.showEditQuiz ? 
+              <Icon name="trash alternate" />
+            </Button>
+          </div>
+          {/* {this.state.showEditQuiz ? 
           <EditQuiz quiz={quiz} updateQuiz={this.updateQuiz} toggle={this.toggleEditQuiz} /> 
           :
           <div>
@@ -169,12 +183,34 @@ this.setState({email: [f, ...this.state.email]})
           </Button>
           </div>
         } */}
-        <Form>
-          <Form.Field
+          <Form>
+            <Form.Field
+              style={{
+                paddingTop: "0%",
+                marginLeft: "5%",
+                marginRight: "40%"
+              }}
+            >
+              <label style={{ color: "#9219FF" }}>Name</label>
+              <Input
+                style={{ inputStyle }}
+                defaultValue={this.state.quiz.name}
+              />
+            </Form.Field>
+            <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
+              <label style={{ color: "#9219FF" }}>Prompt</label>
+              <Form.TextArea />
+            </Form.Field>
+          </Form>
+          <br />
+          <Timer email={this.state.email} id={this.props.match.params.id} />
+          <div
             style={{
-              paddingTop: "0%",
+              display: "flex",
+              fontSize: "25px",
               marginLeft: "5%",
-              marginRight: "40%"
+              marginTop: "2%",
+              marginBottom: "2%"
             }}
           >
             <label style={{ color: "#9219FF" }}>Name</label>
@@ -245,53 +281,57 @@ this.setState({email: [f, ...this.state.email]})
           </>
         ) : null}
         </div>
+          <div>
+            {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
 
-        <div>
-          {/* {this.state.showMultiForm && <MultiForm quiz_id={quiz.id} addQuestion={this.addQuestion} addChoice={this.addChoice} />} */}
-
-          {this.state.showMultiForm && (
-            <DynamicMCForm
-              quiz_id={quiz.id}
-              toggleForm={this.toggleMultiForm}
-              addQuestion={this.addQuestion}
-              addChoice={this.addChoice}
-              toggleButtons={this.toggleButtons}
+            {this.state.showMultiForm && (
+              <DynamicMCForm
+                quiz_id={quiz.id}
+                toggleForm={this.toggleMultiForm}
+                addQuestion={this.addQuestion}
+                addChoice={this.addChoice}
+                toggleButtons={this.toggleButtons}
               />
-          )}
+            )}
 
-          {this.state.showTrueFalseForm && (
-            <TrueFalse
-              quiz_id={quiz.id}
-              addQuestion={this.addQuestion}
-              addChoice={this.addChoice}
-              toggleButtons={this.toggleButtons}
+            {this.state.showTrueFalseForm && (
+              <TrueFalse
+                quiz_id={quiz.id}
+                addQuestion={this.addQuestion}
+                addChoice={this.addChoice}
+                toggleButtons={this.toggleButtons}
               />
-          )}
-          {this.state.showOpenForm && (
-            <OpenAnswerForm quiz_id={quiz.id} addQuestion={this.addQuestion} toggleButtons={this.toggleButtons}/>
-          )}
-          {this.state.showButtons ? null : (
-            <button
-            style={{ color: "red", marginLeft: "5%" }}
-            onClick={this.toggleButtons}
-            >
-              Cancel question
-            </button>
-          )}
+            )}
+            {this.state.showOpenForm && (
+              <OpenAnswerForm
+                quiz_id={quiz.id}
+                addQuestion={this.addQuestion}
+                toggleButtons={this.toggleButtons}
+              />
+            )}
+            {this.state.showButtons ? null : (
+              <button
+                style={{ color: "red", marginLeft: "5%" }}
+                onClick={this.toggleButtons}
+              >
+                Cancel question
+              </button>
+            )}
+          </div>
+          <List style={{ marginLeft: "5%", marginRight: "5%" }}>
+            {this.state.questions.map(q => (
+              <Question
+                toggleGo={this.toggleGo}
+                remove={this.removeQuestion}
+                key={q.id}
+                {...q}
+                quiz_id={this.props.match.params.id}
+                question_id={q.id}
+                toggleEdited={this.toggleEdited}
+              />
+            ))}
+          </List>
         </div>
-        <List style={{ marginLeft: "5%", marginRight: "5%" }}>
-          {this.state.questions.map(q => (
-            <Question
-              remove={this.removeQuestion}
-              key={q.id}
-              {...q}
-              quiz_id={this.props.match.params.id}
-              question_id={q.id}
-              toggleEdited={this.toggleEdited}
-              />
-              ))}
-        </List>
-              </div>
       </div>
     );
   }
