@@ -1,9 +1,8 @@
 import React, { useState, useEffect} from 'react';
+import { Card } from 'semantic-ui-react';
 import axios from "axios";
-import {Card} from 'semantic-ui-react'
 
-const Choices = ({ id, }) => {
-
+const Grade = ({id,}) => {
   const [choices, setChoices] = useState([]);
   const [grade, setGrade] = useState("");
 
@@ -15,19 +14,16 @@ const Choices = ({ id, }) => {
       .catch( err => console.log(err))
   }, [])
 
-  const renderChoices = () => {
-    return choices.map( c => {
-      return (<li style={c.correct ? {color: "green"}: {color: "red"}} key={c.choice.id}>{c.answer}</li>)
-    })
+  const getGrade = () => {
+    let wrongQs = choices.filter( c => !c.correct)
+    let RightQs = choices.filter( c => c.correct)
+    let grade = RightQs.length / choices.length
+    return `${grade * 100}%`
   }
-      
+
+
   return (
-    <>
-      {renderChoices()}
-    </>
+    <Card.Header>Grade: {getGrade()}</Card.Header>
   )
 }
-
-export default Choices
-
-
+export default Grade;

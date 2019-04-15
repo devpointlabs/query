@@ -2,6 +2,8 @@ import React, { useState, useEffect} from 'react';
 import axios from 'axios'
 import { Card } from 'semantic-ui-react';
 import Choices from './Choices'
+import Grade from './Grade'
+import Navbar from '../Navbar'
 
 const Results = () => {
   const [submissions, setSubmissions] = useState([]);
@@ -26,13 +28,18 @@ const Results = () => {
             <Choices id={sub.submission.id} />
           </ul>
         </Card.Content>
+        <Card.Content extra>
+          <Grade id={sub.submission.id} />
+        </Card.Content>
       </Card>)
     })
   }
 
+  document.body.style = 'background: #5906A3;'
 
   return (
     <>
+      <Navbar />
       <Card.Group>
        { renderSubmissions() }
        
