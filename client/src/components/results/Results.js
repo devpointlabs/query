@@ -1,6 +1,6 @@
 import React, { useState, useEffect} from 'react';
 import axios from 'axios'
-import { Card } from 'semantic-ui-react';
+import { Card, List } from 'semantic-ui-react';
 import Choices from './Choices'
 import Grade from './Grade'
 import Navbar from '../Navbar'
@@ -21,12 +21,14 @@ const Results = () => {
     return submissions.map( sub => {
       return (
       <Card key={sub.submission.id}>
-        <Card.Header>{sub.quiz}</Card.Header>
-        <Card.Meta>{sub.email}</Card.Meta>
         <Card.Content>
-          <ul>
+          <Card.Header>{sub.quiz}</Card.Header>
+          <Card.Meta>{sub.email}</Card.Meta>
+        </Card.Content>
+        <Card.Content>
+          <List>
             <Choices id={sub.submission.id} />
-          </ul>
+          </List>
         </Card.Content>
         <Card.Content extra>
           <Grade id={sub.submission.id} />

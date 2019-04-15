@@ -1,11 +1,10 @@
 import React, { useState, useEffect} from 'react';
 import axios from "axios";
-import {Card} from 'semantic-ui-react'
+import {List, } from 'semantic-ui-react'
 
 const Choices = ({ id, }) => {
 
   const [choices, setChoices] = useState([]);
-  const [grade, setGrade] = useState("");
 
   useEffect(() => {
     axios.get(`/api/${id}/student_choices`) 
@@ -17,7 +16,9 @@ const Choices = ({ id, }) => {
 
   const renderChoices = () => {
     return choices.map( c => {
-      return (<li style={c.correct ? {color: "green"}: {color: "red"}} key={c.choice.id}>{c.answer}</li>)
+      return (<List.Item  key={c.choice.id}>
+      <strong>Question:</strong> {c.question_text} <br/> <span style={c.correct ? {color: "green"}: {color: "red"}}><strong>Student answered:</strong> {c.answer}</span>
+      </List.Item>)
     })
   }
       

@@ -14,7 +14,8 @@ class Api::SubmissionChoicesController < ApplicationController
       ob = {
         choice: c,
         answer: c.choice.answer,
-        correct: c.choice.correct_answer
+        correct: c.choice.correct_answer,
+        question_text: c.choice.question.name
       }
       arr << ob
     end
