@@ -1,7 +1,5 @@
 import React from "react";
-import axios from "axios";
 import styled from "styled-components";
-import { List, Radio, Form } from "semantic-ui-react";
 
 class MC extends React.Component {
   state = { answer: "", choice_id: "", press: true };
