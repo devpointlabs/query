@@ -1,6 +1,6 @@
 import React from "react";
 import ActiveCard from "./ActiveQuizCard";
-import { Button, Form, Header, Card, Container } from "semantic-ui-react";
+import { Button, Form, Card, Container } from "semantic-ui-react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 

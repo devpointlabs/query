@@ -1,5 +1,4 @@
 import React from 'react';
-import Navbar from './components/Navbar'
 import Home from './components/Home'
 import Login from './components/Login'
 import Register from './components/Register'
@@ -18,7 +17,6 @@ import ProtectedRoute from "./components/ProtectedRoute"
 const App = () => (
   <>
       <FetchUser>
-        {/* <Container> */}
           <Switch>
            <Route exact path="/" component={Landing} />
            <ProtectedRoute exact path="/home" component={Home} />
@@ -31,7 +29,6 @@ const App = () => (
            <Route exact path="/quizbuilder/:id" component={ShowQuiz} />
            <Route component={NoMatch} />
           </Switch>
-        {/* </Container> */}
       </FetchUser>
   </>
 )

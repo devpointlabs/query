@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Button, Icon, Header, } from 'semantic-ui-react'
+import { Form, Icon, Header, } from 'semantic-ui-react'
 import axios from 'axios';
 
 class DynamicMCForm extends React.Component {
@@ -30,7 +30,7 @@ class DynamicMCForm extends React.Component {
         this.state.choices.map( choice => (
           axios.post(`/api/questions/${qres.data.id}/choices`, choice)
           .then( x=> { counter = counter + 1 
-                if(counter == this.state.choices.length){
+                if(counter === this.state.choices.length){
               this.props.addQuestion(qres, false)}
           })))})
     this.props.toggleForm()
