@@ -4,7 +4,8 @@ import {
   Button,
   Grid,
   Form,
-  Input
+  Input,
+  List
 } from "semantic-ui-react";
 
 class AddStudent extends React.Component {
@@ -51,11 +52,11 @@ class AddStudent extends React.Component {
     <Button style={buttonStyle} onClick={this.toggleStudentForm}>
       Add Student
     </Button>
-) : null}
+    ) : null}
 
 {this.state.showStudentForm && (
   <>
-  <div style={this.props.width < 500 ? { textAlign: "center"} : null}>
+  <div style={this.props.width < 500 ? { textAlign: "center"} :     null}>
     <Form onSubmit={this.handleSubmit} >
       <Form.Field
         style={ this.props.width < 500 ? 
@@ -65,8 +66,8 @@ class AddStudent extends React.Component {
           marginRight: "40%"
           }}
           >
-      <label style={{ color: "#9219FF" }}>Enter Email Address</label>
-        < Input style={{ inputStyle }} 
+      <label style={{ color: "#5906A3" }}>Enter Email Address</label>
+        <Input style={{ inputStyle }} 
           value={this.state.email}
           type="email"
           name="email"
@@ -74,24 +75,34 @@ class AddStudent extends React.Component {
           onChange={this.handleChange}
           />
       </Form.Field>
-    <Grid>
+      <Grid>
       <Grid.Column>
-        <button style={{color: '#9219FF', marginLeft: "53%", borderRadius: '10px'}}  type="submit">
+        <button style={{color: '#9219FF', marginLeft: "53%"}}  type="submit">
         Submit
         </button>
       </Grid.Column>
-    </Grid>
+      </Grid>
     </Form>
   </div>
   </>
 )}
 {this.state.showButtons ? null : (
-  <button style={{ color: "red", marginLeft: "5%" }}
-      onClick={this.toggleButtons}>
-      Cancel
-  </button>        
+
+<button style={{ color: "red", marginLeft: "5%", marginTop: "3%" }}
+  onClick={this.toggleButtons}>
+  Cancel
+</button>        
 )}
+
+<List style={{ marginLeft: "5%", marginRight: "5%" }}>
+  {this.state.pupil.map(p => (
+    <div>
+      <p>{p}</p>
     </div>
+  ))}
+</List>
+
+</div>
 );
 }}
 
