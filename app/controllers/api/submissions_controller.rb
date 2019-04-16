@@ -55,15 +55,10 @@ class Api::SubmissionsController < ApplicationController
     do_it = true
     student= User.where(email: email)
     quiz= params.require(:submission).permit(:quiz_id)
-    student[0].quizzes.each do |q|
-      q["id"] == quiz["quiz_id"] ? do_it = false : nil
-    end
-    if do_it  
       sub = Submission.new(
         quiz.merge({user_id: student[0].id.to_s})
         )
         sub.save
-    end
   end
 
   def quiz_params
