@@ -51,38 +51,35 @@ class AddStudent extends React.Component {
       {this.state.showButtons ? (
     <Button style={buttonStyle} onClick={this.toggleStudentForm}>
       Add Student
-    </Button>
-    ) : null}
-
-{this.state.showStudentForm && (
+    </Button>) : null}
+    {this.state.showStudentForm && (
   <>
   <div style={this.props.width < 500 ? { textAlign: "center"} :     null}>
     <Form onSubmit={this.handleSubmit} >
-      <Form.Field
-        style={ this.props.width < 500 ? 
-          null :{
-          paddingTop: "1%",
-          marginLeft: "5%",
-          marginRight: "40%"
-          }}
-          >
+     <Form.Field
+      style={ this.props.width < 500 ? 
+       null :{
+       paddingTop: "1%",
+       marginLeft: "5%",
+       marginRight: "40%"
+         }}>
       <label style={{ color: "#5906A3" }}>Enter Email Address</label>
         <Input style={{ inputStyle }} 
-          value={this.state.email}
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={this.handleChange}
-          />
+         value={this.state.email}
+         type="email"
+         name="email"
+         placeholder="Email"
+         onChange={this.handleChange}
+         />
       </Form.Field>
       <Grid>
       <Grid.Column>
-        <button style={{color: '#9219FF', marginLeft: "53%"}}  type="submit">
+      <button style={{color: '#9219FF', marginLeft: "53%"}}  type="submit">
         Submit
-        </button>
-      </Grid.Column>
-      </Grid>
-    </Form>
+      </button>
+     </Grid.Column>
+    </Grid>
+   </Form>
   </div>
   </>
 )}
@@ -96,9 +93,9 @@ class AddStudent extends React.Component {
 
 <List style={{ marginLeft: "5%", marginRight: "5%" }}>
   {this.state.pupil.map(p => (
-    <div>
-      <p>{p}</p>
-    </div>
+   <div>
+   <p>{p}</p>
+   </div>
   ))}
 </List>
 
