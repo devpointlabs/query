@@ -31,7 +31,7 @@ class TorF extends React.Component {
               <Form.Field>
                 <input
                   type="radio"
-                  name={choice.answer}
+                  name={choice.id}
                   id={choice.id}
                   value={choice.answer}
                   onChange={this.handleOptionChange}
