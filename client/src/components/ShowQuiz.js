@@ -3,20 +3,16 @@ import axios from 'axios';
 import Timer from './Timer';
 import {
   Button,
-  Header,
-  Container,
   List,
   Form,
   Input,
   Icon,
 } from 'semantic-ui-react';
-import MultiForm from './MultiForm';
 import OpenAnswerForm from './OpenAnswerForm';
 import TrueFalse from './TrueFalse';
 import Question from './Question';
 import Navbar from './Navbar';
 import AddStudent from './AddStudent';
-import EditQuiz from './EditQuiz';
 import DynamicMCForm from './DynamicMCForm';
 
 class ShowQuiz extends React.Component {
@@ -173,7 +169,7 @@ class ShowQuiz extends React.Component {
   render() {
     document.body.style = 'background: #6D55A3;';
 
-    const {quiz, questions} = this.state;
+    const {quiz} = this.state;
     return (
       <div>
         <Navbar />
