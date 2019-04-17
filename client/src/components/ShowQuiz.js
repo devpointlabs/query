@@ -1,6 +1,6 @@
-import React from 'react';
-import axios from 'axios';
-import Timer from './Timer';
+import React from "react";
+import axios from "axios";
+import Timer from "./Timer";
 import {
   Button,
   List,
@@ -30,26 +30,26 @@ class ShowQuiz extends React.Component {
     anon: true,
     go: false,
     width: 0,
-    height: 0,
+    height: 0
   };
 
   componentDidMount() {
     this.updateWindowDimensions();
-    window.addEventListener('resize', this.updateWindowDimensions);
+    window.addEventListener("resize", this.updateWindowDimensions);
     axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
-      this.setState({quiz: res.data});
+      this.setState({ quiz: res.data });
     });
     axios
       .get(`/api/quizzes/${this.props.match.params.id}/questions`)
       .then(res => {
-        this.setState({questions: res.data});
+        this.setState({ questions: res.data });
       });
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.edited !== prevState.edited) {
       axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
-        this.setState({quiz: res.data});
+        this.setState({ quiz: res.data });
       });
     }
     if (this.state.go === true) {
@@ -64,19 +64,19 @@ class ShowQuiz extends React.Component {
   toggleGo = () => this.setState({ go: !this.state.go });
 
   componentWillUnmount() {
-    window.removeEventListener('resize', this.updateWindowDimensions);
+    window.removeEventListener("resize", this.updateWindowDimensions);
   }
 
   updateWindowDimensions = () => {
-    this.setState({width: window.innerWidth, height: window.innerHeight});
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
 
-  toggleEdited = () => this.setState({edited: !this.state.edited});
+  toggleEdited = () => this.setState({ edited: !this.state.edited });
 
   toggleAnon = () => {
-    this.setState({anon: !this.state.anon});
+    this.setState({ anon: !this.state.anon });
     axios.patch(`/api/quizzes/${this.props.match.params.id}`, {
-      anon: this.state.anon,
+      anon: this.state.anon
     });
   };
 
@@ -84,27 +84,28 @@ class ShowQuiz extends React.Component {
     axios
       .delete(`/api/quizzes/${this.props.match.params.id}/questions/${id}`)
       .then(res => {
-        const {questions} = this.state;
-        this.setState({questions: questions.filter(r => r.id !== id)});
+        const { questions } = this.state;
+        this.setState({ questions: questions.filter(r => r.id !== id) });
       });
   };
 
   handleDelete = () => {
     const id = this.state.quiz.id;
     axios.delete(`/api/quizzes/${id}`).then(res => {
-      this.props.history.push('/home');
+      this.props.history.push("/home");
     });
   };
 
   updateQuiz = q => {
-    this.setState({quiz: {name: q.name, info: q.info}});
+    this.setState({ quiz: { name: q.name, info: q.info } });
   };
 
   addQuestion = (question, open) => {
     if (open) {
       this.setState({ questions: [question, ...this.state.questions] });
     } else {
-      axios.get(`/api/questions/${question.data.id}/choices`).then(res => {
+      axios.get(`/api/questions/${question.data.id}/choices`)
+      .then(res => {
         this.setState({
           questions: [
             { ...question.data, choices: [...res.data] },
@@ -116,71 +117,73 @@ class ShowQuiz extends React.Component {
   };
 
   addChoice = choice => {
-    this.setState({choices: [...this.state.choices, choice]});
+    this.setState({ choices: [...this.state.choices, choice] });
   };
 
   toggleMultiForm = () =>
     this.setState({
       showMultiForm: !this.state.showMultiForm,
-      showButtons: false,
+      showButtons: false
     });
   toggleTFForm = () =>
     this.setState({
       showTrueFalseForm: !this.state.showTrueFalseForm,
-      showButtons: false,
+      showButtons: false
     });
   toggleOpenForm = () =>
     this.setState({
       showOpenForm: !this.state.showOpenForm,
-      showButtons: false,
+      showButtons: false
     });
   toggleButtons = () =>
     this.setState({
       showButtons: true,
       showMultiForm: false,
       showTrueFalseForm: false,
-      showOpenForm: false,
+      showOpenForm: false
     });
   toggleEditQuiz = () =>
     this.setState({
-      showEditQuiz: !this.state.showEditQuiz,
+      showEditQuiz: !this.state.showEditQuiz
     });
 
   getEmail = f => {
-    this.setState({email: [f, ...this.state.email]});
+    this.setState({ email: [f, ...this.state.email] });
   };
 
-  handleChange = (e, {name, value}) =>
+  handleChange = (e, { name, value }) =>
     this.setState({
       showEditQuiz: true,
-      quiz: {...this.state.quiz, [name]: value}
-    })
+      quiz: { ...this.state.quiz, [name]: value }
+    });
 
   editQuiz = e => {
     e.preventDefault();
     const id = this.props.match.params.id;
-    const quiz = {...this.state};
+    const quiz = { ...this.state };
     axios.put(`/api/quizzes/${id}`, quiz).then(res => {
       this.updateQuiz(res.data);
     });
-    this.toggleEditQuiz()
+    this.toggleEditQuiz();
   };
 
   render() {
-    document.body.style = 'background: #6D55A3;';
+    document.body.style = "background: #6D55A3;";
 
     const {quiz} = this.state;
     return (
       <div>
         <Navbar />
         <div
-          style={this.state.width < 500 ? divStyle.mobile : divStyle.desktop}>
-          <div style={{textAlign: 'right'}}>
+          style={this.state.width < 500 ? divStyle.mobile : divStyle.desktop}
+        >
+          <div style={{ textAlign: "right" }}>
             <Button
-              style={{color: '#DA0909'}}
+              style={{ color: "#DA0909" }}
               inverted
               size="big"
-              onClick={() => this.handleDelete()}>
+              onClick={() => this.handleDelete()}
+            >
               <Icon name="trash alternate" />
             </Button>
           </div>
@@ -196,28 +199,33 @@ class ShowQuiz extends React.Component {
           <Form>
             <Form.Field
               style={{
-                paddingTop: '0%',
-                marginLeft: '5%',
-                marginRight: '40%',
-              }}>
-              <label style={{color: '#9219FF'}}>Name</label>
+                paddingTop: "0%",
+                marginLeft: "5%",
+                marginRight: "40%"
+              }}
+            >
+              <label style={{ color: "#9219FF" }}>Name</label>
               <Input
-                style={{inputStyle}}
+                style={{ inputStyle }}
                 defaultValue={this.state.quiz.name}
                 name="name"
                 value={quiz.name}
                 onChange={this.handleChange}
               />
             </Form.Field>
-            <Form.Field style={{marginLeft: '5%', marginRight: '5%'}}>
-              <label style={{color: '#9219FF'}}>Prompt</label>
+            <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
+              <label style={{ color: "#9219FF" }}>Prompt</label>
               <Form.TextArea
                 name="info"
                 value={quiz.info}
                 onChange={this.handleChange}
               />
             </Form.Field>
-            {this.state.showEditQuiz ? <Button style={buttonStyle} onClick={this.editQuiz}>Update Quiz</Button> : null}
+            {this.state.showEditQuiz ? (
+              <Button style={buttonStyle} onClick={this.editQuiz}>
+                Update Quiz
+              </Button>
+            ) : null}
           </Form>
           <br />
 
@@ -228,48 +236,51 @@ class ShowQuiz extends React.Component {
           />
           <div
             style={{
-              display: 'flex',
-              fontSize: '25px',
-              marginLeft: '5%',
-              marginTop: '2%',
-              marginBottom: '2%',
-            }}>
+              display: "flex",
+              fontSize: "25px",
+              marginLeft: "5%",
+              marginTop: "2%",
+              marginBottom: "2%"
+            }}
+          >
             <div
               onClick={() => this.toggleAnon()}
               style={
                 this.state.anon
-                  ? {cursor: 'pointer', color: 'gray'}
-                  : {color: '#9219FF', fontWeight: 'bold'}
-              }>
+                  ? { cursor: "pointer", color: "gray" }
+                  : { color: "#9219FF", fontWeight: "bold" }
+              }
+            >
               Identified
             </div>
-            <div style={{color: 'gray', marginLeft: '2%', marginRight: '2%'}}>
+            <div style={{ color: "gray", marginLeft: "2%", marginRight: "2%" }}>
               /
             </div>
             <div
               onClick={() => this.toggleAnon()}
               style={
                 this.state.anon !== true
-                  ? {cursor: 'pointer', color: 'gray'}
-                  : {color: '#9219FF', fontWeight: 'bold'}
-              }>
+                  ? { cursor: "pointer", color: "gray" }
+                  : { color: "#9219FF", fontWeight: "bold" }
+              }
+            >
               Anonymous
             </div>
           </div>
-          <header style={{marginLeft: '5%', color: 'gray'}}>
-            {' '}
+          <header style={{ marginLeft: "5%", color: "gray" }}>
+            {" "}
             {this.state.anon
-              ? 'You will not know what submission belongs to an individual.'
-              : 'You will know what submission belongs to an individual'}
+              ? "You will not know what submission belongs to an individual."
+              : "You will know what submission belongs to an individual"}
           </header>
-          <h1 style={{marginLeft: '5%'}}>People</h1>
+          <h1 style={{ marginLeft: "5%" }}>People</h1>
           <AddStudent
             submail={this.state.email}
             pmail={this.getEmail}
             width={this.state.width}
           />
-          <h1 style={{marginLeft: '5%'}}>Questions</h1>
-          <div style={this.state.width < 500 ? {display: 'flex'} : null}>
+          <h1 style={{ marginLeft: "5%" }}>Questions</h1>
+          <div style={this.state.width < 500 ? { display: "flex" } : null}>
             {this.state.showButtons ? (
               <>
                 <Button style={buttonStyle} onClick={this.toggleMultiForm}>
@@ -315,8 +326,9 @@ class ShowQuiz extends React.Component {
             )}
             {this.state.showButtons ? null : (
               <button
-                style={{color: 'red', marginLeft: '5%'}}
-                onClick={this.toggleButtons}>
+                style={{ color: "red", marginLeft: "5%" }}
+                onClick={this.toggleButtons}
+              >
                 Cancel question
               </button>
             )}
@@ -343,33 +355,33 @@ export default ShowQuiz;
 
 const divStyle = {
   desktop: {
-    marginBottom: '50px',
-    backgroundColor: 'white',
-    textAlign: 'left',
-    color: '#9219FF',
-    marginLeft: '15%',
-    marginRight: '15%',
-    borderRadius: '10px',
-    paddingBottom: '2%',
+    marginBottom: "50px",
+    backgroundColor: "white",
+    textAlign: "left",
+    color: "#9219FF",
+    marginLeft: "15%",
+    marginRight: "15%",
+    borderRadius: "10px",
+    paddingBottom: "2%"
   },
   mobile: {
-    marginBottom: '50px',
-    backgroundColor: 'white',
-    textAlign: 'left',
-    color: 'purple',
-    borderRadius: '10px',
-    paddingBottom: '2%',
-  },
+    marginBottom: "50px",
+    backgroundColor: "white",
+    textAlign: "left",
+    color: "purple",
+    borderRadius: "10px",
+    paddingBottom: "2%"
+  }
 };
 
 const buttonStyle = {
-  backgroundColor: 'white',
-  marginLeft: '5%',
-  marginRight: '2%',
-  border: '1px solid',
-  color: '#9219FF',
+  backgroundColor: "white",
+  marginLeft: "5%",
+  marginRight: "2%",
+  border: "1px solid",
+  color: "#9219FF"
 };
 
 const inputStyle = {
-  color: '#9219FF',
+  color: "#9219FF"
 };

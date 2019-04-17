@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { Form } from "semantic-ui-react";
 
 class MC extends React.Component {
   state = { answer: "", choice_id: "", press: true };
@@ -23,23 +24,23 @@ class MC extends React.Component {
     return (
       <ListItem>
         <strong style={{ fontFamily: "menlo" }}>{this.props.question}</strong>
-        {/* <fieldset> */}
         {this.props.choices.map(choice => {
           return (
             <ChoiceItem key={choice.id}>
-              <input
-                type="radio"
-                name={choice.answer}
-                id={choice.id}
-                value={choice.answer}
-                onChange={this.handleOptionChange}
-                checked={this.state.answer === choice.answer}
-              />
-              {choice.answer}
+              <Form.Field>
+                <input
+                  type="radio"
+                  name={choice.id}
+                  id={choice.id}
+                  value={choice.answer}
+                  onChange={this.handleOptionChange}
+                  checked={this.state.answer === choice.answer}
+                />
+                {choice.answer}
+              </Form.Field>
             </ChoiceItem>
           );
         })}
-        {/* </fieldset> */}
       </ListItem>
     );
   }
