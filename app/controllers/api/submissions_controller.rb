@@ -39,7 +39,7 @@ class Api::SubmissionsController < ApplicationController
 
   def submissions_by_quiz
     student_subs = Submission.submissions_by_quiz(params[:quiz_id].to_i)
-    binding.pry
+    render json: student_subs
   end
 
   def create
