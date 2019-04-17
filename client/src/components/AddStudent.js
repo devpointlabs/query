@@ -59,7 +59,9 @@ class AddStudent extends React.Component {
     <Form onSubmit={this.handleSubmit} >
       <Form.Field
         style={ this.props.width < 500 ? 
-          null :{
+          null 
+          :
+          {
           paddingTop: "1%",
           marginLeft: "5%",
           marginRight: "40%"

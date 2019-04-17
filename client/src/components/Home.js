@@ -1,6 +1,5 @@
 import React from  'react';
 import { AuthConsumer, } from '../providers/AuthProvider'
-import { Header, } from 'semantic-ui-react';
 import StudentDashboard from './StudentDashboard';
 import TeacherDashboard from './TeacherDashboard';
 import Navbar from "./Navbar"

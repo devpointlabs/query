@@ -1,6 +1,5 @@
 import React from 'react';
 import {Card,} from 'semantic-ui-react';
-import axios from 'axios';
 import {Redirect} from 'react-router-dom';
 
 class ActiveCard extends React.Component {

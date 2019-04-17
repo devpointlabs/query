@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Card, Button } from "semantic-ui-react";
+import { Card } from "semantic-ui-react";
 import EditQuestion from "./EditQuestion";
 
 class Question extends React.Component {
