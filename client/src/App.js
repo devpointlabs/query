@@ -11,12 +11,15 @@ import TakeQuiz from './components/TakeQuiz'
 import Results from './components/results/Results'
 import { Route, Switch, } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute"
+import side from './components/QuizSideInfo'
+import './App.css'
 
 const App = () => (
   <>
       <FetchUser>
           <Switch>
            <Route exact path="/" component={Landing} />
+           <Route exact path="/side" component={side} />
            <ProtectedRoute exact path="/home" component={Home} />
            <Route exact path="/login" component={Login} />
            <ProtectedRoute exact path="/profile" component={Profile} />
