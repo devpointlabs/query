@@ -12,7 +12,6 @@ import Results from './components/results/Results'
 import { Route, Switch, } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute"
 
-
 const App = () => (
   <>
       <FetchUser>

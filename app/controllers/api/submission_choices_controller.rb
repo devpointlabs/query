@@ -15,7 +15,7 @@ class Api::SubmissionChoicesController < ApplicationController
         choice: c,
         answer: c.choice.answer,
         correct: c.choice.correct_answer,
-        question_text: c.choice.question.name
+        question_text: c.choice.question.name,
       }
       arr << ob
     end

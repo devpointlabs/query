@@ -1,7 +1,7 @@
 class Submission < ApplicationRecord
   belongs_to :user, optional: :true
   belongs_to :quiz
-  has_many :submission_choices
+  has_many :submission_choices, dependent: :destroy
 
   def grade
     correct_answers = []
