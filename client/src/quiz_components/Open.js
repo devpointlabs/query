@@ -6,6 +6,7 @@ class Open extends React.Component {
   state = { answer: "", choice_id: "", press: true };
 
   componentDidUpdate() {
+
     const student_answer = this.state.answer;
     const choice_id = this.state.choice_id;
     if (this.props.press && this.state.press) {
@@ -15,6 +16,7 @@ class Open extends React.Component {
   }
 
   handleOptionChange = changeEvent => {
+  
     let student_answer = changeEvent.target.value;
     let id = changeEvent.target.id;
     this.setState({ answer: student_answer, choice_id: id });
