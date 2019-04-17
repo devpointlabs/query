@@ -42,8 +42,6 @@ const SubChoice = ({ ques_id, }) => {
   return (
     <>
       { renderChoices }
-          {renderSubChoice}
-    {subChoice.answer}
     </>
   )
 
