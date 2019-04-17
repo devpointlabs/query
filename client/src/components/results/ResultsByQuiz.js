@@ -25,7 +25,7 @@ const ResultsByQuiz = () => {
               <Card.Header>{q.name}</Card.Header>
             </Card.Content>
             <Card.Content>
-              <Link to="/results">See Results</Link>
+              <Link to={{ pathname: "/results", state: {quiz_id: q.id}}}>See Results</Link>
             </Card.Content>
           </Card>
         ))}

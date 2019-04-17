@@ -5,11 +5,11 @@ import Choices from './Choices'
 import Grade from './Grade'
 import Navbar from '../Navbar'
 
-const Results = () => {
+const Results = (props) => {
   const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/student_submissions") 
+    axios.get(`/api/submissions_by_quiz?quiz_id=${props.location.state.quiz_id}`) 
       .then( res => {
         setSubmissions(res.data)
       })
