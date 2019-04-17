@@ -30,7 +30,9 @@ class ShowQuiz extends React.Component {
     anon: true,
     go: false,
     width: 0,
-    height: 0
+    height: 0,
+    flashMsgText: "", 
+    showFlash: false
   };
 
   componentDidMount() {
@@ -159,13 +161,24 @@ class ShowQuiz extends React.Component {
 
   editQuiz = e => {
     e.preventDefault();
+    if (this.state.quiz.name !== ""){
     const id = this.props.match.params.id;
     const quiz = { ...this.state };
     axios.put(`/api/quizzes/${id}`, quiz).then(res => {
       this.updateQuiz(res.data);
     });
+    this.setState({showFlash: false})
     this.toggleEditQuiz();
+    } else {
+      this.setState({ flashMsgText: "Choice cannot be empty", showFlash: true})
+    }
   };
+
+  renderFlash = () => {
+    return ( <div style={flashStyle}>
+      {this.state.flashMsgText}
+    </div>)
+  }
 
   render() {
     document.body.style = "background: #6D55A3;";
@@ -212,6 +225,7 @@ class ShowQuiz extends React.Component {
                 value={quiz.name}
                 onChange={this.handleChange}
               />
+              { this.state.showFlash && this.renderFlash()}
             </Form.Field>
             <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
               <label style={{ color: "#9219FF" }}>Prompt</label>
@@ -385,3 +399,12 @@ const buttonStyle = {
 const inputStyle = {
   color: "#9219FF"
 };
+
+const flashStyle = {
+  backgroundColor: "#FEEFB3",
+  color: "#9F6000",
+  paddingTop: "10px",
+  paddingBottom: "10px",
+  paddingLeft: "5px",
+  marginBottom: "10px"
+}

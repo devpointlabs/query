@@ -142,6 +142,7 @@ class Navbar extends React.Component {
                   text="Logout"
                   onClick={() => handleLogout(this.props.history)}
                 />
+                { this.props.auth.user.teacher && <Dropdown.Item text="Results" as={Link} to="/Results" />}
               </Dropdown.Menu>
             </Dropdown>
           </div>
