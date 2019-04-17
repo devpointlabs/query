@@ -1,7 +1,6 @@
 import React from "react";
-import axios from "axios";
 import styled from "styled-components";
-import { Radio, Form } from "semantic-ui-react";
+import { Form } from "semantic-ui-react";
 
 class TorF extends React.Component {
   state = { answer: "", choice_id: "", press: true };
@@ -61,24 +60,7 @@ const ChoiceItem = styled.li`
   font-family: menlo;
 `;
 
-const HeaderText = styled.h1`
-  color: white !important;
-  font-family: menlo;
-  font-size: ${props => fontSize(props.fSize)} !important;
-`;
-const fontSize = size => {
-  switch (size) {
-    case "large":
-      return "4rem";
-    case "medium":
-      return "2rem";
-    case "small":
-      return "1.5rem";
-    case "tiny":
-      return ".75rem";
-    default:
-      return "1rem";
-  }
-};
+
+
 
 export default TorF;

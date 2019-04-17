@@ -1,6 +1,6 @@
-import React, { Fragment, } from 'react';
+import React from 'react';
 import { AuthConsumer, } from "../providers/AuthProvider";
-import { Form, Grid, Image, Container, Divider, Header, Button, Icon, Card, } from 'semantic-ui-react';
+import { Form, Grid, Image, Container, Divider, Header, Button, Card, } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import Navbar from './Navbar';
 

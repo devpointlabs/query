@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Form, Button, Grid } from "semantic-ui-react";
+import { Form, Grid } from "semantic-ui-react";
 
 class OpenAnswerForm extends React.Component {
   state = { name: "", qType: "", explanation: "" };

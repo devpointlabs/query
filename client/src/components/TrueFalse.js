@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Grid, Radio, Header } from "semantic-ui-react";
+import { Form, Input, Grid, Radio, Header } from "semantic-ui-react";
 import axios from "axios";
 
 class TrueFalse extends React.Component {

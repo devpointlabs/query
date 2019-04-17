@@ -1,4 +1,5 @@
 class Api::SubmissionsController < ApplicationController
+  before_action :set_submission, only: [:show, :get_grade]
   def add_student_to_quiz
     emails = params.require(:email)
       emails.each do |email|
@@ -13,6 +14,11 @@ class Api::SubmissionsController < ApplicationController
   def show
     render json: @submission
   end
+
+  def get_grade
+    render json: { grade: @submission.grade}
+  end
+  
 
   def student_submissions
     # get submissions where the user owning the submission is not a teacher
@@ -29,7 +35,6 @@ class Api::SubmissionsController < ApplicationController
     end
     render json: arr.to_json
   
-    # TODO: make this return an array of submissions
   end
 
   def create
@@ -55,15 +60,10 @@ class Api::SubmissionsController < ApplicationController
     do_it = true
     student= User.where(email: email)
     quiz= params.require(:submission).permit(:quiz_id)
-    student[0].quizzes.each do |q|
-      q["id"] == quiz["quiz_id"] ? do_it = false : nil
-    end
-    if do_it  
       sub = Submission.new(
         quiz.merge({user_id: student[0].id.to_s})
         )
         sub.save
-    end
   end
 
   def quiz_params

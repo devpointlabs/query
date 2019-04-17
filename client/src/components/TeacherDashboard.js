@@ -1,13 +1,13 @@
 import React from "react";
 import ActiveCard from "./ActiveQuizCard";
-import { Button, Form, Header, Card, Container } from "semantic-ui-react";
+import { Button, Form, Card, Container } from "semantic-ui-react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
 class TeacherDashboard extends React.Component {
   state = {
     name: "",
-    info: "New Quiz",
+    info: "New Query",
     q_id: {},
     qActive: [],
     redirect: false,
@@ -144,7 +144,7 @@ class TeacherDashboard extends React.Component {
         ) : null}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Card.Group centered>
-            <Card >
+            <Card>
               <Card.Meta style={{ marginTop: "13px", marginLeft: "15px" }}>
                 {" "}
                 {this.nowDate()}{" "}
@@ -169,11 +169,7 @@ class TeacherDashboard extends React.Component {
               </Button>
             </Card>
             {this.state.quizzes.map(quiz => (
-              <Card
-                key={quiz.id}
-                link
-                onClick={() => this.setRedirect(quiz)}
-              >
+              <Card key={quiz.id} link onClick={() => this.setRedirect(quiz)}>
                 <Card.Content>
                   <Card.Meta> {this.dater(quiz.created_at)} </Card.Meta>
                   <Card.Header style={{ marginTop: "7px" }}>

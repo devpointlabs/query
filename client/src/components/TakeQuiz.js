@@ -4,6 +4,7 @@ import Timer from "./Timer";
 import { Grid, Form, Button, Icon } from "semantic-ui-react";
 import { AuthConsumer } from "../providers/AuthProvider";
 import styled from "styled-components";
+import Navbar from "./Navbar";
 import MC from "../quiz_components/MC";
 import Open from "../quiz_components/Open";
 import TorF from "../quiz_components/TorF";
@@ -16,13 +17,22 @@ class TakeQuiz extends React.Component {
     questionsIds: [],
     student_answer: [],
     press: false,
-    sub_id: ""
+    sub_id: "",
+    clock: null,
+    end: null,
+    interval: null,
+    active: null
   };
 
   componentDidMount() {
+    this.setState({ interval: setInterval(this.timer, 1000) });
     const quiz_id = this.props.match.params.id;
     axios.get(`/api/quizzes/${quiz_id}`).then(res => {
-      this.setState({ quiz: res.data });
+      this.setState({
+        quiz: res.data,
+        end: res.data.end,
+        active: res.data.active
+      });
     });
     axios.get(`/api/quizzes/${quiz_id}/questions`).then(res1 => {
       for (let ques of res1.data) {
@@ -42,8 +52,52 @@ class TakeQuiz extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
+  }
+
   handleSubmit = () => {
     this.setState({ press: true });
+  };
+
+  timer = () => {
+    if (this.state.end !== "") {
+      let time = ("" + Date.now()).split("");
+      time.splice(0, time.count - 13);
+      time = parseInt(time.join(""));
+      let timer = parseInt(this.state.end) - time;
+      let min = Math.floor((timer / 1000 / 60) << 0);
+      let sec = Math.floor((timer / 1000) % 60);
+      if (sec < 10) {
+        sec = "0" + sec;
+      }
+      let clock = `[${min}:${sec}]`;
+      if (timer <= 0 && this.state.end !== "") {
+        axios
+          .patch(`/api/quizzes/${this.props.match.params.id}`, {
+            end: "",
+            active: false
+          })
+          .then(res => {
+            this.setState({
+              end: res.data.end,
+              active: res.data.end
+            });
+          });
+      }
+      this.setState({ clock: clock });
+    }
+  };
+
+  clock = () => {
+    const { end, active } = this.state;
+    if (end !== "" && active) {
+      return this.state.clock;
+    } else if (end === "" && active) {
+      return "The Creater Of This Query Will Decide When To End It";
+    } else {
+      return "The Time For This Query Has Passed";
+    }
   };
 
   addStudentAnswer = (student_answer, choice_id) => {
@@ -68,13 +122,14 @@ class TakeQuiz extends React.Component {
     return (
       <Grid divided="vertically">
         <DescContainer>
+          <Navbar />
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
               margin: "30px",
-              marginTop: "260px"
+              marginTop: "125px"
             }}
           >
             <HeaderText fSize="medium">{quiz_name}</HeaderText>
@@ -107,7 +162,7 @@ class TakeQuiz extends React.Component {
               </HeaderText>
             )}
             <HeaderText fSize="tiny">Time Remaining:</HeaderText>
-            <HeaderText fSize="tiny">5 minutes</HeaderText>
+            <HeaderText fSize="tiny">{this.clock()}</HeaderText>
           </div>
         </DescContainer>
         <QuesContainer>
