@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Button, Grid, Radio, Header } from "semantic-ui-react";
+import { Form, Input, Grid, Radio, Header } from "semantic-ui-react";
 import axios from "axios";
 
 class TrueFalse extends React.Component {
@@ -26,16 +26,13 @@ class TrueFalse extends React.Component {
         const qres = res
         axios.post(`/api/questions/${res.data.id}/choices`, choice1)
           .then(res => {
-            this.props.addChoice(res.data);
+           console.log(res)
           });
         axios.post(`/api/questions/${res.data.id}/choices`, choice2)
           .then(res => {
-            this.props.addChoice(res.data);
+            console.log(res)
           });
-          axios.get(`/api/questions/${qres.data.id}/choices`)
-          .then( x => {
-          this.props.addQuestion({...qres.data, choices: [...x.data]})
-        })
+          this.props.addQuestion(qres, false)
       })
 
       .catch(err => console.log(err));

@@ -1,13 +1,13 @@
 import React from "react";
 import ActiveCard from "./ActiveQuizCard";
-import { Button, Form, Header, Card, Container } from "semantic-ui-react";
+import { Button, Form, Card, Container } from "semantic-ui-react";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
 
 class TeacherDashboard extends React.Component {
   state = {
     name: "",
-    info: "New Quiz",
+    info: "New Query",
     q_id: {},
     qActive: [],
     redirect: false,
@@ -16,12 +16,13 @@ class TeacherDashboard extends React.Component {
     anon: true
   };
 
-  dater = (a) => {
+  dater = a => {
     let b = new Date(a);
-    let c = b.toString()
-    .split(" ")
-    .splice(1, 3)
-    .join(" ");
+    let c = b
+      .toString()
+      .split(" ")
+      .splice(1, 3)
+      .join(" ");
     return c;
   };
 
@@ -54,55 +55,58 @@ class TeacherDashboard extends React.Component {
     });
   };
 
-  
   renderRedirect = () => {
     if (this.state.redirect) {
-      const quiz = this.state.q_id
-      return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />
+      const quiz = this.state.q_id;
+      return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />;
     }
   };
 
-
-
-  componentDidMount(){
-    axios.get("/api/quizzes")
-    .then( res => {
-      res.data.map( q => { 
-        if(q.active){
-          this.setState({qActive: [q, ...this.state.qActive]})
+  componentDidMount() {
+    axios.get("/api/quizzes").then(res => {
+      res.data.map(q => {
+        if (q.active) {
+          this.setState({ qActive: [q, ...this.state.qActive] });
+        } else {
+          this.setState({ quizzes: [q, ...this.state.quizzes] });
         }
-        else{
-          this.setState({quizzes: [q, ...this.state.quizzes]})
-        }
-      })
-    })}
+      });
+    });
+  }
 
-  shuffle = (id) => {
-    axios.patch(`/api/quizzes/${id}`, {end: "", active: false })
-    .then( nub => { 
-    this.setState({qActive: [], quizzes: [], })
-    axios.get("/api/quizzes")
-    .then( res => {
-      res.data.map( q => { 
-        if(q.active){
-          this.setState({qActive: [q, ...this.state.qActive]})
-        }
-        else{
-          this.setState({quizzes: [q, ...this.state.quizzes]})
-        }
-      })
-    })
-})}
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
+  }
 
-  handleChange = (e) => {
+  shuffle = id => {
+    axios.patch(`/api/quizzes/${id}`, { end: "", active: false }).then(nub => {
+      this.setState({ qActive: [], quizzes: [] });
+      axios.get("/api/quizzes").then(res => {
+        res.data.map(q => {
+          if (q.active) {
+            this.setState({ qActive: [q, ...this.state.qActive] });
+          } else {
+            this.setState({ quizzes: [q, ...this.state.quizzes] });
+          }
+        });
+      });
+    });
+  };
+
+  handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
   };
 
   handleSubmit = e => {
-    const {name, info, anon,} = this.state
-    const newQuiz = {name: name, info: info, anon: anon, user_id: this.props.user.id}
-    axios.post("/api/submissions", {quiz: newQuiz}).then(res => {
+    const { name, info, anon } = this.state;
+    const newQuiz = {
+      name: name,
+      info: info,
+      anon: anon,
+      user_id: this.props.user.id
+    };
+    axios.post("/api/submissions", { quiz: newQuiz }).then(res => {
       this.setState({
         name: "",
         info: "New Quiz",
@@ -117,7 +121,6 @@ class TeacherDashboard extends React.Component {
       <Container>
         {qActive.length !== 0 ? (
           <div>
-            
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
                 <ActiveCard
@@ -141,7 +144,7 @@ class TeacherDashboard extends React.Component {
         ) : null}
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Card.Group centered>
-            <Card color="violet">
+            <Card>
               <Card.Meta style={{ marginTop: "13px", marginLeft: "15px" }}>
                 {" "}
                 {this.nowDate()}{" "}
@@ -166,12 +169,7 @@ class TeacherDashboard extends React.Component {
               </Button>
             </Card>
             {this.state.quizzes.map(quiz => (
-              <Card
-                color="violet"
-                key={quiz.id}
-                link
-                onClick={() => this.setRedirect(quiz)}
-              >
+              <Card key={quiz.id} link onClick={() => this.setRedirect(quiz)}>
                 <Card.Content>
                   <Card.Meta> {this.dater(quiz.created_at)} </Card.Meta>
                   <Card.Header style={{ marginTop: "7px" }}>
