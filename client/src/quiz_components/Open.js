@@ -7,6 +7,7 @@ class Open extends React.Component {
   state = { answer: "", choice_id: "", press: true };
 
   componentDidUpdate() {
+
     const student_answer = this.state.answer;
     const choice_id = this.state.choice_id;
     if (this.props.press && this.state.press) {
@@ -32,7 +33,6 @@ class Open extends React.Component {
             style={{ fontFamily: "menlo" }}
             placeholder="Input your answer..."
             name="answer"
-            id={this.props.choices[0].id}
             value={this.state.answer}
             onChange={this.handleOptionChange}
           />

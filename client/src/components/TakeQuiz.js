@@ -137,11 +137,11 @@ class TakeQuiz extends React.Component {
               } else if (question.qType === "TorF") {
                 return (
                   <TorF
-                    press={this.state.press}
-                    question={question.name}
-                    addStudentAnswer={this.addStudentAnswer}
-                    choices={question.choices}
-                    quiz_id={quiz_id}
+                  press={this.state.press}
+                  question={question.name}
+                  addStudentAnswer={this.addStudentAnswer}
+                  choices={question.choices}
+                  quiz_id={quiz_id}
                   />
                 );
               }
