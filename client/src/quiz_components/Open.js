@@ -16,6 +16,7 @@ class Open extends React.Component {
   }
 
   handleOptionChange = changeEvent => {
+  
     let student_answer = changeEvent.target.value;
     let id = changeEvent.target.id;
     this.setState({ answer: student_answer, choice_id: id });
@@ -32,6 +33,7 @@ class Open extends React.Component {
             style={{ fontFamily: "menlo" }}
             placeholder="Input your answer..."
             name="answer"
+            id={this.props.choices[0].id}
             value={this.state.answer}
             onChange={this.handleOptionChange}
           />

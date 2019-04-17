@@ -222,10 +222,6 @@ class TakeQuiz extends React.Component {
 }
 
 const DescContainer = styled.div`
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // flex-direction: column;
   background: #5906a3;
   height: 120vh;
   width: 40%;
@@ -233,10 +229,6 @@ const DescContainer = styled.div`
 `;
 
 const QuesContainer = styled.div`
-  // display: flex;
-  // justify-content: flex-end;
-  // align-items: center;
-  // flex-direction: column;
   height: 100vh;
   width: 60%;
   margin-top: 100px;

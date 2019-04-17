@@ -34,7 +34,7 @@ class MC extends React.Component {
                   id={choice.id}
                   value={choice.answer}
                   onChange={this.handleOptionChange}
-                  checked={this.state.answer === choice.answer}
+                  checked={this.state.choice_id == choice.id}
                 />
                 {choice.answer}
               </Form.Field>
