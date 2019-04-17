@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_12_171115) do
+ActiveRecord::Schema.define(version: 2019_04_16_205308) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -42,6 +42,16 @@ ActiveRecord::Schema.define(version: 2019_04_12_171115) do
     t.boolean "active"
     t.string "end"
     t.boolean "anon"
+  end
+
+  create_table "student_lists", force: :cascade do |t|
+    t.string "email"
+    t.string "name"
+    t.string "info"
+    t.bigint "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_student_lists_on_user_id"
   end
 
   create_table "submission_choices", force: :cascade do |t|
@@ -103,6 +113,7 @@ ActiveRecord::Schema.define(version: 2019_04_12_171115) do
 
   add_foreign_key "choices", "questions"
   add_foreign_key "questions", "quizzes"
+  add_foreign_key "student_lists", "users"
   add_foreign_key "submission_choices", "choices"
   add_foreign_key "submission_choices", "submissions"
   add_foreign_key "submissions", "quizzes"

@@ -109,7 +109,7 @@ class TeacherDashboard extends React.Component {
     axios.post("/api/submissions", { quiz: newQuiz }).then(res => {
       this.setState({
         name: "",
-        info: "New Quiz",
+        info: "New Query",
         quizzes: [res.data, ...this.state.quizzes]
       });
     });
@@ -152,7 +152,7 @@ class TeacherDashboard extends React.Component {
               <Form size="tiny" onSubmit={this.handleSubmit}>
                 <Form.Input
                   style={{ marginTop: "0px", marginBottom: "0px" }}
-                  placeholder="New Quiz Name"
+                  placeholder="New Query Name"
                   autoFocus
                   name="name"
                   value={this.state.name}
@@ -165,7 +165,7 @@ class TeacherDashboard extends React.Component {
                 size="mini"
                 onClick={() => this.handleSubmit()}
               >
-                Create New Quiz
+                Create New Query
               </Button>
             </Card>
             {this.state.quizzes.map(quiz => (

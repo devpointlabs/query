@@ -1,18 +1,17 @@
 import React from "react";
 import { Form, Message, Button, Header } from "semantic-ui-react";
 import axios from "axios";
-import { AuthConsumer, } from "../providers/AuthProvider";
+import { AuthConsumer } from "../providers/AuthProvider";
 
 class Timer extends React.Component {
-  
- state = {
-   timed: "idk",
-   clock: "",
-   length: "",
-   active: "",
-   end: "",
-   interval: null
-    }
+  state = {
+    timed: "idk",
+    clock: "",
+    length: "",
+    active: "",
+    end: "",
+    interval: null
+  };
 
   componentDidMount() {
     axios.get(`/api/quizzes/${this.props.id}`).then(res => {
@@ -21,12 +20,23 @@ class Timer extends React.Component {
         this.setState({ timed: "y" });
       }
     });
-    this.setState({interval: setInterval(this.timer, 1000)})
+    this.setState({ interval: setInterval(this.timer, 1000) });
   }
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     clearInterval(this.state.interval);
   }
+
+  copyStringToClipboard = () => {
+    let el = document.createElement("textarea");
+    el.value = `https://query-dpl.herokuapp.com/quizzes/${this.props.id}/quiz`;
+    el.setAttribute("readonly", "");
+    el.style = { position: "absolute", left: "-9999px" };
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand("copy");
+    document.body.removeChild(el);
+  };
 
   static = () => {
     if (this.state.active === null || this.state.active === false) {
@@ -35,10 +45,17 @@ class Timer extends React.Component {
         .then(res => {
           this.setState({ timed: "n", active: true, end: "" });
         });
-      axios.post("/api/add_student_to_quiz", {quiz_id: this.props.id, email: this.props.email})
-      }
+      axios.post("/api/add_student_to_quiz", {
+        quiz_id: this.props.id,
+        email: this.props.email
+      });
+      this.copyStringToClipboard();
+    }
   };
-
+  startTimer = () => {
+    this.copyStringToClipboard();
+    this.setState({ timed: "y" });
+  };
 
   timer = () => {
     if (this.state.end !== "") {
@@ -87,11 +104,15 @@ class Timer extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    axios.post("/api/add_student_to_quiz", {quiz_id: this.props.id, email: this.props.email})
+    axios.post("/api/add_student_to_quiz", {
+      quiz_id: this.props.id,
+      email: this.props.email
+    });
     let endTime = ("" + Date.now()).split("");
     endTime.splice(0, endTime.count - 13);
     endTime = parseInt(endTime.join("")) + this.state.length * 60000;
-    axios.patch(`/api/quizzes/${this.props.id}`, { end: endTime, active: true })
+    axios
+      .patch(`/api/quizzes/${this.props.id}`, { end: endTime, active: true })
       .then(res => {
         this.setState({ active: res.data.active, end: res.data.end });
       });
@@ -134,15 +155,19 @@ class Timer extends React.Component {
     } else {
       if (this.state.timed === "idk") {
         return (
-          <div style={ this.props.width < 500 ? { display: "flex", justifyContent: "space-evenly" } : { display: "flex", justifyContent: "center" } }>
-          
-              <button style={buttonStyle} onClick={() => this.setState({ timed: "y" })}>
-                Start Timed Quiz
-              </button>
-              <button style={buttonStyle} onClick={() => this.static()}>
-                Start Static Quiz
-              </button>
-            
+          <div
+            style={
+              this.props.width < 500
+                ? { display: "flex", justifyContent: "space-evenly" }
+                : { display: "flex", justifyContent: "center" }
+            }
+          >
+            <button style={buttonStyle} onClick={() => this.startTimer()}>
+              Start Timed Quiz
+            </button>
+            <button style={buttonStyle} onClick={() => this.static()}>
+              Start Static Quiz
+            </button>
           </div>
         );
       }
@@ -161,7 +186,8 @@ class Timer extends React.Component {
               />
               <div style={{ display: "flex", justifyContent: "center" }}>
                 <button style={buttonStyle}>Start Timed</button>
-                <button style={buttonStyle}        
+                <button
+                  style={buttonStyle}
                   onClick={() => this.setState({ timed: "idk" })}
                 >
                   Cancel
@@ -170,48 +196,51 @@ class Timer extends React.Component {
             </Form>
           </div>
         );
+      } else {
+        if (this.state.timed === "idk") {
+          return (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Button.Group>
+                <Button onClick={() => this.setState({ timed: "y" })}>
+                  Start Timed Quiz
+                </Button>
+                <Button onClick={this.static}>Start Static Quiz</Button>
+              </Button.Group>
+            </div>
+          );
+        }
+        if (this.state.timed === "y") {
+          return (
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <Form style={{ width: "70%" }} onSubmit={this.handleSubmit}>
+                <Form.Input
+                  autoFocus
+                  required
+                  type="number"
+                  placeholder="Minutes the Quiz will be Open"
+                  name="length"
+                  value={this.state.length}
+                  onChange={this.handleChange}
+                />
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  <Button>Start Timed</Button>
+                  <Button onClick={() => this.setState({ timed: "idk" })}>
+                    Cancel
+                  </Button>
+                </div>
+              </Form>
+            </div>
+          );
+        }
       }
-    
-    else{
-      if(this.state.timed === "idk"){
-        return(
-          <div style={{display: "flex", justifyContent: "center"}}>
-        <Button.Group>
-          <Button  onClick={() => this.setState({timed: "y"})}>Start Timed Quiz</Button>
-          <Button  onClick={this.static}>Start Static Quiz</Button>
-        </Button.Group>
-        </div>
-        )}
-      if(this.state.timed === "y"){
-        return(
-        <div style={{display: "flex", justifyContent: "center"}}>
-        <Form style={{width:"70%", }} onSubmit={this.handleSubmit}>
-        <Form.Input
-        autoFocus
-        required
-        type="number"
-        placeholder="Minutes the Quiz will be Open"
-        name="length"
-        value={this.state.length}
-        onChange={this.handleChange}
-        />
-        <div style={{display: "flex", justifyContent: "center"}}>
-        <Button >Start Timed</Button>
-        <Button  onClick={() => this.setState({timed: "idk"})}>Cancel</Button>
-        </div>
-      </Form>
-        </div>
-     )}
-     }
-   }
+    }
   }
 }
 
 export default Timer;
 
-
 const buttonStyle = {
   border: "1px solid",
   color: "#9219FF",
-  backgroundColor: 'white'
+  backgroundColor: "white"
 };
