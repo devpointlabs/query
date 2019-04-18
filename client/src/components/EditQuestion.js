@@ -3,7 +3,17 @@ import { Form } from "semantic-ui-react";
 import axios from "axios";
 
 class EditQuestion extends React.Component {
-  state = { name: "", explanation: "", choices: [] };
+  state = { name: "", 
+  explanation: "", 
+  choices: [], 
+  flashMsgText: "", 
+  showFlash: false  };
+
+  renderFlash = () => {
+    return ( <div style={flashStyle}>
+      {this.state.flashMsgText}
+    </div>)
+  }
 
   componentDidMount() {
     const { name, explanation, choices } = this.props;
@@ -18,11 +28,15 @@ class EditQuestion extends React.Component {
   handleChoiceChange = e => {
     const choice = this.state.choices[e.target.name];
     choice.answer = e.target.value;
+    if (choice.answer !== ""){
     const choices = this.state.choices.map(c => {
       if (c.id === choice.id) return choice;
       else return c;
     });
-    this.setState({ choices: choices });
+    this.setState({ choices: choices, showFlash: false });
+  } else {
+    this.setState({ flashMsgText: "Choice cannot be empty", showFlash: true})
+  }
   };
 
   handleCorrectAnswer = (e, { name, value }) => {
@@ -60,6 +74,7 @@ class EditQuestion extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    if (!this.state.showFlash){
     const question = {
       name: this.state.name,
       explanation: this.state.explanation
@@ -73,6 +88,7 @@ class EditQuestion extends React.Component {
       );
     this.setState({ name: "", explanation: "", choices: [] });
     this.props.toggleForm(1);
+    }
   };
 
   render() {
@@ -84,6 +100,7 @@ class EditQuestion extends React.Component {
           value={name}
           name="name"
           onChange={this.handleChange}
+          required
         />
         <Form.Input
           label="Edit Explanation"
@@ -91,6 +108,7 @@ class EditQuestion extends React.Component {
           name="explanation"
           onChange={this.handleChange}
         />
+          { this.state.showFlash && this.renderFlash()}
         {choices.map((choice, index) => (
           <Fragment key={choice.id}>
             <Form.Input
@@ -114,3 +132,12 @@ class EditQuestion extends React.Component {
   }
 }
 export default EditQuestion;
+
+const flashStyle = {
+  backgroundColor: "#FEEFB3",
+  color: "#9F6000",
+  paddingTop: "10px",
+  paddingBottom: "10px",
+  paddingLeft: "5px",
+  marginBottom: "10px"
+}

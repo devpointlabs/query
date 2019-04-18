@@ -1,19 +1,13 @@
 import React from "react";
 import axios from "axios";
 import Timer from "./Timer";
-import {
-  Button,
-  List,
-  Form,
-  Input,
-  Icon,
-} from 'semantic-ui-react';
-import OpenAnswerForm from './OpenAnswerForm';
-import TrueFalse from './TrueFalse';
-import Question from './Question';
-import Navbar from './Navbar';
-import AddStudent from './AddStudent';
-import DynamicMCForm from './DynamicMCForm';
+import { Button, List, Form, Input, Icon } from "semantic-ui-react";
+import OpenAnswerForm from "./OpenAnswerForm";
+import TrueFalse from "./TrueFalse";
+import Question from "./Question";
+import Navbar from "./Navbar";
+import AddStudent from "./AddStudent";
+import DynamicMCForm from "./DynamicMCForm";
 
 class ShowQuiz extends React.Component {
   state = {
@@ -30,7 +24,9 @@ class ShowQuiz extends React.Component {
     anon: true,
     go: false,
     width: 0,
-    height: 0
+    height: 0,
+    flashMsgText: "", 
+    showFlash: false
   };
 
   componentDidMount() {
@@ -104,8 +100,7 @@ class ShowQuiz extends React.Component {
     if (open) {
       this.setState({ questions: [question, ...this.state.questions] });
     } else {
-      axios.get(`/api/questions/${question.data.id}/choices`)
-      .then(res => {
+      axios.get(`/api/questions/${question.data.id}/choices`).then(res => {
         this.setState({
           questions: [
             { ...question.data, choices: [...res.data] },
@@ -159,18 +154,29 @@ class ShowQuiz extends React.Component {
 
   editQuiz = e => {
     e.preventDefault();
+    if (this.state.quiz.name !== ""){
     const id = this.props.match.params.id;
     const quiz = { ...this.state };
     axios.put(`/api/quizzes/${id}`, quiz).then(res => {
       this.updateQuiz(res.data);
     });
+    this.setState({showFlash: false})
     this.toggleEditQuiz();
+    } else {
+      this.setState({ flashMsgText: "Choice cannot be empty", showFlash: true})
+    }
   };
 
-  render() {
-    document.body.style = "background: #6D55A3;";
+  renderFlash = () => {
+    return ( <div style={flashStyle}>
+      {this.state.flashMsgText}
+    </div>)
+  }
 
-    const {quiz} = this.state;
+  render() {
+    document.body.style = "background: #5906A3;";
+
+    const { quiz } = this.state;
     return (
       <div>
         <Navbar />
@@ -212,6 +218,7 @@ class ShowQuiz extends React.Component {
                 value={quiz.name}
                 onChange={this.handleChange}
               />
+              { this.state.showFlash && this.renderFlash()}
             </Form.Field>
             <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
               <label style={{ color: "#9219FF" }}>Prompt</label>
@@ -385,3 +392,12 @@ const buttonStyle = {
 const inputStyle = {
   color: "#9219FF"
 };
+
+const flashStyle = {
+  backgroundColor: "#FEEFB3",
+  color: "#9F6000",
+  paddingTop: "10px",
+  paddingBottom: "10px",
+  paddingLeft: "5px",
+  marginBottom: "10px"
+}

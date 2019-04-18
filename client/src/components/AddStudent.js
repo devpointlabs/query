@@ -1,12 +1,6 @@
 import React from "react";
 import axios from "axios";
-import {
-  Button,
-  Grid,
-  Form,
-  Input,
-  List
-} from "semantic-ui-react";
+import { Button, Grid, Form, Input, List } from "semantic-ui-react";
 
 class AddStudent extends React.Component {
   state = {
@@ -14,21 +8,21 @@ class AddStudent extends React.Component {
     email: "",
     showStudentForm: false,
     showButtons: true,
-    pupil: [],
+    pupil: []
   };
 
   handleChange = e => {
-    const {name, value} = e.target
-    this.setState({ [name]: value});
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
-    const { email, pupil } = this.state
+    const { email, pupil } = this.state;
     // axios.post("/api/add_student_to_quiz", {email: email})
     // .then(res => this.setState({user: res.data}))
-    this.props.pmail(email)
-    this.setState({email: ""})
+    this.props.pmail(email);
+    this.setState({ email: "" });
     this.setState({ pupil: [...pupil, email] });
   };
 
@@ -45,85 +39,111 @@ class AddStudent extends React.Component {
     });
 
   render() {
-    document.body.style = "background: #6D55A3;";
+    document.body.style = "background: #5906A3;";
     return (
       <div style={divStyle}>
-      {this.state.showButtons ? (
-    <Button style={buttonStyle} onClick={this.toggleStudentForm}>
-      Add Student
-    </Button>) : null}
-    {this.state.showStudentForm && (
-  <>
-  <div style={this.props.width < 500 ? { textAlign: "center"} :     null}>
-    <Form onSubmit={this.handleSubmit} >
-     <Form.Field
-      style={ this.props.width < 500 ? 
-       null :{
-       paddingTop: "1%",
-       marginLeft: "5%",
-       marginRight: "40%"
-         }}>
-      <label style={{ color: "#5906A3" }}>Enter Email Address</label>
-        <Input style={{ inputStyle }} 
-         value={this.state.email}
-         type="email"
-         name="email"
-         placeholder="Email"
-         onChange={this.handleChange}
-         />
-      </Form.Field>
-      <Grid>
-      <Grid.Column>
-      <button style={{color: '#9219FF', marginLeft: "53%"}}  type="submit">
-        Submit
-      </button>
-     </Grid.Column>
-    </Grid>
-   </Form>
-  </div>
-  </>
-)}
-{this.state.showButtons ? null : (
+        {this.state.showButtons ? (
+          <Button style={buttonStyle} onClick={this.toggleStudentForm}>
+            Add Student
+          </Button>
+        ) : null}
+        {this.state.showStudentForm && (
+          <>
+            <div
+              style={this.props.width < 500 ? { textAlign: "center" } : null}
+            >
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Field
+                  style={
+                    this.props.width < 500
+                      ? null
+                      : {
+                          paddingTop: "1%",
+                          marginLeft: "5%",
+                          marginRight: "40%"
+                        }
+                  }
+                >
+                  <label style={{ color: "#5906A3" }}>
+                    Enter Email Address
+                  </label>
+                  <Input
+                    style={{ inputStyle }}
+                    value={this.state.email}
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={this.handleChange}
+                  />
+                </Form.Field>
+                <Grid>
+                  <Grid.Column>
+                    <Button
+                      style={{
+                        border: "1px solid",
+                        backgroundColor: "white",
+                        color: "#9219FF",
+                        marginLeft: "53%"
+                      }}
+                      type="submit"
+                    >
+                      Submit
+                    </Button>
+                  </Grid.Column>
+                </Grid>
+              </Form>
+            </div>
+          </>
+        )}
+        {this.state.showButtons ? null : (
+          <Button
+            style={{
+              border: "1px solid",
+              backgroundColor: "white",
+              color: "red",
+              marginLeft: "5%",
+              marginTop: "3%"
+            }}
+            onClick={this.toggleButtons}
+          >
+            Cancel
+          </Button>
+        )}
 
-<button style={{ color: "red", marginLeft: "5%", marginTop: "3%" }}
-  onClick={this.toggleButtons}>
-  Cancel
-</button>        
-)}
-
-<List style={{ marginLeft: "5%", marginRight: "5%" }}>
-  {this.state.pupil.map(p => (
-   <div>
-   <p>{p}</p>
-   </div>
-  ))}
-</List>
-
-</div>
-);
-}}
+        <List style={{ marginLeft: "5%", marginRight: "5%" }}>
+          {this.state.pupil.map(p => (
+            <div>
+              <p>{p}</p>
+            </div>
+          ))}
+        </List>
+      </div>
+    );
+  }
+}
 
 export default AddStudent;
 
 const divStyle = {
   desktop: {
-  marginBottom: "50px",
-  backgroundColor: "white",
-  textAlign: "left",
-  color: "#9219FF",
-  marginLeft: "15%",
-  marginRight: "15%",
-  borderRadius: "10px",
-  paddingBottom: "2%"
-}, mobile: {
-  marginBottom: "50px",
-  backgroundColor: "white",
-  textAlign: "left",
-  color: "purple",
-  borderRadius: "10px",
-  paddingBottom: "2%"
-}};
-
+    marginBottom: "50px",
+    backgroundColor: "white",
+    textAlign: "left",
+    color: "#9219FF",
+    marginLeft: "15%",
+    marginRight: "15%",
+    borderRadius: "10px",
+    paddingBottom: "2%"
+  },
+  mobile: {
+    marginBottom: "50px",
+    backgroundColor: "white",
+    textAlign: "left",
+    color: "purple",
+    borderRadius: "10px",
+    paddingBottom: "2%"
+  }
+};
 
 const buttonStyle = {
   backgroundColor: "white",
