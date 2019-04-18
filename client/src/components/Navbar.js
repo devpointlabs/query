@@ -76,7 +76,7 @@ class Navbar extends React.Component {
                 />
               }
             >
-              <Dropdown.Menu style={{marginTop:"-35px", marginLeft: "-15px"}}>
+              <Dropdown.Menu style={{marginTop:"-35px", marginLeft: "-35px"}}>
                 <Dropdown.Item text="Profile" as={Link} to="/Profile" />
                 <Dropdown.Item
                   text="Logout"
@@ -136,7 +136,7 @@ class Navbar extends React.Component {
                 />
               }
             >
-              <Dropdown.Menu style={{marginTop:"-35px", marginLeft: "-15px"}}>
+              <Dropdown.Menu style={{marginTop:"-35px", marginLeft: "-30px"}}>
                 <Dropdown.Item text="Profile" as={Link} to="/Profile" />
                 <Dropdown.Item
                   text="Logout"
