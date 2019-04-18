@@ -37,6 +37,10 @@ class Api::SubmissionsController < ApplicationController
   
   end
 
+  def submissions_by_quiz
+    render json: Submission.submissions_by_quiz(params[:quiz_id].to_i)
+  end
+
   def create
     @quiz = current_user.quizzes.new(quiz_params)
     if @quiz.save

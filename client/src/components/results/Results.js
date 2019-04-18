@@ -1,40 +1,50 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Card, List } from 'semantic-ui-react';
 import Choices from './Choices'
 import Grade from './Grade'
 import Navbar from '../Navbar'
 
-const Results = () => {
+const Results = (props) => {
   const [submissions, setSubmissions] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/student_submissions") 
-      .then( res => {
+    axios.get(`/api/submissions_by_quiz?quiz_id=${props.location.state.quiz_id}`)
+      .then(res => {
         setSubmissions(res.data)
       })
-      .catch( err => console.log(err))
+      .catch(err => console.log(err))
   }, [])
 
   const renderSubmissions = () => {
-
-    return submissions.map( sub => {
-      return (
-      <Card key={sub.submission.id}>
-        <Card.Content>
-          <Card.Header>{sub.quiz}</Card.Header>
-          <Card.Meta>{sub.email}</Card.Meta>
-        </Card.Content>
-        <Card.Content>
-          <List>
-            <Choices id={sub.submission.id} />
-          </List>
-        </Card.Content>
-        <Card.Content extra>
-          <Grade id={sub.submission.id} />
-        </Card.Content>
-      </Card>)
-    })
+    return submissions.length >= 1 ?
+      (submissions.map(sub => {
+        return (
+          <Card key={sub.id}>
+            <Card.Content>
+              <Card.Header>{sub.name}</Card.Header>
+              <Card.Meta>{sub.email}</Card.Meta>
+            </Card.Content>
+            <Card.Content>
+              <List>
+                <Choices id={sub.id} />
+              </List>
+            </Card.Content>
+            <Card.Content extra>
+              <Grade id={sub.id} />
+            </Card.Content>
+          </Card>)
+      }))
+      :
+      (<h1
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          color: "white"
+        }}
+      >
+        There are no submissions for this quiz
+      </h1>)
   }
 
   document.body.style = 'background: #5906A3;'
@@ -43,36 +53,12 @@ const Results = () => {
     <>
       <Navbar />
       <Card.Group centered>
-       { renderSubmissions() }
-       
+        {renderSubmissions()}
+
       </Card.Group>
     </>
   )
 }
 
 
-// class Results extends React.Component {
-//   state = { submissions: []}
-
-//   componentDidMount() {
-//     axios.get("/api/student_submissions") 
-//       .then( res => this.setState({submissions: res.data}))
-//       .catch( err => console.log(err))
-
-//   }
-
-//   render() {
-//     return (
-//       <>
-//         <Card.Group>
-//           {this.state.submissions.map( sub => (
-//             <Card key={sub.id}>
-//               <Card.Header>balls</Card.Header>
-//             </Card>
-//           ))}
-//         </Card.Group>
-//       </>
-//     )
-//   }
-// }
 export default Results;
