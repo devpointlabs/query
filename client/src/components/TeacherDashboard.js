@@ -56,7 +56,7 @@ class TeacherDashboard extends React.Component {
   };
 
   renderRedirect = () => {
-    if (this.state.redirect) {
+    if (this.state.redirect)  {
       const quiz = this.state.q_id;
       return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />;
     }
@@ -110,8 +110,9 @@ class TeacherDashboard extends React.Component {
       this.setState({
         name: "",
         info: "New Quiz",
-        quizzes: [res.data, ...this.state.quizzes]
+        quizzes: [res.data, ...this.state.quizzes],
       });
+      this.setRedirect(res.data)
     });
   };
 
