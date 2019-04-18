@@ -110,7 +110,6 @@ class TakeQuiz extends React.Component {
     axios.post(`/api/submissions/${id}/submission_choices`, answer);
   };
 
-
   render() {
     const quiz_name = this.state.quiz.name;
     const quiz_info = this.state.quiz.info;
@@ -121,8 +120,8 @@ class TakeQuiz extends React.Component {
     return (
       <Grid divided="vertically">
         <DescContainer>
-          <div style={{marginTop: "25px"}}>
-          <Navbar />
+          <div style={{ marginTop: "25px" }}>
+            <Navbar />
           </div>
           <div
             style={{
@@ -166,8 +165,6 @@ class TakeQuiz extends React.Component {
             <HeaderText fSize="tiny">Time Remaining:</HeaderText>
             <HeaderText fSize="tiny">{this.clock()}</HeaderText>
           </div>
-
-
         </DescContainer>
         <QuesContainer>
           {/* Depending on the question type it will render a component that formats the question */}
@@ -176,6 +173,7 @@ class TakeQuiz extends React.Component {
               if (question.qType === "MC") {
                 return (
                   <MC
+                    key={question.id}
                     press={this.state.press}
                     question={question.name}
                     addStudentAnswer={this.addStudentAnswer}
@@ -186,6 +184,7 @@ class TakeQuiz extends React.Component {
               } else if (question.qType === "open") {
                 return (
                   <Open
+                    key={question.id}
                     press={this.state.press}
                     question={question.name}
                     addStudentAnswer={this.addStudentAnswer}
@@ -196,6 +195,7 @@ class TakeQuiz extends React.Component {
               } else if (question.qType === "TorF") {
                 return (
                   <TorF
+                    key={question.id}
                     press={this.state.press}
                     question={question.name}
                     addStudentAnswer={this.addStudentAnswer}
@@ -205,9 +205,7 @@ class TakeQuiz extends React.Component {
                 );
               }
             })}
-            <SubmitButton>
-              Submit
-            </SubmitButton>
+            <SubmitButton>Submit</SubmitButton>
           </Form>
         </QuesContainer>
       </Grid>
@@ -215,11 +213,10 @@ class TakeQuiz extends React.Component {
   }
 }
 
-
 // Styled Components
 
 const SubmitButton = styled.button`
-  background-color: #5906A3;
+  background-color: #5906a3;
   color: white;
   border: none;
   margin-top: -20;
@@ -246,7 +243,6 @@ const QuesContainer = styled.div`
   right: 0;
   top: 0;
 `;
-
 
 const HeaderText = styled.h1`
   color: white !important;

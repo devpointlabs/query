@@ -28,7 +28,7 @@ class Open extends React.Component {
         <strong style={{ fontFamily: "menlo" }}>{this.props.question}</strong>
         <br />
         <br />
-        <Form>
+        {/* <Form> */}
           {/* Renders a text field below question titles */}
           <TextArea
             style={{ fontFamily: "menlo" }}
@@ -37,8 +37,9 @@ class Open extends React.Component {
             id={this.props.choices[0].id}
             value={this.state.answer}
             onChange={this.handleOptionChange}
+            style={{ fontSize: '12px', }}
           />
-        </Form>
+        {/* </Form> */}
       </ListItem>
     );
   }
