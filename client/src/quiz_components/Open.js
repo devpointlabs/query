@@ -9,6 +9,7 @@ class Open extends React.Component {
 
     const student_answer = this.state.answer;
     const choice_id = this.state.choice_id;
+    // A conditional to tell if the submit button has been pressed and if it has it passes up state to TakeQuiz component
     if (this.props.press && this.state.press) {
       this.setState({ press: false });
       this.props.addStudentAnswer(student_answer, choice_id);
@@ -16,7 +17,6 @@ class Open extends React.Component {
   }
 
   handleOptionChange = changeEvent => {
-  
     let student_answer = changeEvent.target.value;
     let id = changeEvent.target.id;
     this.setState({ answer: student_answer, choice_id: id });
@@ -29,6 +29,7 @@ class Open extends React.Component {
         <br />
         <br />
         <Form>
+          {/* Renders a text field below question titles */}
           <TextArea
             style={{ fontFamily: "menlo" }}
             placeholder="Input your answer..."

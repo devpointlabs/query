@@ -15,6 +15,8 @@ class OpenAnswerForm extends React.Component {
     axios.post(`/api/quizzes/${quiz_id}/questions`, question)
       .then(res => {
         this.props.addQuestion(res.data, true);
+       
+        // Creates a blank choice so when creating a submission_choice we can have a choice and choice_id
         const choice = {
           answer: "",
           correct_answer: false,

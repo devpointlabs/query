@@ -14,6 +14,7 @@ class TorF extends React.Component {
   componentDidUpdate() {
     const student_answer = this.state.answer;
     const choice_id = this.state.choice_id;
+    // A conditional to tell if the submit button has been pressed and if it has it passes up state to TakeQuiz component
     if (this.props.press && this.state.press) {
       this.setState({ press: false });
       this.props.addStudentAnswer(student_answer, choice_id);
@@ -24,11 +25,14 @@ class TorF extends React.Component {
     return (
       <ListItem>
         <strong style={{ fontFamily: "menlo" }}>{this.props.question}</strong>
+
+        {/* Maps through the choices for a specific question and renders them with the radio buttons. */}
         {this.props.choices.map(choice => {
           return (
             <ChoiceItem key={choice.id}>
               <Form.Field>
-                <input
+                <p>
+                <StyledInput
                   type="radio"
                   name={choice.id}
                   id={choice.id}
@@ -36,7 +40,8 @@ class TorF extends React.Component {
                   onChange={this.handleOptionChange}
                   checked={this.state.choice_id == choice.id}
                 />
-                {choice.answer}
+                <label>{choice.answer}</label> 
+                </p>
               </Form.Field>
             </ChoiceItem>
           );
@@ -59,5 +64,13 @@ const ChoiceItem = styled.li`
   list-style-type: none;
   font-family: menlo;
 `;
+
+const StyledInput = styled.input`
+  margin-right: 20px;
+`;
+
+// const styles = StyleSheet.create({
+  
+// })
 
 export default TorF;
