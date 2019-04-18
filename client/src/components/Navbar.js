@@ -70,7 +70,7 @@ class Navbar extends React.Component {
                   style={{ marginTop: "5px" }}
                   src={
                     this.props.auth.user.image === null
-                      ? "http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg"
+                      ? "https://imgur.com/6qiAjc4.png"
                       : this.props.auth.user.image
                   }
                 />
@@ -130,7 +130,7 @@ class Navbar extends React.Component {
                   height="50"
                   src={
                     this.props.auth.user.image === null
-                      ? "http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg"
+                      ? "https://imgur.com/6qiAjc4.png"
                       : this.props.auth.user.image
                   }
                 />

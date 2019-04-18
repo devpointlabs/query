@@ -1,19 +1,13 @@
 import React from "react";
 import axios from "axios";
 import Timer from "./Timer";
-import {
-  Button,
-  List,
-  Form,
-  Input,
-  Icon,
-} from 'semantic-ui-react';
-import OpenAnswerForm from './OpenAnswerForm';
-import TrueFalse from './TrueFalse';
-import Question from './Question';
-import Navbar from './Navbar';
-import AddStudent from './AddStudent';
-import DynamicMCForm from './DynamicMCForm';
+import { Button, List, Form, Input, Icon } from "semantic-ui-react";
+import OpenAnswerForm from "./OpenAnswerForm";
+import TrueFalse from "./TrueFalse";
+import Question from "./Question";
+import Navbar from "./Navbar";
+import AddStudent from "./AddStudent";
+import DynamicMCForm from "./DynamicMCForm";
 
 class ShowQuiz extends React.Component {
   state = {
@@ -104,8 +98,7 @@ class ShowQuiz extends React.Component {
     if (open) {
       this.setState({ questions: [question, ...this.state.questions] });
     } else {
-      axios.get(`/api/questions/${question.data.id}/choices`)
-      .then(res => {
+      axios.get(`/api/questions/${question.data.id}/choices`).then(res => {
         this.setState({
           questions: [
             { ...question.data, choices: [...res.data] },
@@ -168,9 +161,9 @@ class ShowQuiz extends React.Component {
   };
 
   render() {
-    document.body.style = "background: #6D55A3;";
+    document.body.style = "background: #5906A3;";
 
-    const {quiz} = this.state;
+    const { quiz } = this.state;
     return (
       <div>
         <Navbar />

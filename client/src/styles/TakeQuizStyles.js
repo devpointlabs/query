@@ -5,7 +5,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 flex-direction: column;
-background: #6D55A3;
+background: #5906A3;
 height: 100vh;
 width: 40%
 `
