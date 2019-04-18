@@ -51,6 +51,7 @@ class TrueFalse extends React.Component {
             name="name"
             value={this.state.name}
             onChange={this.handleChange}
+            required
           />
         </Form.Field>
         <Form.Field>
