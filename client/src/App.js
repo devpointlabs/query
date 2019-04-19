@@ -10,6 +10,7 @@ import ShowQuiz from './components/ShowQuiz'
 import TakeQuiz from './components/TakeQuiz'
 import ResultsByQuiz from './components/results/ResultsByQuiz'
 import Results from './components/results/Results'
+import StudentResults from './components/student_results/StudentResults'
 import { Route, Switch, } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute"
 import './App.css'
@@ -28,6 +29,7 @@ const App = () => (
            <Route exact path="/register" component={Register} />
            <Route exact path="/register/teacher" component={Register} />
            <Route exact path="/quizbuilder/:id" component={ShowQuiz} />
+           <Route exact path="/graded" component={StudentResults} />
            <Route component={NoMatch} />
           </Switch>
       </FetchUser>
