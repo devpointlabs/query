@@ -94,6 +94,8 @@ class ShowQuiz extends React.Component {
 
   updateQuiz = q => {
     this.setState({ quiz: { name: q.name, info: q.info } });
+    document.location.reload(true);
+
   };
 
   addQuestion = (question, open) => {
@@ -153,7 +155,7 @@ class ShowQuiz extends React.Component {
     });
 
   editQuiz = e => {
-    e.preventDefault();
+    
     if (this.state.quiz.name !== ""){
     const id = this.props.match.params.id;
     const quiz = { ...this.state };
