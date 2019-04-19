@@ -14,7 +14,7 @@ function SubChoices({ ques_id, }) {
   }, []);
 
   const renderQuestions = subChoice.map( q => (
-    <QDiv>
+    <QDiv key={q.id}>
     <QHead>
     {q.question_text}
     </QHead>
@@ -23,7 +23,7 @@ function SubChoices({ ques_id, }) {
         if (q.choice_id === choices.id)
           return subChoices(choices);
         return(
-        <ChoiceDiv>
+        <ChoiceDiv key={choices.id}>
         <input
           style={{
             border: "6px solid #5906A3",
@@ -40,26 +40,26 @@ function SubChoices({ ques_id, }) {
 
   function subChoices (choices) {
     if (choices.correct_answer) {
-      return <Right>
+      return <Right key={choices.id}>
               <input
                 style={{
                   border: "6px solid #5906A3",
                   marginRight: "10px"
                 }}
                 type="radio"
-                checked
+                readOnly
               />
               {choices.answer}
             </Right>
     }
-      return <Wrong>
+      return <Wrong key={choices.id}>
               <input
                 style={{
                   border: "6px solid #5906A3",
                   marginRight: "10px"
                 }}
                 type="radio"
-                checked
+                readOnly
               />
               {choices.answer}
             </Wrong>
@@ -87,13 +87,13 @@ const Wrong = styled.div`
   font-weight: bold;
 `
 
-const QHead = styled.h3`
+const QHead = styled.h4`
   font-family: menlo;
 `
 
 const QDiv = styled.div`
   font-family: menlo;
-  padding: 10px;
+  padding: 20px;
 `
 
 const ChoiceDiv = styled.div`
