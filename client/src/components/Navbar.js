@@ -70,19 +70,19 @@ class Navbar extends React.Component {
                   style={{ marginTop: "5px" }}
                   src={
                     this.props.auth.user.image === null
-                      ? "http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg"
+                      ? "https://imgur.com/6qiAjc4.png"
                       : this.props.auth.user.image
                   }
                 />
               }
             >
-              <Dropdown.Menu style={{marginTop:"-35px", marginLeft: "-15px"}}>
+              <Dropdown.Menu style={{marginTop:"-35px", marginLeft: "-35px"}}>
                 <Dropdown.Item text="Profile" as={Link} to="/Profile" />
                 <Dropdown.Item
                   text="Logout"
                   onClick={() => handleLogout(this.props.history)}
                 />
-                { this.props.auth.user.teacher && <Dropdown.Item text="Results" as={Link} to="/Results" />}
+                { this.props.auth.user.teacher && <Dropdown.Item text="Results" as={Link} to="/ResultsByQuiz" />}
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -130,13 +130,13 @@ class Navbar extends React.Component {
                   height="50"
                   src={
                     this.props.auth.user.image === null
-                      ? "http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg"
+                      ? "https://imgur.com/6qiAjc4.png"
                       : this.props.auth.user.image
                   }
                 />
               }
             >
-              <Dropdown.Menu style={{marginTop:"-35px", marginLeft: "-15px"}}>
+              <Dropdown.Menu style={{marginTop:"-35px", marginLeft: "-30px"}}>
                 <Dropdown.Item text="Profile" as={Link} to="/Profile" />
                 <Dropdown.Item
                   text="Logout"
