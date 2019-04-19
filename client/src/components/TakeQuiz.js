@@ -9,6 +9,7 @@ import MC from "../quiz_components/MC";
 import Open from "../quiz_components/Open";
 import TorF from "../quiz_components/TorF";
 import styles from "../styles/styles.css";
+import {Link,} from 'react-router-dom'
 
 class TakeQuiz extends React.Component {
   state = {
@@ -59,6 +60,7 @@ class TakeQuiz extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     this.setState({ press: true });
+    axios.patch("/api/submit_quiz", {sub_id: this.state.sub_id})
   };
 
   timer = () => {
@@ -217,6 +219,8 @@ class TakeQuiz extends React.Component {
               inverted
               icon
               style={{ position: "fixed", right: "20px", bottom: "20px", borderRadius: "50%", }}
+              as={Link} to={{pathname: "/graded", state: { sub_id: this.state.sub_id, quiz_id: quiz_id}}}
+
             >
               <div style={{backgroundColor: "#5906a3", width: "6rem", height: "6rem", borderRadius: "100%"}}>
                 <span>

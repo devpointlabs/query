@@ -34,7 +34,7 @@ class Api::QuizzesController < ApplicationController
   
   private 
     def quiz_params
-      params.require(:quiz).permit(:name, :info, :active, :end, :anon)
+      params.require(:quiz).permit(:name, :info, :active, :end, :anon, :email)
     end
 
     def set_quiz

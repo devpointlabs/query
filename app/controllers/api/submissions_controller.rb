@@ -18,6 +18,11 @@ class Api::SubmissionsController < ApplicationController
   def get_grade
     render json: { grade: @submission.grade}
   end
+
+  def submit_quiz
+    Submission.find(params[:sub_id]).update(complete: true)
+    render json: { message: "Submission Complete"}
+  end
   
 
   def student_submissions
@@ -35,6 +40,10 @@ class Api::SubmissionsController < ApplicationController
     end
     render json: arr.to_json
   
+  end
+
+  def submissions_by_quiz
+    render json: Submission.submissions_by_quiz(params[:quiz_id].to_i)
   end
 
   def create
@@ -59,7 +68,7 @@ class Api::SubmissionsController < ApplicationController
   def the_params(email)
     do_it = true
     student= User.where(email: email)
-    quiz= params.require(:submission).permit(:quiz_id)
+    quiz= params.require(:submission).permit(:quiz_id, :sub_id)
       sub = Submission.new(
         quiz.merge({user_id: student[0].id.to_s})
         )

@@ -5,7 +5,7 @@ import Dropzone from 'react-dropzone';
 import Navbar from './Navbar';
 
 
-const defaultImage = 'http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg' 
+const defaultImage = 'https://imgur.com/6qiAjc4.png' 
 
 class Profile extends React.Component {
   
