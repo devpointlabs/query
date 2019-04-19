@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @font-face {
   font-family: "Open Sans";
   font-style: normal;
@@ -15,3 +16,9 @@
     /* Safari, Android, iOS */
       url("../fonts/open-sans-v13-latin-regular.svg#OpenSans") format("svg"); /* Legacy iOS */
 }
+=======
+body {
+  font-family: Menlo, monospace !important;
+
+  }
+>>>>>>> 3c1e516806f88857ca178607db12a90a46979f1c

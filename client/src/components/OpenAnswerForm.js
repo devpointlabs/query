@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Form, Button, Grid } from "semantic-ui-react";
+import { Form, Grid } from "semantic-ui-react";
 
 class OpenAnswerForm extends React.Component {
   state = { name: "", qType: "", explanation: "" };
@@ -12,13 +12,14 @@ class OpenAnswerForm extends React.Component {
     const { quiz_id } = this.props;
     const question = { ...this.state, quiz_id: quiz_id, qType: "open" };
 
-    axios.post(`/api/quizzes/${quiz_id}/questions`, question).then(res => {
-      this.props.addQuestion(res.data);
-      const choice = {
-        answer: "",
-        correct_answer: false,
-        question_id: res.data.id
-      };
+    axios.post(`/api/quizzes/${quiz_id}/questions`, question)
+      .then(res => {
+        this.props.addQuestion(res.data, true);
+        const choice = {
+          answer: "",
+          correct_answer: false,
+          question_id: res.data.id
+        };
       axios.post(`/api/questions/${res.data.id}/choices`, choice);
     });
     this.props.toggleButtons();

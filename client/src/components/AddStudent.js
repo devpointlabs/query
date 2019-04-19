@@ -1,6 +1,6 @@
 import React from "react";
 import axios from "axios";
-import { Button, Grid, Form, Input, Dropdown } from "semantic-ui-react";
+import { Button, Grid, Form, Input, Dropdown, List } from "semantic-ui-react";
 
 class AddStudent extends React.Component {
   state = {
@@ -66,7 +66,7 @@ class AddStudent extends React.Component {
   };
 
   render() {
-    document.body.style = "background: #6D55A3;";
+    document.body.style = "background: #5906A3;";
     return (
       <div style={divStyle}>
         {this.state.showButtons ? (
@@ -74,7 +74,6 @@ class AddStudent extends React.Component {
             Add Student
           </Button>
         ) : null}
-
         {this.state.showStudentForm && (
           <>
             <div
@@ -124,13 +123,27 @@ class AddStudent extends React.Component {
           </>
         )}
         {this.state.showButtons ? null : (
-          <button
-            style={{ color: "red", marginLeft: "5%", marginTop: "15px" }}
+          <Button
+            style={{
+              border: "1px solid",
+              backgroundColor: "white",
+              color: "red",
+              marginLeft: "5%",
+              marginTop: "3%"
+            }}
             onClick={this.toggleButtons}
           >
             Cancel
-          </button>
+          </Button>
         )}
+
+        <List style={{ marginLeft: "5%", marginRight: "5%" }}>
+          {this.state.pupil.map(p => (
+            <div>
+              <p>{p}</p>
+            </div>
+          ))}
+        </List>
       </div>
     );
   }

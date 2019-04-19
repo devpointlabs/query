@@ -1,6 +1,5 @@
 class Api::SubmissionChoicesController < ApplicationController
   before_action :set_submission
-  before_action :set_submission_choice, only: [:show, :update, :destroy]
 
   def index
     render json: @submission.submission_choices
@@ -15,7 +14,9 @@ class Api::SubmissionChoicesController < ApplicationController
         choice: c,
         answer: c.choice.answer,
         correct: c.choice.correct_answer,
-        question_text: c.choice.question.name
+        question_text: c.choice.question.name,
+        choice_id: c.choice.id,
+        choices: c.choice.question.choices,
       }
       arr << ob
     end
@@ -23,7 +24,9 @@ class Api::SubmissionChoicesController < ApplicationController
   end
 
   def show
-    render json: @submission_choice
+    s = @submission.submission_choices.find(params[:id])
+    @choice = s.choice
+    render json: @choice
   end
 
   def create
@@ -54,10 +57,6 @@ class Api::SubmissionChoicesController < ApplicationController
     @submission = Submission.find(params[:submission_id])
   end
   
-  def set_submission_choice
-    @submission_choice = Submission_Choice.find(params[:id])
-  end
-
   def submission_choice_params
     params.require(:submission_choice).permit(:choice_id, :student_answer)
   end

@@ -1,11 +1,11 @@
-import React, { Fragment, } from 'react';
+import React from 'react';
 import { AuthConsumer, } from "../providers/AuthProvider";
-import { Form, Grid, Image, Container, Divider, Header, Button, Icon, Card, } from 'semantic-ui-react';
+import { Form, Grid, Image, Container, Divider, Header, Button, Card, } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
 import Navbar from './Navbar';
 
 
-const defaultImage = 'http://chittagongit.com//images/profile-pic-icon/profile-pic-icon-16.jpg' 
+const defaultImage = 'https://imgur.com/6qiAjc4.png' 
 
 class Profile extends React.Component {
   
