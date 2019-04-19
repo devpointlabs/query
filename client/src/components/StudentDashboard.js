@@ -11,7 +11,8 @@ class StudentDashboard extends React.Component {
     qActive: [],
     redirect: false,
     quizzes: [],
-    toggle: false
+    toggle: false,
+    submissions: []
   };
 
   dater = a => {
@@ -47,6 +48,7 @@ class StudentDashboard extends React.Component {
         }
       });
     });
+    axios.get("/api/submissions").then(res => this.setState({ submissions: res.data}))
   }
 
   componentWillUnmount() {

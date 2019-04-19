@@ -20,6 +20,7 @@ Rails.application.routes.draw do
     get "submissions_by_quiz", to: "submissions#submissions_by_quiz"
     get ":submission_id/student_choices", to: "submission_choices#index_with_choice_name"
     get "submissions/:id/get_grade", to: "submissions#get_grade"
+    patch "submit_quiz", to: "submissions#submit_quiz"
   end
   
   
