@@ -76,24 +76,24 @@ class StudentDashboard extends React.Component {
           <div>
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
-                <ActiveCard 
-                  quiz={quiz} 
-                  key={quiz.id} 
+                <ActiveCard
+                  quiz={quiz}
+                  key={quiz.id}
                   shuffle={this.shuffle} />
               ))}
             </Card.Group>
           </div>
         ) : (
-          <h1
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              color: "white"
-            }}
-          >
-            You currently have no active quizzes
+            <h1
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                color: "white"
+              }}
+            >
+              You currently have no active quizzes
           </h1>
-        )}
+          )}
         <div
           style={{
             backgroundColor: "#fff",
