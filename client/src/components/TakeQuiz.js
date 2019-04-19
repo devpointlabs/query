@@ -212,8 +212,8 @@ class TakeQuiz extends React.Component {
               icon
               style={{ position: "fixed", right: "20px", bottom: "20px" }}
             >
-              
-              <Icon
+              <i class="fab fa-telegram-plane"></i>
+              {/* <Icon
                 className="icon"
                 circular
                 inverted
@@ -221,7 +221,7 @@ class TakeQuiz extends React.Component {
                 size="big"
                 color="purple"
                 basic
-              />
+              /> */}
             </Button>
           </form>
         </QuesContainer>
