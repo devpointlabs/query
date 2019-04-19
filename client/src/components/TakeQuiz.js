@@ -212,7 +212,16 @@ class TakeQuiz extends React.Component {
               icon
               style={{ position: "fixed", right: "20px", bottom: "20px" }}
             >
-              <Icon circular inverted name="telegram plane" size="big" color="purple" />
+              
+              <Icon
+                className="icon"
+                circular
+                inverted
+                name="telegram plane"
+                size="big"
+                color="purple"
+                basic
+              />
             </Button>
           </form>
         </QuesContainer>
@@ -271,6 +280,10 @@ const fontSize = size => {
       return "1rem";
   }
 };
+
+const StyledIcon = styled.div`
+color: #5906a3 !important;
+`
 
 const QuizList = styled.ul``;
 

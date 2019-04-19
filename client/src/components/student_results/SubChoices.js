@@ -7,7 +7,6 @@ const SubChoice = ({ ques_id, }) => {
   const [choices, setChoices] = useState([]);
 
   useEffect( () => {
-    debugger
     axios.get(`/api/27/student_choices/`)
       .then( res => {
         setSubChoice(res.data)
