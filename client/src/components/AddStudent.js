@@ -21,6 +21,12 @@ class AddStudent extends React.Component {
     clarr: []
   };
 
+  componentDidMount() {
+    axios.get("/api/student_lists").then(res => {
+      this.setState({ clarr: res.data });
+    });
+  }
+
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
@@ -60,11 +66,6 @@ class AddStudent extends React.Component {
   };
 
   selClass = () => {
-    if (this.state.clarr === undefined || this.state.clarr.length == 0) {
-      axios.get("/api/student_lists").then(res => {
-        this.setState({ clarr: res.data });
-      });
-    }
     return (
       <Dropdown style={{ marginLeft: "5%", border: "2px" }} text="Add By Class">
         <Dropdown.Menu>
@@ -153,7 +154,7 @@ class AddStudent extends React.Component {
             }}
             onClick={this.toggleButtons}
           >
-            Cancel
+            Close
           </Button>
         )}
       </div>
