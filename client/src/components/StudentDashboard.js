@@ -11,7 +11,9 @@ class StudentDashboard extends React.Component {
     qActive: [],
     redirect: false,
     quizzes: [],
-    toggle: false
+    toggle: false,
+    submissions: [],
+    submission: {}
   };
 
   dater = a => {
@@ -26,14 +28,19 @@ class StudentDashboard extends React.Component {
   setRedirect = theChoosenOne => {
     this.setState({
       redirect: true,
-      q_id: theChoosenOne
+      q_id: theChoosenOne,
+      submission: this.state.submissions.filter( s => s.quiz_id == theChoosenOne.id)[0]
     });
   };
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      const quiz = this.state.q_id;
-      return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+      if ( !this.state.submission.complete){
+        const quiz = this.state.q_id;
+        return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+      } else {
+        return <Redirect to={{ pathname: "/graded", state: { sub_id: this.state.submission.id, quiz_id: this.state.q_id.id}}} />
+      }
     }
   };
 
@@ -47,6 +54,7 @@ class StudentDashboard extends React.Component {
         }
       });
     });
+    axios.get("/api/submissions").then(res => this.setState({ submissions: res.data}))
   }
 
   componentWillUnmount() {
@@ -76,24 +84,24 @@ class StudentDashboard extends React.Component {
           <div>
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
-                <ActiveCard 
-                  quiz={quiz} 
-                  key={quiz.id} 
+                <ActiveCard
+                  quiz={quiz}
+                  key={quiz.id}
                   shuffle={this.shuffle} />
               ))}
             </Card.Group>
           </div>
         ) : (
-          <h1
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              color: "white"
-            }}
-          >
-            You currently have no active quizzes
+            <h1
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                color: "white"
+              }}
+            >
+              You currently have no active quizzes
           </h1>
-        )}
+          )}
         <div
           style={{
             backgroundColor: "#fff",
