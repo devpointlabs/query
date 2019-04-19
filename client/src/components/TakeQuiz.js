@@ -9,6 +9,7 @@ import MC from "../quiz_components/MC";
 import Open from "../quiz_components/Open";
 import TorF from "../quiz_components/TorF";
 import styles from "../styles/styles.css";
+import {Link,} from 'react-router-dom'
 
 class TakeQuiz extends React.Component {
   state = {
@@ -212,6 +213,8 @@ class TakeQuiz extends React.Component {
               inverted
               icon
               style={{ position: "fixed", right: "20px", bottom: "20px" }}
+              as={Link} to={{pathname: "/graded", state: { sub_id: this.state.sub_id, quiz_id: quiz_id}}}
+
             >
               
               <Icon
