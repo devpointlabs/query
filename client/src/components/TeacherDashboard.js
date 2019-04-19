@@ -56,7 +56,7 @@ class TeacherDashboard extends React.Component {
   };
 
   renderRedirect = () => {
-    if (this.state.redirect)  {
+    if (this.state.redirect) {
       const quiz = this.state.q_id;
       return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />;
     }
@@ -109,10 +109,10 @@ class TeacherDashboard extends React.Component {
     axios.post("/api/submissions", { quiz: newQuiz }).then(res => {
       this.setState({
         name: "",
-        info: "New Quiz",
-        quizzes: [res.data, ...this.state.quizzes],
+        info: "New Query",
+        quizzes: [res.data, ...this.state.quizzes]
       });
-      this.setRedirect(res.data)
+      this.setRedirect(res.data);
     });
   };
 
@@ -153,7 +153,7 @@ class TeacherDashboard extends React.Component {
               <Form size="tiny" onSubmit={this.handleSubmit}>
                 <Form.Input
                   style={{ marginTop: "0px", marginBottom: "0px" }}
-                  placeholder="New Quiz Name"
+                  placeholder="New Query Name"
                   autoFocus
                   name="name"
                   value={this.state.name}
@@ -166,7 +166,7 @@ class TeacherDashboard extends React.Component {
                 size="mini"
                 onClick={() => this.handleSubmit()}
               >
-                Create New Quiz
+                Create New Query
               </Button>
             </Card>
             {this.state.quizzes.map(quiz => (

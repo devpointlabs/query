@@ -25,7 +25,7 @@ class ShowQuiz extends React.Component {
     go: false,
     width: 0,
     height: 0,
-    flashMsgText: "", 
+    flashMsgText: "",
     showFlash: false
   };
 
@@ -33,7 +33,9 @@ class ShowQuiz extends React.Component {
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
     axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
-      this.setState({ quiz: res.data });
+      res.data.email
+        ? this.setState({ email: res.data.email.split(","), quiz: res.data })
+        : this.setState({ quiz: res.data });
     });
     axios
       .get(`/api/quizzes/${this.props.match.params.id}/questions`)
@@ -76,6 +78,20 @@ class ShowQuiz extends React.Component {
     });
   };
 
+  deleteSt = m => {
+    let { email, id } = this.state;
+    let arr = email.slice(0);
+    let idx = arr.indexOf(m);
+    arr.splice(idx, 1);
+    axios
+      .patch(`/api/quizzes/${this.props.match.params.id}`, {
+        email: arr.join()
+      })
+      .then(res => {
+        this.setState({ email: res.data.email.split(",") });
+      });
+  };
+
   removeQuestion = id => {
     axios
       .delete(`/api/quizzes/${this.props.match.params.id}/questions/${id}`)
@@ -94,6 +110,8 @@ class ShowQuiz extends React.Component {
 
   updateQuiz = q => {
     this.setState({ quiz: { name: q.name, info: q.info } });
+    document.location.reload(true);
+
   };
 
   addQuestion = (question, open) => {
@@ -143,7 +161,11 @@ class ShowQuiz extends React.Component {
     });
 
   getEmail = f => {
-    this.setState({ email: [f, ...this.state.email] });
+    this.setState({ email: [...f, ...this.state.email] });
+    let s = [...f, ...this.state.email].join();
+    axios.patch(`/api/quizzes/${this.props.match.params.id}`, {
+      email: s
+    });
   };
 
   handleChange = (e, { name, value }) =>
@@ -154,24 +176,25 @@ class ShowQuiz extends React.Component {
 
   editQuiz = e => {
     e.preventDefault();
-    if (this.state.quiz.name !== ""){
-    const id = this.props.match.params.id;
-    const quiz = { ...this.state };
-    axios.put(`/api/quizzes/${id}`, quiz).then(res => {
-      this.updateQuiz(res.data);
-    });
-    this.setState({showFlash: false})
-    this.toggleEditQuiz();
+    if (this.state.quiz.name !== "") {
+      const id = this.props.match.params.id;
+      const quiz = { ...this.state };
+      axios.put(`/api/quizzes/${id}`, quiz).then(res => {
+        this.updateQuiz(res.data);
+      });
+      this.setState({ showFlash: false });
+      this.toggleEditQuiz();
     } else {
-      this.setState({ flashMsgText: "Choice cannot be empty", showFlash: true})
+      this.setState({
+        flashMsgText: "Choice cannot be empty",
+        showFlash: true
+      });
     }
   };
 
   renderFlash = () => {
-    return ( <div style={flashStyle}>
-      {this.state.flashMsgText}
-    </div>)
-  }
+    return <div style={flashStyle}>{this.state.flashMsgText}</div>;
+  };
 
   render() {
     document.body.style = "background: #5906A3;";
@@ -218,7 +241,7 @@ class ShowQuiz extends React.Component {
                 value={quiz.name}
                 onChange={this.handleChange}
               />
-              { this.state.showFlash && this.renderFlash()}
+              {this.state.showFlash && this.renderFlash()}
             </Form.Field>
             <Form.Field style={{ marginLeft: "5%", marginRight: "5%" }}>
               <label style={{ color: "#9219FF" }}>Prompt</label>
@@ -282,6 +305,7 @@ class ShowQuiz extends React.Component {
           </header>
           <h1 style={{ marginLeft: "5%" }}>People</h1>
           <AddStudent
+            delete={this.deleteSt}
             submail={this.state.email}
             pmail={this.getEmail}
             width={this.state.width}
@@ -400,4 +424,4 @@ const flashStyle = {
   paddingBottom: "10px",
   paddingLeft: "5px",
   marginBottom: "10px"
-}
+};

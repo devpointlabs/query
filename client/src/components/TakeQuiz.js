@@ -8,6 +8,8 @@ import Navbar from "./Navbar";
 import MC from "../quiz_components/MC";
 import Open from "../quiz_components/Open";
 import TorF from "../quiz_components/TorF";
+import styles from "../styles/styles.css";
+import {Link,} from 'react-router-dom'
 
 class TakeQuiz extends React.Component {
   state = {
@@ -55,8 +57,10 @@ class TakeQuiz extends React.Component {
     clearInterval(this.state.interval);
   }
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     this.setState({ press: true });
+    axios.patch("/api/submit_quiz", {sub_id: this.state.sub_id})
   };
 
   timer = () => {
@@ -110,7 +114,6 @@ class TakeQuiz extends React.Component {
     axios.post(`/api/submissions/${id}/submission_choices`, answer);
   };
 
-
   render() {
     const quiz_name = this.state.quiz.name;
     const quiz_info = this.state.quiz.info;
@@ -121,15 +124,15 @@ class TakeQuiz extends React.Component {
     return (
       <Grid divided="vertically">
         <DescContainer>
-          <div style={{marginTop: "25px"}}>
-          <Navbar />
+          <div style={{ marginTop: "25px" }}>
+            <Navbar />
           </div>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
-              margin: "30px",
+              margin: "20px",
               marginTop: "125px"
             }}
           >
@@ -166,16 +169,15 @@ class TakeQuiz extends React.Component {
             <HeaderText fSize="tiny">Time Remaining:</HeaderText>
             <HeaderText fSize="tiny">{this.clock()}</HeaderText>
           </div>
-
-
         </DescContainer>
         <QuesContainer>
           {/* Depending on the question type it will render a component that formats the question */}
-          <Form onSubmit={this.handleSubmit}>
+          <form action="#" onSubmit={this.handleSubmit}>
             {this.state.questions.map(question => {
               if (question.qType === "MC") {
                 return (
                   <MC
+                    key={question.id}
                     press={this.state.press}
                     question={question.name}
                     addStudentAnswer={this.addStudentAnswer}
@@ -186,6 +188,7 @@ class TakeQuiz extends React.Component {
               } else if (question.qType === "open") {
                 return (
                   <Open
+                    key={question.id}
                     press={this.state.press}
                     question={question.name}
                     addStudentAnswer={this.addStudentAnswer}
@@ -196,6 +199,7 @@ class TakeQuiz extends React.Component {
               } else if (question.qType === "TorF") {
                 return (
                   <TorF
+                    key={question.id}
                     press={this.state.press}
                     question={question.name}
                     addStudentAnswer={this.addStudentAnswer}
@@ -205,26 +209,40 @@ class TakeQuiz extends React.Component {
                 );
               }
             })}
-            <SubmitButton>
-              Submit
-            </SubmitButton>
-          </Form>
+            <Button
+              inverted
+              icon
+              style={{ position: "fixed", right: "20px", bottom: "20px" }}
+              as={Link} to={{pathname: "/graded", state: { sub_id: this.state.sub_id, quiz_id: quiz_id}}}
+
+            >
+              
+              <Icon
+                className="icon"
+                circular
+                inverted
+                name="telegram plane"
+                size="big"
+                color="purple"
+                basic
+              />
+            </Button>
+          </form>
         </QuesContainer>
       </Grid>
     );
   }
 }
 
-
 // Styled Components
 
-const SubmitButton = styled.button`
-  background-color: #5906A3;
+const SubmitButton = styled.input`
+  background-color: #5906a3;
   color: white;
   border: none;
-  margin-top: -20;
-  right: 0;
-  bottom: 0;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
   display: block;
   height: 82px;
   width: 82px;
@@ -247,7 +265,6 @@ const QuesContainer = styled.div`
   top: 0;
 `;
 
-
 const HeaderText = styled.h1`
   color: white !important;
   font-family: menlo;
@@ -267,6 +284,10 @@ const fontSize = size => {
       return "1rem";
   }
 };
+
+const StyledIcon = styled.div`
+color: #5906a3 !important;
+`
 
 const QuizList = styled.ul``;
 

@@ -6,7 +6,6 @@ class Open extends React.Component {
   state = { answer: "", choice_id: "", press: true };
 
   componentDidUpdate() {
-
     const student_answer = this.state.answer;
     const choice_id = this.state.choice_id;
     // A conditional to tell if the submit button has been pressed and if it has it passes up state to TakeQuiz component
@@ -24,11 +23,12 @@ class Open extends React.Component {
 
   render() {
     return (
-      <ListItem>
-        <strong style={{ fontFamily: "menlo" }}>{this.props.question}</strong>
-        <br />
-        <br />
-        <Form>
+      <Form>
+        <ListItem>
+          <strong style={{ fontFamily: "menlo" }}>{this.props.question}</strong>
+          <br />
+          <br />
+          {/* <Form> */}
           {/* Renders a text field below question titles */}
           <TextArea
             style={{ fontFamily: "menlo" }}
@@ -37,9 +37,11 @@ class Open extends React.Component {
             id={this.props.choices[0].id}
             value={this.state.answer}
             onChange={this.handleOptionChange}
+            style={{ fontSize: "12px" }}
           />
-        </Form>
-      </ListItem>
+          {/* </Form> */}
+        </ListItem>
+      </Form>
     );
   }
 }
@@ -50,6 +52,5 @@ const ListItem = styled.li`
   margin: 0 0 20px 0;
   list-style-type: none;
 `;
-
 
 export default Open;

@@ -2,62 +2,143 @@ import React, { useState, useEffect, } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 
-const SubChoice = ({ ques_id, }) => {
+function SubChoices({ sub_id, quiz_id, }) {
   const [subChoice, setSubChoice] = useState([]);
-  const [choices, setChoices] = useState([]);
 
   useEffect( () => {
-    debugger
-    axios.get(`/api/27/student_choices/`)
+    // submission id needed
+    // returns submission choice,
+    // the choice (choice_id, answer, correct) it belongs to,
+    // question (question_type, question_text)
+    // and {choices} belonging to question not selected by student
+    axios.get(`/api/${sub_id}/student_choices/`)
       .then( res => {
         setSubChoice(res.data)
       })
   }, []);
 
-    useEffect( () => {
-    axios.get(`/api/questions/${ques_id}/choices`)
-      .then( res => {
-        setChoices(res.data)
-      })
-  }, []);
+  const renderQuestions = subChoice.map( q => {
+        if (q.question_type === "open") {
+          return renderOpen(q);
+        }
+     return(  
+    <QDiv key={q.id}>
+    <QHead>
+    {q.question_text}
+    </QHead>
 
-  const renderSubChoice = () => (
-    subChoice.correct ? (
-      <Right>subChoice.answer</Right>
-    ) : (
-      <Wrong>subChoice.answer</Wrong>
-  ))
+    {q.choices.map( choices => {
+        if (q.choice_id === choices.id)
+          return subChoices(choices);
+      return renderChoices(choices);
+    })}
+      </QDiv>
+     )})
+  
+  function renderOpen (q) {
+    return (
+    <QDiv>
+      <QHead>
+        {q.question_text}
+      </QHead>
+      <OpenDiv>
+        {q.choice.student_answer}
+      </OpenDiv>
+    </QDiv>
+  )}
 
-
-  const renderChoices = choices.map(c => (
-      <div>
+  function renderChoices (choices) {
+    if (choices.correct_answer) {
+      return <ChoiceDiv key={choices.id}>
         <input
-          type="radio"
-          disabled="true"
-        />
-          {c.answer}
-      </div>
-    )
-  )
+                style={{
+                  border: "6px solid #5906A3",
+                  marginRight: "10px"
+                }}
+                type="radio"
+                disabled={ true }
+              />
+             <p style={{ display: "inline" }}>{choices.answer} {" "} &lt;= Correct Answer</p>
+            </ChoiceDiv>
+    }
+      return <ChoiceDiv key={choices.id}>
+              <input
+                style={{
+                  border: "6px solid #5906A3",
+                  marginRight: "10px"
+                }}
+                type="radio"
+                disabled={ true }
+              />
+              {choices.answer}
+            </ChoiceDiv>
+  }
+
+  function subChoices (choices) {
+    if (choices.correct_answer) {
+      return <Right key={choices.id}>
+              <input
+                style={{
+                  border: "6px solid #5906A3",
+                  marginRight: "10px"
+                }}
+                type="radio"
+                checked
+              />
+              {choices.answer}
+            </Right>
+    }
+      return <Wrong key={choices.id}>
+              <input
+                style={{
+                  border: "6px solid #5906A3",
+                  marginRight: "10px"
+                }}
+                type="radio"
+                checked
+              />
+              {choices.answer}
+            </Wrong>
+  }
 
   return (
     <>
-      { renderChoices }
+    { renderQuestions }
     </>
   )
 
 }
 
-const Right = styled.input`
-  type="radio";
-  color="#5906A3";
-  checked="true"
+const Right = styled.div`
+  display: inline-block;
+  color: #5906A3;
+  font-weight: bold;
 `
 
-const Wrong = styled.input`
-  type="radio";
-  color="red";
-  checked="true"
+const Wrong = styled.div`
+  display: inline-block;
+  color: red;
+  font-weight: bold;
 `
 
-export default SubChoice
+const QHead = styled.h4`
+  font-family: menlo;
+`
+
+const QDiv = styled.div`
+  font-family: menlo;
+  padding: 20px;
+`
+
+const ChoiceDiv = styled.div`
+  font-family: menlo;
+  color: grey;
+`
+
+const OpenDiv = styled.div`
+  font-family: menlo;
+  color: grey;
+  padding: 10px;
+`
+
+export default SubChoices
