@@ -13,15 +13,15 @@ import Results from './components/results/Results'
 import { Container, } from 'semantic-ui-react';
 import { Route, Switch, } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute"
-import side from './components/QuizSideInfo'
 import './App.css'
+
+import StudentResults from "./components/student_results/StudentResults"
 
 const App = () => (
   <>
       <FetchUser>
           <Switch>
            <Route exact path="/" component={Landing} />
-           <Route exact path="/side" component={side} />
            <ProtectedRoute exact path="/home" component={Home} />
            <Route exact path="/login" component={Login} />
            <ProtectedRoute exact path="/profile" component={Profile} />
@@ -31,6 +31,7 @@ const App = () => (
            <Route exact path="/register" component={Register} />
            <Route exact path="/register/teacher" component={Register} />
            <Route exact path="/quizbuilder/:id" component={ShowQuiz} />
+           <Route exact path="/graded/" component={StudentResults} />
            <Route component={NoMatch} />
           </Switch>
       </FetchUser>

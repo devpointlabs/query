@@ -2,61 +2,130 @@ import React, { useState, useEffect, } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 
-const SubChoice = ({ ques_id, }) => {
+function SubChoices({ ques_id, }) {
   const [subChoice, setSubChoice] = useState([]);
-  const [choices, setChoices] = useState([]);
 
   useEffect( () => {
+    // submission id needed
     axios.get(`/api/27/student_choices/`)
       .then( res => {
         setSubChoice(res.data)
       })
   }, []);
 
-    useEffect( () => {
-    axios.get(`/api/questions/${ques_id}/choices`)
-      .then( res => {
-        setChoices(res.data)
-      })
-  }, []);
+  const renderQuestions = subChoice.map( q => (
+    <QDiv key={q.id}>
+    <QHead>
+    {q.question_text}
+    </QHead>
 
-  const renderSubChoice = () => (
-    subChoice.correct ? (
-      <Right>subChoice.answer</Right>
-    ) : (
-      <Wrong>subChoice.answer</Wrong>
-  ))
-
-
-  const renderChoices = choices.map(c => (
-      <div>
+{q.choices.map( choices => {
+        if (q.choice_id === choices.id)
+          return subChoices(choices);
+        return(
+        <ChoiceDiv key={choices.id}>
         <input
+          style={{
+            border: "6px solid #5906A3",
+            marginRight: "10px"
+          }}
           type="radio"
-          disabled="true"
+          disabled={ true }
         />
-          {c.answer}
-      </div>
-    )
-  )
+        {choices.answer}
+        </ChoiceDiv>
+        )})}
+      </QDiv>
+))
+
+  // function renderChoices (choices) {
+  //   if (choices.correct_answer) {
+  //     return <div>
+  //       <input
+  //               style={{
+  //                 border: "6px solid #5906A3",
+  //                 marginRight: "10px"
+  //               }}
+  //               type="radio"
+  //               disabled={ true }
+  //             />
+  //             <p style={{ display: "inline" }}>{choices.answer}</p>
+  //             <p style={{ display: "inline" }}> {" "} &lt;= Correct Answer</p>
+  //         </div>
+  //   }
+  //     return <ChoiceDiv key={choices.id}>
+  //             <input
+  //               style={{
+  //                 border: "6px solid #5906A3",
+  //                 marginRight: "10px"
+  //               }}
+  //               type="radio"
+  //               disabled={ true }
+  //             />
+  //             {choices.answer}
+  //           </ChoiceDiv>
+  // }
+
+  function subChoices (choices) {
+    if (choices.correct_answer) {
+      return <Right key={choices.id}>
+              <input
+                style={{
+                  border: "6px solid #5906A3",
+                  marginRight: "10px"
+                }}
+                type="radio"
+                checked
+              />
+              {choices.answer}
+            </Right>
+    }
+      return <Wrong key={choices.id}>
+              <input
+                style={{
+                  border: "6px solid #5906A3",
+                  marginRight: "10px"
+                }}
+                type="radio"
+                checked
+              />
+              {choices.answer}
+            </Wrong>
+  }
+
 
   return (
     <>
-      { renderChoices }
+    { renderQuestions }
     </>
   )
 
+
 }
 
-const Right = styled.input`
-  type="radio";
-  color="#5906A3";
-  checked="true"
+const Right = styled.div`
+  display: inline-block;
+  color: #5906A3;
+  font-weight: bold;
 `
 
-const Wrong = styled.input`
-  type="radio";
-  color="red";
-  checked="true"
+const Wrong = styled.div`
+  display: inline-block;
+  color: red;
+  font-weight: bold;
 `
 
-export default SubChoice
+const QHead = styled.h4`
+  font-family: menlo;
+`
+
+const QDiv = styled.div`
+  font-family: menlo;
+  padding: 20px;
+`
+
+const ChoiceDiv = styled.div`
+  color: grey;
+`
+
+export default SubChoices
