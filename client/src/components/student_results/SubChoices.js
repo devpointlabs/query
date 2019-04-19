@@ -19,7 +19,7 @@ function SubChoices({ ques_id, }) {
     {q.question_text}
     </QHead>
 
-      {q.choices.map( choices => {
+{q.choices.map( choices => {
         if (q.choice_id === choices.id)
           return subChoices(choices);
         return(
@@ -36,7 +36,35 @@ function SubChoices({ ques_id, }) {
         </ChoiceDiv>
         )})}
       </QDiv>
-    ))
+))
+
+  // function renderChoices (choices) {
+  //   if (choices.correct_answer) {
+  //     return <div>
+  //       <input
+  //               style={{
+  //                 border: "6px solid #5906A3",
+  //                 marginRight: "10px"
+  //               }}
+  //               type="radio"
+  //               disabled={ true }
+  //             />
+  //             <p style={{ display: "inline" }}>{choices.answer}</p>
+  //             <p style={{ display: "inline" }}> {" "} &lt;= Correct Answer</p>
+  //         </div>
+  //   }
+  //     return <ChoiceDiv key={choices.id}>
+  //             <input
+  //               style={{
+  //                 border: "6px solid #5906A3",
+  //                 marginRight: "10px"
+  //               }}
+  //               type="radio"
+  //               disabled={ true }
+  //             />
+  //             {choices.answer}
+  //           </ChoiceDiv>
+  // }
 
   function subChoices (choices) {
     if (choices.correct_answer) {
@@ -47,7 +75,7 @@ function SubChoices({ ques_id, }) {
                   marginRight: "10px"
                 }}
                 type="radio"
-                readOnly
+                checked
               />
               {choices.answer}
             </Right>
@@ -59,7 +87,7 @@ function SubChoices({ ques_id, }) {
                   marginRight: "10px"
                 }}
                 type="radio"
-                readOnly
+                checked
               />
               {choices.answer}
             </Wrong>
