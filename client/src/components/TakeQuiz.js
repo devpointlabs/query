@@ -207,14 +207,12 @@ class TakeQuiz extends React.Component {
                 );
               }
             })}
-            <Button inverted icon style={{ position: "fixed", right: "20px", bottom: "20px" }}>
-            <Icon
-              circular
+            <Button
               inverted
-              name="telegram plane"
-              size="big"
-              style={{ color: "#5906a3" }}
-              />
+              icon
+              style={{ position: "fixed", right: "20px", bottom: "20px" }}
+            >
+              <Icon circular inverted name="telegram plane" size="big" color="purple" />
             </Button>
           </form>
         </QuesContainer>
