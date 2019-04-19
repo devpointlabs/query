@@ -5,17 +5,7 @@ import SubChoices from './SubChoices'
 import QuizSideInfo from './QuizSideInfo'
 
 const StudentResults = (props) => {
-  const { quiz_id, sub_id} = props.location.state
-  // const renderQuestions = questions.map(q => (
-  //     <QDiv key={q.id}>
-  //       <QHead>
-  //         {q.name}
-  //       </QHead>
-  //         <SubChoices
-  //           ques_id={q.id}
-  //         /> 
-  //     </QDiv>
-  //   ))
+  const { quiz_id, sub_id, } = props.location.state
   
 
   return (
