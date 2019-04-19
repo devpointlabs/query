@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import MC from "../quiz_components/MC";
 import Open from "../quiz_components/Open";
 import TorF from "../quiz_components/TorF";
+import styles from "../styles/styles.css";
 
 class TakeQuiz extends React.Component {
   state = {
@@ -55,7 +56,8 @@ class TakeQuiz extends React.Component {
     clearInterval(this.state.interval);
   }
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     this.setState({ press: true });
   };
 
@@ -128,7 +130,7 @@ class TakeQuiz extends React.Component {
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
-              margin: "30px",
+              margin: "20px",
               marginTop: "125px"
             }}
           >
@@ -168,7 +170,7 @@ class TakeQuiz extends React.Component {
         </DescContainer>
         <QuesContainer>
           {/* Depending on the question type it will render a component that formats the question */}
-          <Form onSubmit={this.handleSubmit}>
+          <form action="#" onSubmit={this.handleSubmit}>
             {this.state.questions.map(question => {
               if (question.qType === "MC") {
                 return (
@@ -205,8 +207,16 @@ class TakeQuiz extends React.Component {
                 );
               }
             })}
-            <SubmitButton>Submit</SubmitButton>
-          </Form>
+            <Button inverted icon style={{ position: "fixed", right: "20px", bottom: "20px" }}>
+            <Icon
+              circular
+              inverted
+              name="telegram plane"
+              size="big"
+              style={{ color: "#5906a3" }}
+              />
+            </Button>
+          </form>
         </QuesContainer>
       </Grid>
     );
@@ -215,13 +225,13 @@ class TakeQuiz extends React.Component {
 
 // Styled Components
 
-const SubmitButton = styled.button`
+const SubmitButton = styled.input`
   background-color: #5906a3;
   color: white;
   border: none;
-  margin-top: -20;
-  right: 0;
-  bottom: 0;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
   display: block;
   height: 82px;
   width: 82px;

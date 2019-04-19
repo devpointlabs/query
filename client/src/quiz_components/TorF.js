@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Form } from "semantic-ui-react";
+import styles from "../styles/styles.css"
+
 
 class TorF extends React.Component {
   state = { answer: "", choice_id: "", press: true };
@@ -30,7 +32,6 @@ class TorF extends React.Component {
         {this.props.choices.map(choice => {
           return (
             <ChoiceItem key={choice.id}>
-              <Form.Field>
                 <p>
                 <StyledInput
                   type="radio"
@@ -40,9 +41,8 @@ class TorF extends React.Component {
                   onChange={this.handleOptionChange}
                   checked={this.state.choice_id == choice.id}
                 />
-                <label>{choice.answer}</label> 
+                <label for={choice.id}>{choice.answer}</label> 
                 </p>
-              </Form.Field>
             </ChoiceItem>
           );
         })}
