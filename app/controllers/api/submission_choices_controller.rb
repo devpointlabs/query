@@ -15,6 +15,7 @@ class Api::SubmissionChoicesController < ApplicationController
         answer: c.choice.answer,
         correct: c.choice.correct_answer,
         question_text: c.choice.question.name,
+        question_type: c.choice.question.qType,
         choice_id: c.choice.id,
         choices: c.choice.question.choices,
       }

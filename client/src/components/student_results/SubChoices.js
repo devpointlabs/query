@@ -7,16 +7,25 @@ function SubChoices({ ques_id, }) {
 
   useEffect( () => {
     // submission id needed
+    // returns submission choice,
+    // the choice (choice_id, answer, correct) it belongs to,
+    // question (question_type, question_text)
+    // and {choices} belonging to question not selected by student
     axios.get(`/api/27/student_choices/`)
       .then( res => {
         setSubChoice(res.data)
       })
   }, []);
 
-  const renderQuestions = subChoice.map( q => (
+  const renderQuestions = subChoice.map( q => {
+        if (q.question_type === "open") 
+          return renderOpen(q);
+     return(  
     <QDiv key={q.id}>
     <QHead>
     {q.question_text}
+      {
+      }
     </QHead>
 
     {q.choices.map( choices => {
@@ -25,7 +34,19 @@ function SubChoices({ ques_id, }) {
       return renderChoices(choices);
     })}
       </QDiv>
-))
+     )})
+  
+  function renderOpen (q) {
+    return (
+    <div>
+      <QDiv>
+        {q.choices.answer}
+      </QDiv>
+      <ChoiceDiv>
+        {q.choice}
+      </ChoiceDiv>
+    </div>
+  )}
 
   function renderChoices (choices) {
     if (choices.correct_answer) {
@@ -81,13 +102,11 @@ function SubChoices({ ques_id, }) {
             </Wrong>
   }
 
-
   return (
     <>
     { renderQuestions }
     </>
   )
-
 
 }
 
