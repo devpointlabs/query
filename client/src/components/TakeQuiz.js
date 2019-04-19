@@ -134,8 +134,13 @@ class TakeQuiz extends React.Component {
               marginTop: "125px"
             }}
           >
-            <HeaderText fSize="medium">{quiz_name}</HeaderText>
+            <div style={{}}>
+
+            <HeaderText fSize="small">{quiz_name}</HeaderText>
             <HeaderText>{quiz_info}</HeaderText>
+            </div>
+            <div>
+
             <hr
               style={{
                 backgroundColor: "#fff",
@@ -143,7 +148,8 @@ class TakeQuiz extends React.Component {
                 width: "100%",
                 height: "1px"
               }}
-            />
+              />
+              </div>
 
             {/* Switches quiz description depending wether it is a anonymous or identified quiz */}
             {anon ? (
@@ -210,18 +216,13 @@ class TakeQuiz extends React.Component {
             <Button
               inverted
               icon
-              style={{ position: "fixed", right: "20px", bottom: "20px" }}
+              style={{ position: "fixed", right: "20px", bottom: "20px", borderRadius: "50%", }}
             >
-              <i class="fab fa-telegram-plane"></i>
-              {/* <Icon
-                className="icon"
-                circular
-                inverted
-                name="telegram plane"
-                size="big"
-                color="purple"
-                basic
-              /> */}
+              <div style={{backgroundColor: "#5906a3", width: "6rem", height: "6rem", borderRadius: "100%"}}>
+                <span>
+                  <i style={{marginTop: "16px"}} class="fab fa-telegram-plane fa-4x" />
+                </span>
+              </div>
             </Button>
           </form>
         </QuesContainer>
@@ -281,10 +282,23 @@ const fontSize = size => {
   }
 };
 
+
 const StyledIcon = styled.div`
-color: #5906a3 !important;
-`
+  color: #5906a3 !important;
+`;
 
 const QuizList = styled.ul``;
 
 export default TakeQuiz;
+
+{
+  /* <Icon
+  className="icon"
+  circular
+  inverted
+  name="telegram plane"
+  size="big"
+  color="purple"
+  basic
+/> */
+}
