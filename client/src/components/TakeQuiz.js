@@ -8,6 +8,7 @@ import Navbar from "./Navbar";
 import MC from "../quiz_components/MC";
 import Open from "../quiz_components/Open";
 import TorF from "../quiz_components/TorF";
+import styles from "../styles/styles.css";
 
 class TakeQuiz extends React.Component {
   state = {
@@ -41,7 +42,6 @@ class TakeQuiz extends React.Component {
           this.setState({
             questions: [{ ...ques, choices: res.data }, ...this.state.questions]
           });
-          this.state.questions.sort();
         });
       }
     });
@@ -56,7 +56,8 @@ class TakeQuiz extends React.Component {
     clearInterval(this.state.interval);
   }
 
-  handleSubmit = () => {
+  handleSubmit = e => {
+    e.preventDefault();
     this.setState({ press: true });
     axios.patch("/api/submit_quiz", {sub_id: this.state.sub_id})
   };
@@ -102,6 +103,7 @@ class TakeQuiz extends React.Component {
   };
 
   addStudentAnswer = (student_answer, choice_id) => {
+    // retrieves state from MC, Open, and TorF components and posts them to the data base.
     const id = this.state.sub_id;
     const answer = {
       submission_id: id,
@@ -110,8 +112,6 @@ class TakeQuiz extends React.Component {
     };
     axios.post(`/api/submissions/${id}/submission_choices`, answer);
   };
-
-  // this.setState({ student_answer: [...this.state.student_answer, answer] })
 
   render() {
     const quiz_name = this.state.quiz.name;
@@ -123,13 +123,15 @@ class TakeQuiz extends React.Component {
     return (
       <Grid divided="vertically">
         <DescContainer>
-          <Navbar />
+          <div style={{ marginTop: "25px" }}>
+            <Navbar />
+          </div>
           <div
             style={{
               display: "flex",
               justifyContent: "center",
               flexDirection: "column",
-              margin: "30px",
+              margin: "20px",
               marginTop: "125px"
             }}
           >
@@ -144,6 +146,7 @@ class TakeQuiz extends React.Component {
               }}
             />
 
+            {/* Switches quiz description depending wether it is a anonymous or identified quiz */}
             {anon ? (
               <HeaderText fSize="small">
                 Submission is <strong>Anonymous</strong>
@@ -168,11 +171,12 @@ class TakeQuiz extends React.Component {
         </DescContainer>
         <QuesContainer>
           {/* Depending on the question type it will render a component that formats the question */}
-          <Form onSubmit={this.handleSubmit}>
+          <form action="#" onSubmit={this.handleSubmit}>
             {this.state.questions.map(question => {
               if (question.qType === "MC") {
                 return (
                   <MC
+                    key={question.id}
                     press={this.state.press}
                     question={question.name}
                     addStudentAnswer={this.addStudentAnswer}
@@ -183,6 +187,7 @@ class TakeQuiz extends React.Component {
               } else if (question.qType === "open") {
                 return (
                   <Open
+                    key={question.id}
                     press={this.state.press}
                     question={question.name}
                     addStudentAnswer={this.addStudentAnswer}
@@ -193,34 +198,53 @@ class TakeQuiz extends React.Component {
               } else if (question.qType === "TorF") {
                 return (
                   <TorF
-                  press={this.state.press}
-                  question={question.name}
-                  addStudentAnswer={this.addStudentAnswer}
-                  choices={question.choices}
-                  quiz_id={quiz_id}
+                    key={question.id}
+                    press={this.state.press}
+                    question={question.name}
+                    addStudentAnswer={this.addStudentAnswer}
+                    choices={question.choices}
+                    quiz_id={quiz_id}
                   />
                 );
               }
             })}
             <Button
-              style={{
-                marginTop: "-20",
-                backgroundColor: "#5906A3",
-                borderRadius: "100%",
-                position: "fixed",
-                right: "0",
-                bottom: "0"
-              }}
+              inverted
               icon
+              style={{ position: "fixed", right: "20px", bottom: "20px" }}
             >
-              <Icon inverted size="huge" name="paper plane" />
+              
+              <Icon
+                className="icon"
+                circular
+                inverted
+                name="telegram plane"
+                size="big"
+                color="purple"
+                basic
+              />
             </Button>
-          </Form>
+          </form>
         </QuesContainer>
       </Grid>
     );
   }
 }
+
+// Styled Components
+
+const SubmitButton = styled.input`
+  background-color: #5906a3;
+  color: white;
+  border: none;
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  display: block;
+  height: 82px;
+  width: 82px;
+  border-radius: 50%;
+`;
 
 const DescContainer = styled.div`
   background: #5906a3;
@@ -257,6 +281,10 @@ const fontSize = size => {
       return "1rem";
   }
 };
+
+const StyledIcon = styled.div`
+color: #5906a3 !important;
+`
 
 const QuizList = styled.ul``;
 

@@ -2,3 +2,8 @@ body {
   font-family: Menlo, monospace !important;
 
   }
+
+  .icon {
+    background-color: #5906a3;
+    color: #5906a3;
+  }
