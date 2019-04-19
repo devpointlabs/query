@@ -12,7 +12,8 @@ class StudentDashboard extends React.Component {
     redirect: false,
     quizzes: [],
     toggle: false,
-    submissions: []
+    submissions: [],
+    submission: {}
   };
 
   dater = a => {
@@ -27,14 +28,19 @@ class StudentDashboard extends React.Component {
   setRedirect = theChoosenOne => {
     this.setState({
       redirect: true,
-      q_id: theChoosenOne
+      q_id: theChoosenOne,
+      submission: this.state.submissions.filter( s => s.quiz_id == theChoosenOne.id)[0]
     });
   };
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      const quiz = this.state.q_id;
-      return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+      if ( !this.state.submission.complete){
+        const quiz = this.state.q_id;
+        return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+      } else {
+        return <Redirect to={{ pathname: "/graded", state: { sub_id: this.state.submission.id, quiz_id: this.state.q_id.id}}} />
+      }
     }
   };
 
