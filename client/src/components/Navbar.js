@@ -89,7 +89,7 @@ class Navbar extends React.Component {
         </div>
       );
     } else if (
-      this.props.location.pathname == 
+      this.props.location.pathname === 
       `/quizbuilder/${this.props.location.pathname.split("/").pop()}` 
       ||
       '/profile'

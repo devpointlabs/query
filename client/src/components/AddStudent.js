@@ -1,5 +1,4 @@
 import React from "react";
-import axios from "axios";
 import { Button, Grid, Form, Input, List } from "semantic-ui-react";
 
 class AddStudent extends React.Component {
