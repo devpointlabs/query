@@ -1,6 +1,14 @@
 import React from "react";
 import axios from "axios";
-import { Button, Grid, Form, Input, Dropdown, List } from "semantic-ui-react";
+import {
+  Button,
+  Grid,
+  Form,
+  Input,
+  Dropdown,
+  List,
+  Popup
+} from "semantic-ui-react";
 
 class AddStudent extends React.Component {
   state = {
@@ -21,7 +29,7 @@ class AddStudent extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     const { email, pupil } = this.state;
-    let amail = [email];
+    let amail = [email.replace(/\s/g, "").replace(/,\s*$/, "")];
     this.props.pmail(amail);
     this.setState({ email: "", pupil: [...pupil, email] });
   };
@@ -42,7 +50,10 @@ class AddStudent extends React.Component {
     if (s === null) {
       alert("There's No Students in this Class");
     } else {
-      let email = s.split(",");
+      let email = s
+        .replace(/\s/g, "")
+        .replace(/,\s*$/, "")
+        .split(",");
       this.props.pmail(email);
       this.setState({ pupil: [...email, ...this.state.pupil], email: "" });
     }
@@ -71,7 +82,7 @@ class AddStudent extends React.Component {
       <div style={divStyle}>
         {this.state.showButtons ? (
           <Button style={buttonStyle} onClick={this.toggleStudentForm}>
-            Add Student
+            View Students
           </Button>
         ) : null}
         {this.state.showStudentForm && (
@@ -92,12 +103,11 @@ class AddStudent extends React.Component {
                   }
                 >
                   <label style={{ color: "#9219FF" }}>
-                    Enter Email Address
+                    Add New Student by Email
                   </label>
                   <Input
                     style={{ inputStyle }}
                     value={this.state.email}
-                    type="email"
                     name="email"
                     placeholder="Email"
                     onChange={this.handleChange}
@@ -119,6 +129,16 @@ class AddStudent extends React.Component {
                   </Grid.Column>
                 </Grid>
               </Form>
+              <List style={{ marginLeft: "5%", marginRight: "5%" }}>
+                {this.props.submail.map(p => (
+                  <div>
+                    <Popup
+                      trigger={<p onClick={() => this.props.delete(p)}>{p}</p>}
+                      content={`Click to remove ${p}`}
+                    />
+                  </div>
+                ))}
+              </List>
             </div>
           </>
         )}
@@ -136,14 +156,6 @@ class AddStudent extends React.Component {
             Cancel
           </Button>
         )}
-
-        <List style={{ marginLeft: "5%", marginRight: "5%" }}>
-          {this.state.pupil.map(p => (
-            <div>
-              <p>{p}</p>
-            </div>
-          ))}
-        </List>
       </div>
     );
   }

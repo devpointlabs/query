@@ -131,9 +131,9 @@ class AddClass extends React.Component {
             {/* </div> */}
             <Container style={{ marginTop: "10px" }}>
               <Card.Group centered>
-                {this.state.zmail.map(z => {
+                {this.state.zmail.map((z, i) => {
                   return (
-                    <Card>
+                    <Card key={i}>
                       <Card.Header style={{ marginLeft: "3px" }}>
                         {z}
                         <Button

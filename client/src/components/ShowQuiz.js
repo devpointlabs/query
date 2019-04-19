@@ -33,7 +33,9 @@ class ShowQuiz extends React.Component {
     this.updateWindowDimensions();
     window.addEventListener("resize", this.updateWindowDimensions);
     axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
-      this.setState({ quiz: res.data });
+      res.data.email
+        ? this.setState({ email: res.data.email.split(","), quiz: res.data })
+        : this.setState({ quiz: res.data });
     });
     axios
       .get(`/api/quizzes/${this.props.match.params.id}/questions`)
@@ -74,6 +76,20 @@ class ShowQuiz extends React.Component {
     axios.patch(`/api/quizzes/${this.props.match.params.id}`, {
       anon: this.state.anon
     });
+  };
+
+  deleteSt = m => {
+    let { email, id } = this.state;
+    let arr = email.slice(0);
+    let idx = arr.indexOf(m);
+    arr.splice(idx, 1);
+    axios
+      .patch(`/api/quizzes/${this.props.match.params.id}`, {
+        email: arr.join()
+      })
+      .then(res => {
+        this.setState({ email: res.data.email.split(",") });
+      });
   };
 
   removeQuestion = id => {
@@ -144,6 +160,10 @@ class ShowQuiz extends React.Component {
 
   getEmail = f => {
     this.setState({ email: [...f, ...this.state.email] });
+    let s = [...f, ...this.state.email].join();
+    axios.patch(`/api/quizzes/${this.props.match.params.id}`, {
+      email: s
+    });
   };
 
   handleChange = (e, { name, value }) =>
@@ -283,6 +303,7 @@ class ShowQuiz extends React.Component {
           </header>
           <h1 style={{ marginLeft: "5%" }}>People</h1>
           <AddStudent
+            delete={this.deleteSt}
             submail={this.state.email}
             pmail={this.getEmail}
             width={this.state.width}

@@ -34,7 +34,7 @@ class StudentList extends React.Component {
         <Container style={{ margin: "5px" }}>
           <Card.Group centered>
             {this.state.glasses.map(c => (
-              <AddStudentList info={c} />
+              <AddStudentList key={c.id} info={c} />
             ))}
 
             <Card>

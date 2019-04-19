@@ -1,10 +1,6 @@
 import React from "react";
 import { Form, Message, Button, Header } from "semantic-ui-react";
 import axios from "axios";
-<<<<<<< HEAD
-import { AuthConsumer } from "../providers/AuthProvider";
-=======
->>>>>>> 3c1e516806f88857ca178607db12a90a46979f1c
 
 class Timer extends React.Component {
   state = {
@@ -135,7 +131,7 @@ class Timer extends React.Component {
               <div
                 style={{
                   display: "flex",
-                  justifyContent: "center",
+                  justifyContent: "center"
                 }}
               >
                 {this.state.timed === "y" ? (
