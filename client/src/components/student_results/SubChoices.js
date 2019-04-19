@@ -2,7 +2,7 @@ import React, { useState, useEffect, } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
 
-function SubChoices({ ques_id, }) {
+function SubChoices({ sub_id, quiz_id, }) {
   const [subChoice, setSubChoice] = useState([]);
 
   useEffect( () => {
