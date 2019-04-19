@@ -10,7 +10,6 @@ import ShowQuiz from './components/ShowQuiz'
 import TakeQuiz from './components/TakeQuiz'
 import ResultsByQuiz from './components/results/ResultsByQuiz'
 import Results from './components/results/Results'
-import { Container, } from 'semantic-ui-react';
 import { Route, Switch, } from 'react-router-dom';
 import ProtectedRoute from "./components/ProtectedRoute"
 import './App.css'
