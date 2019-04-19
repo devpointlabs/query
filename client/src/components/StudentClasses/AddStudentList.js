@@ -1,13 +1,40 @@
 import React from "react";
 import axios from "axios";
-import { Grid, Form, Input, Header } from "semantic-ui-react";
+import {
+  Grid,
+  Form,
+  Input,
+  Header,
+  Card,
+  Icon,
+  Button,
+  Container
+} from "semantic-ui-react";
 
 class AddClass extends React.Component {
-  state = { email: [], input: "", toogle: false };
+  state = { zmail: [], input: "", toogle: false };
 
   componentDidMount() {
-    this.setState(...this.props.info);
+    this.setState({
+      ...this.props.info,
+      zmail: this.props.info.email ? this.props.info.email.split(",") : []
+    });
   }
+
+  removed = () => {
+    axios.delete(`/api/student_lists/${this.state.id}`);
+    document.location.reload(true);
+  };
+
+  delete = m => {
+    let { zmail, id } = this.state;
+    let arr = zmail.slice(0);
+    let idx = arr.indexOf(m);
+    arr.splice(idx, 1);
+    axios.patch(`/api/student_lists/${id}`, { email: arr.join() }).then(res => {
+      this.setState({ zmail: res.data.email.split(",") });
+    });
+  };
 
   handleChange = e => {
     const { name, value } = e.target;
@@ -16,70 +43,130 @@ class AddClass extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const { email, input } = this.state;
+    const { zmail, input } = this.state;
+    let x = input.replace(/\s/g, "").replace(/,\s*$/, "");
+    let z = [x, ...zmail].join();
     axios
-      .patch(`/api/student_lists/${this.props.id}`, { email: input })
-      .then(res => this.setState({ email: [res.data, ...email], input: "" }));
+      .patch(`/api/student_lists/${this.state.id}`, { email: z })
+      .then(res => {
+        this.setState({ zmail: res.data.email.split(","), input: "" });
+      });
   };
 
   render() {
     if (this.state.toogle) {
       return (
-        <div>
-          <Form onSubmit={this.handleSubmit}>
-            <Form.Field
-              style={
-                this.props.width < 500
-                  ? null
-                  : {
-                      paddingTop: "1%",
-                      marginLeft: "5%",
-                      marginRight: "40%"
-                    }
-              }
-            >
-              <label style={{ color: "#9219FF" }}>Enter Email Address</label>
-              <Input
-                style={{ inputStyle }}
-                value={this.state.email}
-                type="email"
-                name="input"
-                placeholder="Email"
-                onChange={this.handleChange}
-              />
-            </Form.Field>
-            <Grid>
-              <Grid.Column>
-                <button
-                  style={{
-                    color: "#9219FF",
-                    marginLeft: "53%",
-                    borderRadius: "10px"
-                  }}
-                  type="submit"
-                >
-                  Submit
-                </button>
-              </Grid.Column>
-            </Grid>
-          </Form>
+        <div
+        // style={{
+        //   width: "100%",
+
+        //   backgroundColor: "#fff",
+        //   borderRadius: "5px"
+        // }}
+        >
+          <Card style={{ paddingBottom: "5px", marginBottom: "10px" }} fluid>
+            <Form style={{ width: "100%" }} onSubmit={this.handleSubmit}>
+              <Form.Field
+                style={
+                  this.props.width < 500
+                    ? null
+                    : {
+                        width: "100%"
+                      }
+                }
+              >
+                <Header>
+                  {this.state.name}
+                  <Button
+                    style={{ marginTop: "3px", float: "right" }}
+                    inverted
+                    color="red"
+                    size="mini"
+                    onClick={() => this.removed()}
+                  >
+                    <Icon name="trash alternate" />
+                  </Button>
+                </Header>
+                <Input
+                  required
+                  style={{ inputStyle }}
+                  value={this.state.input}
+                  name="input"
+                  placeholder="Email"
+                  onChange={this.handleChange}
+                />
+              </Form.Field>
+            </Form>
+            {/* <div style={{ display: "flex", justifyContent: "space-around" }}> */}
+            <br />
+            <Button.Group>
+              <Button
+                inverted
+                onClick={this.handleSubmit}
+                style={{
+                  // color: "#9219FF",
+                  backgroundColor: "#9219ff",
+                  // paddingLeft: "30%",
+                  borderRadius: "10px"
+                }}
+                type="submit"
+              >
+                Submit
+              </Button>
+              <Button.Or />
+              <Button
+                inverted
+                onClick={() => this.setState({ toogle: false })}
+                style={{
+                  backgroundColor: "#9219ff",
+                  // paddingLeft: "30%",
+                  borderRadius: "10px"
+                }}
+              >
+                Cancel
+              </Button>
+            </Button.Group>
+
+            {/* </Container> */}
+            {/* </div> */}
+            <Container style={{ marginTop: "10px" }}>
+              <Card.Group centered>
+                {this.state.zmail.map(z => {
+                  return (
+                    <Card>
+                      <Card.Header style={{ marginLeft: "3px" }}>
+                        {z}
+                        <Button
+                          style={{ float: "right" }}
+                          inverted
+                          color="red"
+                          size="mini"
+                          onClick={() => this.delete(z)}
+                        >
+                          <Icon name="trash alternate" />
+                        </Button>
+                      </Card.Header>
+                    </Card>
+                  );
+                })}
+              </Card.Group>
+            </Container>
+          </Card>
         </div>
       );
     } else {
       return (
-        <div>
-          <Header>{}</Header>
-          <button
-            style={{
-              color: "#9219FF",
-              marginLeft: "53%",
-              borderRadius: "10px"
-            }}
-            onClick={() => this.setState({ toogle: !this.state.toogle })}
-          >
-            Edit
-          </button>
-        </div>
+        <Card
+          link
+          onClick={() => this.setState({ toogle: !this.state.toogle })}
+          style={{ paddingBottom: "75px" }}
+        >
+          <div>
+            <Header style={{ marginLeft: "3px" }}>
+              {this.props.info.name}
+            </Header>
+          </div>
+        </Card>
       );
     }
   }
@@ -87,5 +174,6 @@ class AddClass extends React.Component {
 export default AddClass;
 
 const inputStyle = {
-  color: "#9219FF"
+  color: "#9219FF",
+  width: "100%"
 };

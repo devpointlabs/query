@@ -151,7 +151,7 @@ class ShowQuiz extends React.Component {
     });
 
   getEmail = f => {
-    this.setState({email: [f, ...this.state.email]});
+    this.setState({email: [...f, ...this.state.email]});
   };
 
   handleChange = (e, {name, value}) =>

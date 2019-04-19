@@ -15,13 +15,12 @@ class Api::StudentListsController < ApplicationController
 
   # POST /student_lists
   def create
-    binding.pry
     @student_list = current_user.student_lists.new(student_list_params)
 
     if @student_list.save
-      render json: @student_list, status: :created, location: @student_list
+      render json: @student_list
     else
-      render json: @student_list.errors, status: :unprocessable_entity
+      render json: @student_list.errors
     end
   end
 

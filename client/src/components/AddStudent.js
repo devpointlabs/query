@@ -1,11 +1,6 @@
 import React from "react";
 import axios from "axios";
-import {
-  Button,
-  Grid,
-  Form,
-  Input
-} from "semantic-ui-react";
+import { Button, Grid, Form, Input, Dropdown } from "semantic-ui-react";
 
 class AddStudent extends React.Component {
   state = {
@@ -14,21 +9,21 @@ class AddStudent extends React.Component {
     showStudentForm: false,
     showButtons: true,
     pupil: [],
+    toogle: false,
+    clarr: []
   };
 
   handleChange = e => {
-    const {name, value} = e.target
-    this.setState({ [name]: value});
+    const { name, value } = e.target;
+    this.setState({ [name]: value });
   };
 
-  handleSubmit = (e) => {
+  handleSubmit = e => {
     e.preventDefault();
-    const { email, pupil } = this.state
-    // axios.post("/api/add_student_to_quiz", {email: email})
-    // .then(res => this.setState({user: res.data}))
-    this.props.pmail(email)
-    this.setState({email: ""})
-    this.setState({ pupil: [...pupil, email] });
+    const { email, pupil } = this.state;
+    let amail = [email];
+    this.props.pmail(amail);
+    this.setState({ email: "", pupil: [...pupil, email] });
   };
 
   toggleStudentForm = () =>
@@ -43,79 +38,126 @@ class AddStudent extends React.Component {
       showStudentForm: false
     });
 
+  Cladd = s => {
+    if (s === null) {
+      alert("There's No Students in this Class");
+    } else {
+      let email = s.split(",");
+      this.props.pmail(email);
+      this.setState({ pupil: [...email, ...this.state.pupil], email: "" });
+    }
+  };
+
+  selClass = () => {
+    if (this.state.clarr === undefined || this.state.clarr.length == 0) {
+      axios.get("/api/student_lists").then(res => {
+        this.setState({ clarr: res.data });
+      });
+    }
+    return (
+      <Dropdown style={{ marginLeft: "5%", border: "2px" }} text="Add By Class">
+        <Dropdown.Menu>
+          {this.state.clarr.map(c => (
+            <Dropdown.Item onClick={() => this.Cladd(c.email)} text={c.name} />
+          ))}
+        </Dropdown.Menu>
+      </Dropdown>
+    );
+  };
+
   render() {
     document.body.style = "background: #6D55A3;";
     return (
       <div style={divStyle}>
-      {this.state.showButtons ? (
-    <Button style={buttonStyle} onClick={this.toggleStudentForm}>
-      Add Student
-    </Button>
-) : null}
+        {this.state.showButtons ? (
+          <Button style={buttonStyle} onClick={this.toggleStudentForm}>
+            Add Student
+          </Button>
+        ) : null}
 
-{this.state.showStudentForm && (
-  <>
-  <div style={this.props.width < 500 ? { textAlign: "center"} : null}>
-    <Form onSubmit={this.handleSubmit} >
-      <Form.Field
-        style={ this.props.width < 500 ? 
-          null :{
-          paddingTop: "1%",
-          marginLeft: "5%",
-          marginRight: "40%"
-          }}
+        {this.state.showStudentForm && (
+          <>
+            <div
+              style={this.props.width < 500 ? { textAlign: "center" } : null}
+            >
+              <Form onSubmit={this.handleSubmit}>
+                <Form.Field
+                  style={
+                    this.props.width < 500
+                      ? null
+                      : {
+                          paddingTop: "1%",
+                          marginLeft: "5%",
+                          marginRight: "40%"
+                        }
+                  }
+                >
+                  <label style={{ color: "#9219FF" }}>
+                    Enter Email Address
+                  </label>
+                  <Input
+                    style={{ inputStyle }}
+                    value={this.state.email}
+                    type="email"
+                    name="email"
+                    placeholder="Email"
+                    onChange={this.handleChange}
+                  />
+                </Form.Field>
+                <Grid>
+                  <Grid.Column style={{ display: "flex" }}>
+                    {this.selClass()}
+                    <button
+                      style={{
+                        color: "#9219FF",
+                        marginLeft: "38%",
+                        borderRadius: "10px"
+                      }}
+                      type="submit"
+                    >
+                      Submit
+                    </button>
+                  </Grid.Column>
+                </Grid>
+              </Form>
+            </div>
+          </>
+        )}
+        {this.state.showButtons ? null : (
+          <button
+            style={{ color: "red", marginLeft: "5%", marginTop: "15px" }}
+            onClick={this.toggleButtons}
           >
-      <label style={{ color: "#9219FF" }}>Enter Email Address</label>
-        < Input style={{ inputStyle }} 
-          value={this.state.email}
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={this.handleChange}
-          />
-      </Form.Field>
-    <Grid>
-      <Grid.Column>
-        <button style={{color: '#9219FF', marginLeft: "53%", borderRadius: '10px'}}  type="submit">
-        Submit
-        </button>
-      </Grid.Column>
-    </Grid>
-    </Form>
-  </div>
-  </>
-)}
-{this.state.showButtons ? null : (
-  <button style={{ color: "red", marginLeft: "5%" }}
-      onClick={this.toggleButtons}>
-      Cancel
-  </button>        
-)}
-    </div>
-);
-}}
+            Cancel
+          </button>
+        )}
+      </div>
+    );
+  }
+}
 
 export default AddStudent;
 
 const divStyle = {
   desktop: {
-  marginBottom: "50px",
-  backgroundColor: "white",
-  textAlign: "left",
-  color: "#9219FF",
-  marginLeft: "15%",
-  marginRight: "15%",
-  borderRadius: "10px",
-  paddingBottom: "2%"
-}, mobile: {
-  marginBottom: "50px",
-  backgroundColor: "white",
-  textAlign: "left",
-  color: "purple",
-  borderRadius: "10px",
-  paddingBottom: "2%"
-}};
-
+    marginBottom: "50px",
+    backgroundColor: "white",
+    textAlign: "left",
+    color: "#9219FF",
+    marginLeft: "15%",
+    marginRight: "15%",
+    borderRadius: "10px",
+    paddingBottom: "2%"
+  },
+  mobile: {
+    marginBottom: "50px",
+    backgroundColor: "white",
+    textAlign: "left",
+    color: "purple",
+    borderRadius: "10px",
+    paddingBottom: "2%"
+  }
+};
 
 const buttonStyle = {
   backgroundColor: "white",
