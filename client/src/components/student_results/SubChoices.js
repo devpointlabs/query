@@ -19,52 +19,40 @@ function SubChoices({ ques_id, }) {
     {q.question_text}
     </QHead>
 
-{q.choices.map( choices => {
+    {q.choices.map( choices => {
         if (q.choice_id === choices.id)
           return subChoices(choices);
-        return(
-        <ChoiceDiv key={choices.id}>
-        <input
-          style={{
-            border: "6px solid #5906A3",
-            marginRight: "10px"
-          }}
-          type="radio"
-          disabled={ true }
-        />
-        {choices.answer}
-        </ChoiceDiv>
-        )})}
+      return renderChoices(choices);
+    })}
       </QDiv>
 ))
 
-  // function renderChoices (choices) {
-  //   if (choices.correct_answer) {
-  //     return <div>
-  //       <input
-  //               style={{
-  //                 border: "6px solid #5906A3",
-  //                 marginRight: "10px"
-  //               }}
-  //               type="radio"
-  //               disabled={ true }
-  //             />
-  //             <p style={{ display: "inline" }}>{choices.answer}</p>
-  //             <p style={{ display: "inline" }}> {" "} &lt;= Correct Answer</p>
-  //         </div>
-  //   }
-  //     return <ChoiceDiv key={choices.id}>
-  //             <input
-  //               style={{
-  //                 border: "6px solid #5906A3",
-  //                 marginRight: "10px"
-  //               }}
-  //               type="radio"
-  //               disabled={ true }
-  //             />
-  //             {choices.answer}
-  //           </ChoiceDiv>
-  // }
+  function renderChoices (choices) {
+    if (choices.correct_answer) {
+      return <ChoiceDiv key={choices.id}>
+        <input
+                style={{
+                  border: "6px solid #5906A3",
+                  marginRight: "10px"
+                }}
+                type="radio"
+                disabled={ true }
+              />
+             <p style={{ display: "inline" }}>{choices.answer} {" "} &lt;= Correct Answer</p>
+            </ChoiceDiv>
+    }
+      return <ChoiceDiv key={choices.id}>
+              <input
+                style={{
+                  border: "6px solid #5906A3",
+                  marginRight: "10px"
+                }}
+                type="radio"
+                disabled={ true }
+              />
+              {choices.answer}
+            </ChoiceDiv>
+  }
 
   function subChoices (choices) {
     if (choices.correct_answer) {
