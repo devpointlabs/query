@@ -46,7 +46,7 @@ const Purple = styled.div`
   display: grid;
   background: #5906A3;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
 `
 
 const Questions = styled.div`
