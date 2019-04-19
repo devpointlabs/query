@@ -31,7 +31,8 @@ const StudentResults = (props) => {
       <Purple>
       </Purple>
       <Questions>
-        { renderQuestions }
+        <SubChoices
+        />
       </Questions>
     </Grid>
     </>

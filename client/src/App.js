@@ -14,6 +14,8 @@ import ProtectedRoute from "./components/ProtectedRoute"
 import side from './components/QuizSideInfo'
 import './App.css'
 
+import StudentResults from "./components/student_results/StudentResults"
+
 const App = () => (
   <>
       <FetchUser>
@@ -28,6 +30,7 @@ const App = () => (
            <Route exact path="/register" component={Register} />
            <Route exact path="/register/teacher" component={Register} />
            <Route exact path="/quizbuilder/:id" component={ShowQuiz} />
+           <Route exact path="/graded/" component={StudentResults} />
            <Route component={NoMatch} />
           </Switch>
       </FetchUser>
