@@ -11,21 +11,20 @@ function SubChoices({ ques_id, }) {
     // the choice (choice_id, answer, correct) it belongs to,
     // question (question_type, question_text)
     // and {choices} belonging to question not selected by student
-    axios.get(`/api/27/student_choices/`)
+    axios.get(`/api/${sub_id}/student_choices/`)
       .then( res => {
         setSubChoice(res.data)
       })
   }, []);
 
   const renderQuestions = subChoice.map( q => {
-        if (q.question_type === "open") 
+        if (q.question_type === "open") {
           return renderOpen(q);
+        }
      return(  
     <QDiv key={q.id}>
     <QHead>
     {q.question_text}
-      {
-      }
     </QHead>
 
     {q.choices.map( choices => {
@@ -38,14 +37,14 @@ function SubChoices({ ques_id, }) {
   
   function renderOpen (q) {
     return (
-    <div>
-      <QDiv>
-        {q.choices.answer}
-      </QDiv>
-      <ChoiceDiv>
-        {q.choice}
-      </ChoiceDiv>
-    </div>
+    <QDiv>
+      <QHead>
+        {q.question_text}
+      </QHead>
+      <OpenDiv>
+        {q.choice.student_answer}
+      </OpenDiv>
+    </QDiv>
   )}
 
   function renderChoices (choices) {
@@ -132,7 +131,14 @@ const QDiv = styled.div`
 `
 
 const ChoiceDiv = styled.div`
+  font-family: menlo;
   color: grey;
+`
+
+const OpenDiv = styled.div`
+  font-family: menlo;
+  color: grey;
+  padding: 10px;
 `
 
 export default SubChoices
