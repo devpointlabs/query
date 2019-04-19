@@ -5,7 +5,7 @@ import SubChoices from './SubChoices'
 import QuizSideInfo from './QuizSideInfo'
 
 const StudentResults = (props) => {
-  
+  const { quiz_id, sub_id} = props.location.state
   // const renderQuestions = questions.map(q => (
   //     <QDiv key={q.id}>
   //       <QHead>
@@ -22,10 +22,12 @@ const StudentResults = (props) => {
     <>
     <Grid>
       <Purple>
-        <QuizSideInfo />
+        <QuizSideInfo quiz_id={quiz_id} sub_id={sub_id}  />
       </Purple>
       <Questions>
         <SubChoices
+        quiz_id={quiz_id}
+        sub_id={sub_id}
         />
       </Questions>
     </Grid>
@@ -51,6 +53,7 @@ const Purple = styled.div`
 
 const Questions = styled.div`
   padding: 25px;
+  bakground-color: white !important;
 `
 
 const QHead = styled.h3`
