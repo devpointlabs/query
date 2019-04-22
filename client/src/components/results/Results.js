@@ -6,7 +6,9 @@ import Grade from './Grade'
 import Navbar from '../Navbar'
 
 const Results = (props) => {
-  const [submissions, setSubmissions] = useState([]);
+	const [submissions, setSubmissions] = useState([]);
+	const [sumOfGrades, setSumOfGrades] = useState(0);
+	const [countOfSubmissions, setCountOfSubmissions] = useState(0);
 
   useEffect(() => {
     axios.get(`/api/submissions_by_quiz?quiz_id=${props.location.state.quiz_id}`)
@@ -14,7 +16,19 @@ const Results = (props) => {
         setSubmissions(res.data)
       })
       .catch(err => console.log(err))
-  }, [])
+	}, [])
+
+	const avgGrade = () => {
+		count = submissions.length
+		sum = submissions.map( sub => {
+			
+			}	
+		)
+	}
+
+	const gradeInc = grade => {
+		setSumOfGrades(sumOfGrades + grade)
+	}
 
   const renderSubmissions = () => {
     return submissions.length >= 1 ?
@@ -31,7 +45,7 @@ const Results = (props) => {
               </List>
             </Card.Content>
             <Card.Content extra>
-              <Grade id={sub.id} />
+              <Grade id={sub.id} gradeInc={gradeInc} />
             </Card.Content>
           </Card>)
       }))
@@ -50,7 +64,8 @@ const Results = (props) => {
   document.body.style = 'background: #5906A3;'
 
   return (
-    <>
+	<>
+        
       <Navbar />
       <Card.Group centered>
         {renderSubmissions()}
