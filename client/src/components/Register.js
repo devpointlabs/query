@@ -17,9 +17,10 @@ class Register extends React.Component {
 
   handleSubmit = (e) => {
     e.preventDefault();
-    const {teacher, name, email, password, passwordConfirmation } =  this.state;
+    const {teacher, name, password, passwordConfirmation } =  this.state;
+    let email = this.state.email.toLowerCase()
     const { auth: { handleRegister, }, history, } =  this.props;
-    
+    debugger
     if (password === passwordConfirmation){
       handleRegister({teacher, name, email, password, passwordConfirmation, }, history)}
     else  
@@ -55,7 +56,7 @@ class Register extends React.Component {
         placeholder="Email"
         name="email"
         required
-        value={email}
+        value={email.toLowerCase()}
         onChange={this.handleChange}
         />
         <Form.Input

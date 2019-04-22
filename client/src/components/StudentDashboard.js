@@ -99,7 +99,7 @@ class StudentDashboard extends React.Component {
                 color: "white"
               }}
             >
-              You currently have no active quizzes
+              You currently have no active queries
           </h1>
           )}
         <div
