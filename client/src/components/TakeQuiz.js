@@ -1,14 +1,12 @@
 import React from "react";
 import axios from "axios";
-import Timer from "./Timer";
-import { Grid, Form, Button, Icon } from "semantic-ui-react";
+import { Grid, Button, } from "semantic-ui-react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
 import MC from "../quiz_components/MC";
 import Open from "../quiz_components/Open";
 import TorF from "../quiz_components/TorF";
-import styles from "../styles/styles.css";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect, } from "react-router-dom";
 
 class TakeQuiz extends React.Component {
   state = {
@@ -104,7 +102,6 @@ class TakeQuiz extends React.Component {
 
   addStudentAnswer = (student_answer, choice_id) => {
     // retrieves state from MC, Open, and TorF components and posts them to the data base.
-    const quiz_id = this.state.quiz.id;
     const id = this.state.sub_id;
     const answer = {
       submission_id: id,
@@ -135,7 +132,7 @@ class TakeQuiz extends React.Component {
       return (
         <Grid divided="vertically">
           <DescContainer>
-            <div style={{ marginTop: "25px" }}>
+            <div style={{ marginTop: "20px" }}>
               <Navbar />
             </div>
             <div
@@ -149,7 +146,7 @@ class TakeQuiz extends React.Component {
             >
               <div style={{}}>
                 <HeaderText fSize="small">{this.state.quiz.name}</HeaderText>
-                <HeaderText>{quiz_info}</HeaderText>
+                <StyledP style={{ marginBottom: "15px"}}>{quiz_info}</StyledP>
               </div>
               <div>
                 <hr
@@ -164,25 +161,25 @@ class TakeQuiz extends React.Component {
 
               {/* Switches quiz description depending wether it is a anonymous or identified quiz */}
               {anon ? (
-                <HeaderText fSize="small">
+                <StyledP style={{marginTop: "15px"}}>
                   Submission is <strong>Anonymous</strong>
-                </HeaderText>
+                </StyledP>
               ) : (
-                <HeaderText fSize="small">
+                <StyledP style={{marginTop: "15px"}}>
                   Submission is <strong>Identified</strong>
-                </HeaderText>
+                </StyledP>
               )}
               {anon ? (
-                <HeaderText fSize="tiny">
+                <StyledI>
                   The creator of this query won't know who you are.
-                </HeaderText>
+                </StyledI>
               ) : (
-                <HeaderText fSize="tiny">
+                <StyledI>
                   The creator of this query will know who you are.
-                </HeaderText>
+                </StyledI>
               )}
-              <HeaderText fSize="tiny">Time Remaining:</HeaderText>
-              <HeaderText fSize="tiny">{this.clock()}</HeaderText>
+              <StyledP style={{marginTop: "30px"}}>Time Remaining:</StyledP>
+              <StyledP style={{size: ".5rem", }}>{this.clock()}</StyledP>
             </div>
           </DescContainer>
           <QuesContainer>
@@ -245,7 +242,7 @@ class TakeQuiz extends React.Component {
                   <span>
                     <i
                       style={{ marginTop: "16px" }}
-                      class="fab fa-telegram-plane fa-4x"
+                      className="fab fa-telegram-plane fa-4x"
                     />
                   </span>
                 </div>
@@ -271,6 +268,14 @@ const SubmitButton = styled.input`
   width: 82px;
   border-radius: 50%;
 `;
+
+
+const StyledP = styled.p`
+  color: white;
+`
+const StyledI = styled.i`
+  color: white;
+`
 
 const DescContainer = styled.div`
   background: #5906a3;
