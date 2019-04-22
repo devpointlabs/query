@@ -20,7 +20,6 @@ class Register extends React.Component {
     const {teacher, name, password, passwordConfirmation } =  this.state;
     let email = this.state.email.toLowerCase()
     const { auth: { handleRegister, }, history, } =  this.props;
-    debugger
     if (password === passwordConfirmation){
       handleRegister({teacher, name, email, password, passwordConfirmation, }, history)}
     else  
