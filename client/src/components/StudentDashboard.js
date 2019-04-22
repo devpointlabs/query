@@ -17,8 +17,8 @@ class StudentDashboard extends React.Component {
   };
 
   dater = a => {
-    let b = Date(a);
-    let c = b
+    let b = new Date(a);
+    let c = b.toString()
       .split(" ")
       .splice(1, 3)
       .join(" ");
