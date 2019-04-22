@@ -15,7 +15,6 @@ const QuizSideInfo = ({ quiz_id }) => {
   
   return (
     <div>
-    <Navbar />
     <SideDiv> 
       <BigHead>
         {quiz.name}
