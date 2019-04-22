@@ -1,7 +1,6 @@
 import React, { useState, useEffect, } from 'react'
 import axios from 'axios'
 import styled from 'styled-components'
-import styles from "../../styles/styles.css";
 
 function SubChoices({ sub_id, quiz_id, }) {
   const [subChoice, setSubChoice] = useState([]);
@@ -60,53 +59,46 @@ function SubChoices({ sub_id, quiz_id, }) {
     if (choices.correct_answer) {
       return <ChoiceDiv key={choices.id}>
         <input
-          style={{
-            border: "6px solid #5906A3 !important",
-            marginRight: "10px"
-          }}
           type="radio"
-          disabled={true}
+          id={choices.id}
+          readOnly
+          disabled
         />
-        <p style={{ display: "inline" }}>{choices.answer} {" "} &lt;= Correct Answer</p>
+        <label for={choices.id}>{choices.answer}</label>
+        <p style={{ display: "inline" }}>{" "} &lt;= Correct Answer</p>
       </ChoiceDiv>
     }
     return <ChoiceDiv key={choices.id}>
-      <input
-        style={{
-          border: "6px solid #5906A3",
-          marginRight: "10px"
-        }}
-        type="radio"
-        disabled={true}
-      />
-      {choices.answer}
+        <input
+          type="radio"
+          id={choices.id}
+          readOnly
+          disabled
+        />
+        <label for={choices.id}>{choices.answer}</label>
     </ChoiceDiv>
   }
 
   function subChoices(choices) {
     if (choices.correct_answer) {
       return <Right key={choices.id}>
-        <input
-          style={{
-            border: "6px solid #5906A3",
-            marginRight: "10px"
-          }}
-          type="radio"
-          checked
+        <RInput
+          checked={true}
+          readOnly
+          disabled
         />
-        {choices.answer}
+      <label for={choices.id}>{choices.answer}</label>
       </Right>
     }
     return <Wrong key={choices.id}>
-      <input
-        style={{
-          border: "6px solid #5906A3",
-          marginRight: "10px"
-        }}
+      <WInput
         type="radio"
+        className="wrong"
+        id="wrong"
         checked
+        disabled
       />
-      {choices.answer}
+      <label>{choices.answer}</label>
     </Wrong>
   }
 
@@ -122,12 +114,38 @@ const Right = styled.div`
   display: inline-block;
   color: #5906A3;
   font-weight: bold;
+  > input {
+    color: #5906A3;
+  }
 `
 
 const Wrong = styled.div`
   display: inline-block;
   color: red;
   font-weight: bold;
+  > input {
+    background: red;
+  }
+`
+
+const RInput = styled.input.attrs({ type: 'radio' })`
+  &:checked {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    background: #5906A3;
+  }
+`
+
+const WInput = styled.input.attrs({ type: 'radio' })`
+  &:checked {
+    width: 18px;
+    height: 18px;
+    border: 1px solid #ddd;
+    border-radius: 100%;
+    background: red;
+  }
 `
 
 const QHead = styled.h4`

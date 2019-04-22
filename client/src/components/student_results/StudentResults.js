@@ -17,10 +17,10 @@ const StudentResults = (props) => {
         <QuizSideInfo quiz_id={quiz_id} sub_id={sub_id}  />
       </Purple>
       <Questions>
-        <SubChoices
-        quiz_id={quiz_id}
-        sub_id={sub_id}
-        />
+          <SubChoices
+          quiz_id={quiz_id}
+          sub_id={sub_id}
+          />
       </Questions>
     </Grid>
     </>
