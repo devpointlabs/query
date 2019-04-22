@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState, useEffect, } from "react";
+import axios from 'axios'
 import styled from 'styled-components'
 
-const QuizSideInfo = () => {
+const QuizSideInfo = ({ quiz_id }) => {
+  const [quiz, setQuiz] = useState([])
+
+  useEffect(() => {
+    axios.get(`/api/quizzes/${quiz_id}/`)
+      .then(res => {
+        setQuiz(res.data)
+      })
+  }, []);
   
   return (
     <SideDiv> 
       <BigHead>
-        {/* {quiz.name} */} Check Your Understanding
+        {quiz.name}
       </BigHead>
       <MedHead>
-        {/* {quiz.info} */} Answer the following questions about the lecture today so far today.
+        {quiz.info}
       </MedHead>
       <hr />
       {/* {anon ? (

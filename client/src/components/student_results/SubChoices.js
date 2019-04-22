@@ -5,12 +5,11 @@ import styled from 'styled-components'
 function SubChoices({ sub_id, quiz_id, }) {
   const [subChoice, setSubChoice] = useState([]);
 
-  useEffect(() => {
-    // submission id needed
     // returns submission choice,
     // the choice (choice_id, answer, correct) it belongs to,
     // question (question_type, question_text)
     // and {choices} belonging to question not selected by student
+  useEffect(() => {
     axios.get(`/api/${sub_id}/student_choices/`)
       .then(res => {
         setSubChoice(res.data)
