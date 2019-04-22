@@ -31,7 +31,7 @@ class DynamicMCForm extends React.Component {
     e.preventDefault();
     if (this.state.choicePlaceholder !== "") {
       const choice = { answer: this.state.choicePlaceholder, correct_answer: this.state.choiceCorrectAnswerPlaceholder, }
-      this.setState({ choices: [choice, ...this.state.choices], choicePlaceholder: "", choiceCorrectAnswerPlaceholder: false, addAChoice: false, showFlash: false })
+      this.setState({ choices: [ ...this.state.choices, choice], choicePlaceholder: "", choiceCorrectAnswerPlaceholder: false, addAChoice: false, showFlash: false })
     } else {
       this.setState({ flashMsgText: "Choice cannot be empty", showFlash: true})
     }
