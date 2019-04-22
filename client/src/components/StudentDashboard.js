@@ -29,17 +29,21 @@ class StudentDashboard extends React.Component {
     this.setState({
       redirect: true,
       q_id: theChoosenOne,
-      submission: this.state.submissions.filter( s => s.quiz_id == theChoosenOne.id)[0]
+      submission: this.state.submissions.filter(s => s.quiz_id == theChoosenOne.id)[0]
     });
   };
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      if ( !this.state.submission.complete){
+      if (!this.state.submission.complete) {
         const quiz = this.state.q_id;
-        return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+        if (quiz.active) {
+          return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+        } else {
+          return <Redirect to="/QuizTimeOut" />
+        }
       } else {
-        return <Redirect to={{ pathname: "/graded", state: { sub_id: this.state.submission.id, quiz_id: this.state.q_id.id}}} />
+        return <Redirect to={{ pathname: "/graded", state: { sub_id: this.state.submission.id, quiz_id: this.state.q_id.id } }} />
       }
     }
   };
@@ -54,7 +58,7 @@ class StudentDashboard extends React.Component {
         }
       });
     });
-    axios.get("/api/submissions").then(res => this.setState({ submissions: res.data}))
+    axios.get("/api/submissions").then(res => this.setState({ submissions: res.data }))
   }
 
   componentWillUnmount() {
