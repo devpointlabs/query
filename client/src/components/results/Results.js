@@ -20,7 +20,7 @@ const Results = (props) => {
 	}, [])
 
 	const avgGrade = () => {
-		return (sumOfGrades / countOfSubmissions) * 100;
+		return  (sumOfGrades / countOfSubmissions) * 100
 	}
 
 	const gradeInc = grade => {
@@ -68,7 +68,7 @@ const Results = (props) => {
 				justifyContent: "center",
 				color: "white", } 
 			}
-			> Average Score: {avgGrade()}% </h1>
+			> Average Score: {avgGrade().toFixed(2)}% </h1>
       <Card.Group centered>
         {renderSubmissions()}
 
