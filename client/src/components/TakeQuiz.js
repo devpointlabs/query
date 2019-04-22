@@ -111,7 +111,6 @@ class TakeQuiz extends React.Component {
       student_answer: student_answer,
       choice_id: choice_id
     };
-    debugger;
     axios
       .post(`/api/submissions/${id}/submission_choices`, answer)
       .then(this.setState({ toogle: true }));
