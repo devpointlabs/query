@@ -4,7 +4,7 @@ import { Dropdown, Icon } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 
 class Navbar extends React.Component {
-  proImg() {}
+  proImg() { }
   // for mobile responsiveness
   state = { width: 0, height: 0 };
 
@@ -20,6 +20,14 @@ class Navbar extends React.Component {
   updateWindowDimensions = () => {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
+
+  goBackParser = () => {
+    if (this.props.location.pathname === "/results") {
+      this.props.history.goBack()
+    } else {
+      this.props.history.push("/home")
+    }
+  }
 
   render() {
     const {
@@ -93,12 +101,14 @@ class Navbar extends React.Component {
         </div>
       );
     } else if (
-      this.props.location.pathname === 
-      `/quizbuilder/${this.props.location.pathname.split("/").pop()}` 
+      this.props.location.pathname ===
+      `/quizbuilder/${this.props.location.pathname.split("/").pop()}`
       ||
       '/profile'
       ||
-      `/quizzes/${this.props.location.pathname.split("/").pop()}` 
+      `/quizzes/${this.props.location.pathname.split("/").pop()}`
+      ||
+      "/graded"
     ) {
       return (
         <div style={{ width: "100%", display: "flex" }}>
@@ -111,15 +121,15 @@ class Navbar extends React.Component {
           >
             <Icon
               name="arrow left"
-              onClick={() => this.props.history.push("/home")}
+              onClick={this.goBackParser}
               style={
                 this.state.width < 500
                   ? {
-                      fontSize: "75px",
-                      marginTop: "25px",
-                      color: "#fff",
-                      marginBottom: "-25px"
-                    }
+                    fontSize: "75px",
+                    marginTop: "25px",
+                    color: "#fff",
+                    marginBottom: "-25px"
+                  }
                   : { fontSize: "75px", marginTop: "25px", color: "#fff" }
               }
             />
