@@ -22,7 +22,7 @@ class AddClass extends React.Component {
   }
 
   removed = () => {
-    const conf = window.confirm("are you sure")
+    const conf = window.confirm("Are you sure?")
     if (conf === true)
     {axios.delete(`/api/student_lists/${this.state.id}`)
     document.location.reload(true)}

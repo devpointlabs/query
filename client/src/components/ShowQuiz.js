@@ -34,8 +34,8 @@ class ShowQuiz extends React.Component {
     window.addEventListener("resize", this.updateWindowDimensions);
     axios.get(`/api/quizzes/${this.props.match.params.id}`).then(res => {
       res.data.email
-        ? this.setState({ email: res.data.email.split(","), quiz: res.data })
-        : this.setState({ quiz: res.data });
+        ? this.setState({ email: res.data.email.split(","), quiz: res.data, anon: res.data.anon })
+        : this.setState({ quiz: res.data, anon: res.data.anon });
     });
     axios
       .get(`/api/quizzes/${this.props.match.params.id}/questions`)
@@ -72,10 +72,11 @@ class ShowQuiz extends React.Component {
   toggleEdited = () => this.setState({ edited: !this.state.edited });
 
   toggleAnon = () => {
-    this.setState({ anon: !this.state.anon });
     axios.patch(`/api/quizzes/${this.props.match.params.id}`, {
-      anon: this.state.anon
-    });
+      anon: !this.state.anon
+    }).then(res => {
+      this.setState({anon: res.data.anon})
+    })
   };
 
   deleteSt = m => {
@@ -103,9 +104,11 @@ class ShowQuiz extends React.Component {
 
   handleDelete = () => {
     const id = this.state.quiz.id;
-    axios.delete(`/api/quizzes/${id}`).then(res => {
-      this.props.history.push("/home");
-    });
+    const conf = window.confirm("Are you sure?")
+    if (conf === true)
+    {axios.delete(`/api/quizzes/${id}`).then(res => {
+      this.props.history.push("/home")
+    })};
   };
 
   updateQuiz = q => {
