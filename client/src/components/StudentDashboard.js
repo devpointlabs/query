@@ -29,7 +29,7 @@ class StudentDashboard extends React.Component {
     this.setState({
       redirect: true,
       q_id: theChoosenOne,
-      submission: this.state.submissions.filter(s => s.quiz_id == theChoosenOne.id)[0]
+      submission: this.state.submissions.filter(s => s.quiz_id === theChoosenOne.id)[0]
     });
   };
 

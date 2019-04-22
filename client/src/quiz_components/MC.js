@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Form } from "semantic-ui-react";
-import styles from "../styles/styles.css";
 
 class MC extends React.Component {
   state = { answer: "", choice_id: "", press: true };
@@ -37,7 +35,7 @@ class MC extends React.Component {
                   id={choice.id}
                   value={choice.answer}
                   onChange={this.handleOptionChange}
-                  checked={this.state.choice_id == choice.id}
+                  checked={this.state.choice_id === choice.id}
                 />
                 <label for={choice.id}>{choice.answer}</label>
               </p>
