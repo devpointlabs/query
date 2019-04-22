@@ -22,8 +22,10 @@ class AddClass extends React.Component {
   }
 
   removed = () => {
-    axios.delete(`/api/student_lists/${this.state.id}`);
-    document.location.reload(true);
+    const conf = window.confirm("are you sure")
+    if (conf === true)
+    {axios.delete(`/api/student_lists/${this.state.id}`)
+    document.location.reload(true)}
   };
 
   delete = m => {
@@ -44,7 +46,7 @@ class AddClass extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     const { zmail, input } = this.state;
-    let x = input.replace(/\s/g, "").replace(/,\s*$/, "");
+    let x = input.toLowerCase().replace(/\s/g, "").replace(/,\s*$/, "");
     let z = [x, ...zmail].join();
     axios
       .patch(`/api/student_lists/${this.state.id}`, { email: z })
@@ -90,7 +92,7 @@ class AddClass extends React.Component {
                 <Input
                   required
                   style={{ inputStyle }}
-                  value={this.state.input}
+                  value={this.state.input.toLowerCase()}
                   name="input"
                   placeholder="Email"
                   onChange={this.handleChange}
