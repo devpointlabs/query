@@ -1,20 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import { Card, List } from 'semantic-ui-react';
+import { Card, List, } from 'semantic-ui-react';
 import Choices from './Choices'
 import Grade from './Grade'
 import Navbar from '../Navbar'
 
 const Results = (props) => {
-  const [submissions, setSubmissions] = useState([]);
+	const [submissions, setSubmissions] = useState([]);
+	const [sumOfGrades, setSumOfGrades] = useState(0);
+	const [countOfSubmissions, setCountOfSubmissions] = useState(0);
 
   useEffect(() => {
     axios.get(`/api/submissions_by_quiz?quiz_id=${props.location.state.quiz_id}`)
       .then(res => {
-        setSubmissions(res.data)
+				setSubmissions(res.data)
+				setCountOfSubmissions(res.data.length)
       })
-      .catch(err => console.log(err))
-  }, [])
+			.catch(err => console.log(err))
+	}, [])
+
+	const avgGrade = () => {
+		return  (sumOfGrades / countOfSubmissions) * 100
+	}
+
+	const gradeInc = grade => {
+		setSumOfGrades(sumOfGrades + grade)
+	}
 
   const renderSubmissions = () => {
     return submissions.length >= 1 ?
@@ -31,7 +42,7 @@ const Results = (props) => {
               </List>
             </Card.Content>
             <Card.Content extra>
-              <Grade id={sub.id} />
+              <Grade id={sub.id} gradeInc={gradeInc} />
             </Card.Content>
           </Card>)
       }))
@@ -50,8 +61,14 @@ const Results = (props) => {
   document.body.style = 'background: #5906A3;'
 
   return (
-    <>
-      <Navbar />
+		<>
+		<Navbar />
+		<h1 style={
+			{ display: "flex",
+				justifyContent: "center",
+				color: "white", } 
+			}
+			> Average Score: {avgGrade().toFixed(2)}% </h1>
       <Card.Group centered>
         {renderSubmissions()}
 

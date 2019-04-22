@@ -1,7 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Form } from "semantic-ui-react";
-import styles from "../styles/styles.css"
 
 
 class TorF extends React.Component {
