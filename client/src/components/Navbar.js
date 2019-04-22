@@ -85,16 +85,16 @@ class Navbar extends React.Component {
                 style={{ marginTop: "-35px", marginLeft: "-35px" }}
               >
                 <Dropdown.Item text="Profile" as={Link} to="/Profile" />
-                <Dropdown.Item
-                  text="Logout"
-                  onClick={() => handleLogout(this.props.history)}
-                />
                 {this.props.auth.user.teacher && (
                   <Dropdown.Item text="Results" as={Link} to="/ResultsByQuiz" />
-                )}
+                  )}
                 {this.props.auth.user.teacher && (
                   <Dropdown.Item text="Classes" as={Link} to="/Classes" />
-                )}
+                  )}
+                  <Dropdown.Item
+                    text="Logout"
+                    onClick={() => handleLogout(this.props.history)}
+                  />
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -160,16 +160,16 @@ class Navbar extends React.Component {
                 style={{ marginTop: "-35px", marginLeft: "-30px" }}
               >
                 <Dropdown.Item text="Profile" as={Link} to="/Profile" />
-                <Dropdown.Item
-                  text="Logout"
-                  onClick={() => handleLogout(this.props.history)}
-                />
                 {this.props.auth.user.teacher && (
                   <Dropdown.Item text="Results" as={Link} to="/ResultsByQuiz" />
-                )}
+                  )}
                 {this.props.auth.user.teacher && (
                   <Dropdown.Item text="Classes" as={Link} to="/Classes" />
-                )}
+                  )}
+                  <Dropdown.Item
+                    text="Logout"
+                    onClick={() => handleLogout(this.props.history)}
+                  />
               </Dropdown.Menu>
             </Dropdown>
           </div>
