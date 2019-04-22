@@ -209,7 +209,7 @@ class TakeQuiz extends React.Component {
                 );
               }
             })}
-            <Button
+            <SubmitButton
               inverted
               icon
               style={{ position: "fixed", right: "20px", bottom: "20px" }}
@@ -226,7 +226,7 @@ class TakeQuiz extends React.Component {
                 color="purple"
                 basic
               />
-            </Button>
+            </SubmitButton>
           </form>
         </QuesContainer>
       </Grid>
