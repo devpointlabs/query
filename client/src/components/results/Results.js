@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import { Card, List, Header, } from 'semantic-ui-react';
+import { Card, List, } from 'semantic-ui-react';
 import Choices from './Choices'
 import Grade from './Grade'
 import Navbar from '../Navbar'
