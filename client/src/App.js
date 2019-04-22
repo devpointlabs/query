@@ -14,6 +14,7 @@ import ResultsByQuiz from "./components/results/ResultsByQuiz";
 import Results from "./components/results/Results";
 import { Route, Switch } from "react-router-dom";
 import ProtectedRoute from "./components/ProtectedRoute";
+import QuizTimeOut from './components/QuizTimeOut'
 import "./App.css";
 
 import StudentResults from "./components/student_results/StudentResults";
@@ -34,6 +35,7 @@ const App = () => (
         <Route exact path="/register/teacher" component={Register} />
         <Route exact path="/quizbuilder/:id" component={ShowQuiz} />
         <Route exact path="/graded/" component={StudentResults} />
+        <Route exact path="/QuizTimeOut" component={QuizTimeOut} />
         <Route component={NoMatch} />
       </Switch>
     </FetchUser>
