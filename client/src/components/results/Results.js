@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
-import { Card, List, Header, } from 'semantic-ui-react';
+import { Card, List, } from 'semantic-ui-react';
 import Choices from './Choices'
 import Grade from './Grade'
 import Navbar from '../Navbar'
@@ -20,7 +20,7 @@ const Results = (props) => {
 	}, [])
 
 	const avgGrade = () => {
-		return (sumOfGrades / countOfSubmissions) * 100;
+		return  (sumOfGrades / countOfSubmissions) * 100
 	}
 
 	const gradeInc = grade => {
@@ -68,7 +68,7 @@ const Results = (props) => {
 				justifyContent: "center",
 				color: "white", } 
 			}
-			> Average Score: {avgGrade()}% </h1>
+			> Average Score: {avgGrade().toFixed(2)}% </h1>
       <Card.Group centered>
         {renderSubmissions()}
 
