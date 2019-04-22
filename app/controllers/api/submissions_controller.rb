@@ -66,13 +66,18 @@ class Api::SubmissionsController < ApplicationController
   private
 
   def the_params(email)
-    do_it = true
     student= User.where(email: email)
-    quiz= params.require(:submission).permit(:quiz_id, :sub_id)
-      sub = Submission.new(
+    if student 
+    quiz= params.require(:submission).permit(:quiz_id)
+      @sub = Submission.new(
         quiz.merge({user_id: student[0].id.to_s})
         )
-        sub.save
+        if @sub.save 
+          puts @sub
+        end
+      else 
+        puts "#{email} is not a user"
+      end
   end
 
   def quiz_params
