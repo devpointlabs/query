@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import SubChoices from './SubChoices'
 import QuizSideInfo from './QuizSideInfo'
 import Navbar from '../Navbar'
+import useWindowWidth from '../../hooks/useWindowWidth'
 
 const StudentResults = (props) => {
   const { quiz_id, sub_id, } = props.location.state
