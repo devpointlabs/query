@@ -21,10 +21,14 @@ class TakeQuiz extends React.Component {
     end: null,
     interval: null,
     active: null,
-    toogle: false
+    toogle: false,
+    width: 0,
+    height: 0,
   };
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
     this.setState({ interval: setInterval(this.timer, 1000) });
     const quiz_id = this.props.match.params.id;
     axios.get(`/api/quizzes/${quiz_id}`).then(res => {
@@ -52,6 +56,14 @@ class TakeQuiz extends React.Component {
   }
 
   componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  }
+  
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
+
+  componentWillUnmount() {
     clearInterval(this.state.interval);
   }
 
@@ -59,6 +71,7 @@ class TakeQuiz extends React.Component {
     e.preventDefault();
     this.setState({ press: true });
   };
+
 
   timer = () => {
     if (this.state.end !== "") {
