@@ -16,7 +16,7 @@ const QuizSideInfo = ({ quiz_id, sub_id, }) => {
   useEffect(() => {
     axios.get(`/api/submitted/${sub_id}/`)
       .then(res => {
-        setSubmittedAt(new Date(res.data))
+        setSubmittedAt(res.data)
       })
   }, []);
 
@@ -51,7 +51,7 @@ const QuizSideInfo = ({ quiz_id, sub_id, }) => {
       <MedHead>
         Submitted At:
       <SmallHead>
-        {submittedAt.toString()}
+        {submittedAt}
       </SmallHead>
       </MedHead>
     </SideDiv> 
