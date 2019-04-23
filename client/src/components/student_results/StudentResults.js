@@ -4,11 +4,28 @@ import styled from 'styled-components'
 import SubChoices from './SubChoices'
 import QuizSideInfo from './QuizSideInfo'
 import Navbar from '../Navbar'
+import {useWindowWidth, } from '../../hooks/useWindowWidth'
 
 const StudentResults = (props) => {
   const { quiz_id, sub_id, } = props.location.state
-  
+  const width = useWindowWidth();
 
+  if (width < 500)
+    return(
+      <>
+        <Purple>
+          <Navbar />
+          <QuizSideInfo quiz_id={quiz_id} sub_id={sub_id}  />
+        </Purple>
+        <Questions>
+            <SubChoices
+            quiz_id={quiz_id}
+            sub_id={sub_id}
+            />
+        </Questions>
+      </>
+
+    )
   return (
     <>
     <Grid>
