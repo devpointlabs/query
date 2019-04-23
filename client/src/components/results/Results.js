@@ -62,13 +62,17 @@ const Results = (props) => {
 
   return (
 		<>
-		<Navbar />
-		<h1 style={
+			<Navbar />
+			{ submissions.length > 0 ? 
+			<h1 style={
 			{ display: "flex",
 				justifyContent: "center",
 				color: "white", } 
 			}
 			> Average Score: {avgGrade().toFixed(2)}% </h1>
+			:
+			<></>
+			}
       <Card.Group centered>
         {renderSubmissions()}
 
