@@ -39,8 +39,7 @@ const Grid = styled.div`
 const Purple = styled.div`
   display: grid;
   background: #5906A3;
-  align-items: center;
-  padding: 15px;
+  marginn: 0px;
 `
 
 const Questions = styled.div`

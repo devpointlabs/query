@@ -61,10 +61,10 @@ function SubChoices({ sub_id, quiz_id, }) {
         <input
           type="radio"
           id={choices.id}
-          readOnly
+          readOnly={true}
           disabled
         />
-        <label for={choices.id}>{choices.answer}</label>
+        <label>{choices.answer}</label>
         <p style={{ display: "inline" }}>{" "} &lt;= Correct Answer</p>
       </ChoiceDiv>
     }
@@ -75,7 +75,7 @@ function SubChoices({ sub_id, quiz_id, }) {
           readOnly
           disabled
         />
-        <label for={choices.id}>{choices.answer}</label>
+        <label>{choices.answer}</label>
     </ChoiceDiv>
   }
 
@@ -87,14 +87,13 @@ function SubChoices({ sub_id, quiz_id, }) {
           readOnly
           disabled
         />
-      <label for={choices.id}>{choices.answer}</label>
+      <label>{choices.answer}</label>
       </Right>
     }
     return <Wrong key={choices.id}>
       <WInput
         type="radio"
         className="wrong"
-        id="wrong"
         checked
         disabled
       />
