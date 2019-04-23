@@ -1,35 +1,46 @@
-import React from "react";
+import React, { useState, useEffect, } from "react";
+import axios from 'axios'
 import styled from 'styled-components'
+import Navbar from '../Navbar'
 
-const QuizSideInfo = () => {
+const QuizSideInfo = ({ quiz_id }) => {
+  const [quiz, setQuiz] = useState([])
+
+  useEffect(() => {
+    axios.get(`/api/quizzes/${quiz_id}/`)
+      .then(res => {
+        setQuiz(res.data)
+      })
+  }, []);
   
   return (
+    <div>
     <SideDiv> 
       <BigHead>
-        {/* {quiz.name} */} Check Your Understanding
+        {quiz.name}
       </BigHead>
       <MedHead>
-        {/* {quiz.info} */} Answer the following questions about the lecture today so far today.
+        {quiz.info}
       </MedHead>
       <hr />
-      {/* {anon ? (
-        <Header as="h4" style={textStyle}>
+      {quiz.anon ? (
+        <MedHead>
           Submission is <strong>Anonymous</strong>
-        </Header>
+        </MedHead>
       ) : (
-        <Header as="h4" style={textStyle}>
+        <MedHead>
           Submission is <strong>Identified</strong>
-        </Header>
+        </MedHead>
       )}
-      {anon ? (
-        <Header as="p" style={textStyle}>
+      {quiz.anon ? (
+        <SmallHead>
           The creator of this query won't know who you are.
-        </Header>
+        </SmallHead>
       ) : (
-        <Header as="p" style={textStyle}>
+        <SmallHead>
           The creator of this query will know who you are.
-        </Header>
-      )} */}
+        </SmallHead>
+      )}
       <SmallHead>
         Time Remaining:
         5 minutes
@@ -37,17 +48,16 @@ const QuizSideInfo = () => {
       <MedHead>
         Submitted at:
       <SmallHead>
-        {/* tuesday March 8, etc */}
         04/20/69
       </SmallHead>
       </MedHead>
     </SideDiv> 
+  </div>
   );
 };
 
 const SideDiv = styled.div`
   color: white;
-  text-align: center;
   justify-content: center;
   letter-spacing: .2rem;
   padding: 45px;
@@ -72,16 +82,9 @@ const MedHead = styled.div`
 
 const SmallHead = styled.h4`
   font-family: menlo;
-  font-weight: normal;
+  font-size: .9em;
+  font-style: italic;
   padding: 10px;
   margin: 5px;
 `
-
-const textStyle = {
-  color: "white",
-  textAlign: "center",
-  fontFamily: 'menlo',
-  // fontStyle: 'oblique'
-};
-
 export default QuizSideInfo;

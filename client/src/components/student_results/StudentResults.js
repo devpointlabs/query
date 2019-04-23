@@ -3,6 +3,7 @@ import axios from 'axios'
 import styled from 'styled-components'
 import SubChoices from './SubChoices'
 import QuizSideInfo from './QuizSideInfo'
+import Navbar from '../Navbar'
 
 const StudentResults = (props) => {
   const { quiz_id, sub_id, } = props.location.state
@@ -12,13 +13,14 @@ const StudentResults = (props) => {
     <>
     <Grid>
       <Purple>
+        <Navbar />
         <QuizSideInfo quiz_id={quiz_id} sub_id={sub_id}  />
       </Purple>
       <Questions>
-        <SubChoices
-        quiz_id={quiz_id}
-        sub_id={sub_id}
-        />
+          <SubChoices
+          quiz_id={quiz_id}
+          sub_id={sub_id}
+          />
       </Questions>
     </Grid>
     </>
@@ -37,8 +39,7 @@ const Grid = styled.div`
 const Purple = styled.div`
   display: grid;
   background: #5906A3;
-  align-items: center;
-  padding: 15px;
+  marginn: 0px;
 `
 
 const Questions = styled.div`
