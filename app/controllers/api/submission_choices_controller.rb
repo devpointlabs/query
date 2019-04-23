@@ -5,6 +5,12 @@ class Api::SubmissionChoicesController < ApplicationController
     render json: @submission.submission_choices
   end
 
+  def submitted_time
+    date = @submission.submission_choices.last.created_at
+    time = date.to_f * 1000
+    render json: time
+  end
+
   def index_with_choice_name
     choices = @submission.submission_choices
     arr = []
