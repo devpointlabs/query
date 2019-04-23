@@ -78,8 +78,9 @@ class Timer extends React.Component {
               end: res.data.end
             });
           });
+          this.props.seeResults()
       }
-      this.setState({ clock: clock });
+			this.setState({ clock: clock });
     }
   };
 
@@ -94,6 +95,7 @@ class Timer extends React.Component {
           end: res.data.end
         });
       });
+    this.props.seeResults()
   };
 
   handleChange = e => {
