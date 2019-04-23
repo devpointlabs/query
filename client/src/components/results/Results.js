@@ -27,14 +27,14 @@ const Results = (props) => {
 		setSumOfGrades(sumOfGrades + grade)
 	}
 
-  const renderSubmissions = () => {
+  const renderSubmissions = (anon) => {
     return submissions.length >= 1 ?
       (submissions.map(sub => {
         return (
           <Card key={sub.id}>
             <Card.Content>
               <Card.Header>{sub.name}</Card.Header>
-              <Card.Meta>{sub.email}</Card.Meta>
+              <Card.Meta>{anon ? "Anonymous" : sub.email}</Card.Meta>
             </Card.Content>
             <Card.Content>
               <List>
@@ -70,7 +70,7 @@ const Results = (props) => {
 			}
 			> Average Score: {avgGrade().toFixed(2)}% </h1>
       <Card.Group centered>
-        {renderSubmissions()}
+        {renderSubmissions(props.anon)}
 
       </Card.Group>
     </>

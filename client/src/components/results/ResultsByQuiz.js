@@ -22,6 +22,7 @@ const ResultsByQuiz = () => {
       <Card.Group centered>
         {quizzes.map(q => (
           <Card key={q.id}
+            anon={q.anon}
             link
             as={Link}
             to={{ pathname: "/results", state: { quiz_id: q.id } }}>
