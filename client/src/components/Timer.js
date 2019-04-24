@@ -85,7 +85,10 @@ class Timer extends React.Component {
 
   stopTimer = () => {
     axios
-      .patch(`/api/quizzes/${this.props.id}`, { end: "", active: false })
+      .patch(`/api/stop/${this.props.id}`, {
+        end: "",
+        active: false
+      })
       .then(res => {
         this.setState({
           timed: "idk",

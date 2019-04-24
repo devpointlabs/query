@@ -38,9 +38,9 @@ class StudentDashboard extends React.Component {
   };
 
   componentDidMount() {
-    axios.get("/api/quizzes").then(res => {
+    axios.get("/api/studsub").then(res => {
       res.data.map(q => {
-        if (q.active) {
+        if (q.going) {
           this.setState({ qActive: [q, ...this.state.qActive] });
         } else {
           this.setState({ quizzes: [q, ...this.state.quizzes] });
@@ -49,12 +49,8 @@ class StudentDashboard extends React.Component {
     });
   }
 
-  componentWillUnmount() {
-    clearInterval(this.setState.interval);
-  }
-
   shuffle = id => {
-    axios.patch(`/api/quizzes/${id}`, { end: "", active: false }).then(nub => {
+    axios.patch(`/api/stop/${id}`, { end: "", active: false }).then(nub => {
       this.setState({ qActive: [], quizzes: [] });
       axios.get("/api/quizzes").then(res => {
         res.data.map(q => {
@@ -76,10 +72,7 @@ class StudentDashboard extends React.Component {
           <div>
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
-                <ActiveCard 
-                  quiz={quiz} 
-                  key={quiz.id} 
-                  shuffle={this.shuffle} />
+                <ActiveCard quiz={quiz} key={quiz.id} shuffle={this.shuffle} />
               ))}
             </Card.Group>
           </div>
@@ -106,11 +99,7 @@ class StudentDashboard extends React.Component {
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Card.Group centered>
             {this.state.quizzes.map(quiz => (
-              <Card
-                key={quiz.id}
-                link
-                onClick={() => this.setRedirect(quiz)}
-              >
+              <Card key={quiz.id} link onClick={() => this.setRedirect(quiz)}>
                 <Card.Content>
                   <Card.Meta> {this.dater(quiz.created_at)} </Card.Meta>
                   <Card.Header style={{ marginTop: "7px" }}>
