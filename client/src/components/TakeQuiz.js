@@ -1,14 +1,13 @@
 import React from "react";
 import axios from "axios";
-import Timer from "./Timer";
-import { Grid, Form, Button, Icon } from "semantic-ui-react";
+import { Grid, Button } from "semantic-ui-react";
 import styled from "styled-components";
 import Navbar from "./Navbar";
 import MC from "../quiz_components/MC";
 import Open from "../quiz_components/Open";
 import TorF from "../quiz_components/TorF";
-import styles from "../styles/styles.css";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
+import styles from "../styles/styles.css"
 
 class TakeQuiz extends React.Component {
   state = {
@@ -23,10 +22,14 @@ class TakeQuiz extends React.Component {
     end: null,
     interval: null,
     active: null,
-    toogle: false
+    toogle: false,
+    width: 0,
+    height: 0
   };
 
   componentDidMount() {
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
     this.setState({ interval: setInterval(this.timer, 1000) });
     const quiz_id = this.props.match.params.id;
     axios.get(`/api/quizzes/${quiz_id}`).then(res => {
@@ -52,6 +55,14 @@ class TakeQuiz extends React.Component {
       });
     });
   }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
 
   componentWillUnmount() {
     clearInterval(this.state.interval);
@@ -104,7 +115,6 @@ class TakeQuiz extends React.Component {
 
   addStudentAnswer = (student_answer, choice_id) => {
     // retrieves state from MC, Open, and TorF components and posts them to the data base.
-    const quiz_id = this.state.quiz.id;
     const id = this.state.sub_id;
     const answer = {
       submission_id: id,
@@ -131,11 +141,12 @@ class TakeQuiz extends React.Component {
           }}
         />
       );
-    else
-      return (
-        <Grid divided="vertically">
-          <DescContainer>
-            <div style={{ marginTop: "25px" }}>
+    else{
+      if(this.state.width <= 620){
+        return (
+          <Grid>
+          <MobileDescContainer>
+            <div style={{ marginTop: "20px" }}>
               <Navbar />
             </div>
             <div
@@ -144,12 +155,12 @@ class TakeQuiz extends React.Component {
                 justifyContent: "center",
                 flexDirection: "column",
                 margin: "20px",
-                marginTop: "125px"
+                marginTop: "60px"
               }}
             >
-              <div style={{}}>
+              <div>
                 <HeaderText fSize="small">{this.state.quiz.name}</HeaderText>
-                <HeaderText>{quiz_info}</HeaderText>
+                <StyledP style={{ marginBottom: "15px"}}>{quiz_info}</StyledP>
               </div>
               <div>
                 <hr
@@ -164,25 +175,146 @@ class TakeQuiz extends React.Component {
 
               {/* Switches quiz description depending wether it is a anonymous or identified quiz */}
               {anon ? (
-                <HeaderText fSize="small">
+                <StyledP style={{marginTop: "15px"}}>
                   Submission is <strong>Anonymous</strong>
-                </HeaderText>
+                </StyledP>
               ) : (
-                <HeaderText fSize="small">
+                <StyledP style={{marginTop: "15px"}}>
                   Submission is <strong>Identified</strong>
-                </HeaderText>
+                </StyledP>
               )}
               {anon ? (
-                <HeaderText fSize="tiny">
+                <StyledI>
                   The creator of this query won't know who you are.
-                </HeaderText>
+                </StyledI>
               ) : (
-                <HeaderText fSize="tiny">
+                <StyledI>
                   The creator of this query will know who you are.
-                </HeaderText>
+                </StyledI>
               )}
-              <HeaderText fSize="tiny">Time Remaining:</HeaderText>
-              <HeaderText fSize="tiny">{this.clock()}</HeaderText>
+              <StyledP style={{marginTop: "30px"}}>Time Remaining:</StyledP>
+              <StyledP style={{size: ".5rem", }}>{this.clock()}</StyledP>
+            </div>
+          </MobileDescContainer>
+          <MobileQuesContainer>
+            {/* Depending on the question type it will render a component that formats the question */}
+            <form style={{ display: "flex", justifyContent: "content", flexDirection: "column" }} action="#" onSubmit={this.handleSubmit}>
+              {this.state.questions.map(question => {
+                if (question.qType === "MC") {
+                  return (
+                    <MC
+                      key={question.id}
+                      press={this.state.press}
+                      question={question.name}
+                      addStudentAnswer={this.addStudentAnswer}
+                      choices={question.choices}
+                      quiz_id={quiz_id}
+                    />
+                  );
+                } else if (question.qType === "open") {
+                  return (
+                    <Open
+                      key={question.id}
+                      press={this.state.press}
+                      question={question.name}
+                      addStudentAnswer={this.addStudentAnswer}
+                      quiz_id={quiz_id}
+                      choices={question.choices}
+                    />
+                  );
+                } else if (question.qType === "TorF") {
+                  return (
+                    <TorF
+                      key={question.id}
+                      press={this.state.press}
+                      question={question.name}
+                      addStudentAnswer={this.addStudentAnswer}
+                      choices={question.choices}
+                      quiz_id={quiz_id}
+                    />
+                  );
+                }
+              })}
+              <Button
+                inverted
+                icon
+                style={{
+                  borderRadius: "50%",
+                }}
+              >
+                <div
+                  style={{
+                    backgroundColor: "#5906a3",
+                    width: "6rem",
+                    height: "6rem",
+                    borderRadius: "100%"
+                  }}
+                >
+                  <span>
+                    <i
+                      style={{ marginTop: "16px" }}
+                      className="fab fa-telegram-plane fa-4x"
+                    />
+                  </span>
+                </div>
+              </Button>
+            </form>
+          </MobileQuesContainer>
+          </Grid>
+      );
+      }
+      else{
+      return (
+        <Grid divided="vertically">
+          <DescContainer>
+            <div style={{ marginTop: "20px" }}>
+              <Navbar />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                flexDirection: "column",
+                margin: "20px",
+                marginTop: "125px"
+              }}
+            >
+              <div style={{}}>
+                <HeaderText fSize="small">{this.state.quiz.name}</HeaderText>
+                <StyledP style={{ marginBottom: "15px" }}>{quiz_info}</StyledP>
+              </div>
+              <div>
+                <hr
+                  style={{
+                    backgroundColor: "#fff",
+                    borderRadius: "15px",
+                    width: "100%",
+                    height: "1px"
+                  }}
+                />
+              </div>
+
+              {/* Switches quiz description depending wether it is a anonymous or identified quiz */}
+              {anon ? (
+                <StyledP style={{ marginTop: "15px" }}>
+                  Submission is <strong>Anonymous</strong>
+                </StyledP>
+              ) : (
+                <StyledP style={{ marginTop: "15px" }}>
+                  Submission is <strong>Identified</strong>
+                </StyledP>
+              )}
+              {anon ? (
+                <StyledI>
+                  The creator of this query won't know who you are.
+                </StyledI>
+              ) : (
+                <StyledI>
+                  The creator of this query will know who you are.
+                </StyledI>
+              )}
+              <StyledP style={{ marginTop: "30px" }}>Time Remaining:</StyledP>
+              <StyledP style={{ size: ".5rem" }}>{this.clock()}</StyledP>
             </div>
           </DescContainer>
           <QuesContainer>
@@ -245,7 +377,7 @@ class TakeQuiz extends React.Component {
                   <span>
                     <i
                       style={{ marginTop: "16px" }}
-                      class="fab fa-telegram-plane fa-4x"
+                      className="fab fa-telegram-plane fa-4x"
                     />
                   </span>
                 </div>
@@ -254,22 +386,16 @@ class TakeQuiz extends React.Component {
           </QuesContainer>
         </Grid>
       );
+      }
+    }
   }
 }
 
-// Styled Components
-
-const SubmitButton = styled.input`
-  background-color: #5906a3;
+const StyledP = styled.p`
   color: white;
-  border: none;
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  display: block;
-  height: 82px;
-  width: 82px;
-  border-radius: 50%;
+`;
+const StyledI = styled.i`
+  color: white;
 `;
 
 const DescContainer = styled.div`
@@ -308,22 +434,19 @@ const fontSize = size => {
   }
 };
 
-const StyledIcon = styled.div`
-  color: #5906a3 !important;
+
+const MobileDescContainer = styled.div`
+  background: #5906a3;
+  width: 100%;
 `;
 
-const QuizList = styled.ul``;
+const MobileQuesContainer = styled.div`
+    margin-top: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+`;
+
 
 export default TakeQuiz;
 
-{
-  /* <Icon
-  className="icon"
-  circular
-  inverted
-  name="telegram plane"
-  size="big"
-  color="purple"
-  basic
-/> */
-}
