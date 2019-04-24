@@ -205,6 +205,10 @@ class ShowQuiz extends React.Component {
     this.setState({ seeResultsLink: true, })
   }
 
+  makeActive = () =>{
+    this.setState({quiz: {active: !this.state.quiz.active}})
+  }
+
   render() {
     document.body.style = "background: #5906A3;";
 
@@ -273,6 +277,7 @@ class ShowQuiz extends React.Component {
             id={this.props.match.params.id}
             width={this.state.width}
             seeResults={this.seeResults}
+            make={this.makeActive}
           />
           { this.state.seeResultsLink && <SeeResults quiz_id={quiz.id} /> }
           <div
@@ -316,6 +321,7 @@ class ShowQuiz extends React.Component {
           </header>
           <h1 style={{ marginLeft: "5%" }}>People</h1>
           <AddStudent
+            active={this.state.quiz.active}
             delete={this.deleteSt}
             submail={this.state.email}
             pmail={this.getEmail}
