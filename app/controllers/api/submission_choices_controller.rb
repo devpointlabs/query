@@ -6,9 +6,9 @@ class Api::SubmissionChoicesController < ApplicationController
   end
 
   def submitted_time
-    time = @submission.submission_choices.last.created_at
-    date = time.strftime("%a %B %e, %Y %H:%M%P")
-    render json: date
+    created = @submission.submission_choices.last.created_at.getlocal
+    date_time = created.strftime("%a %B %e, %Y %l:%M%P")
+    render json: date_time
   end
 
   def index_with_choice_name
