@@ -8,6 +8,7 @@ import Question from "./Question";
 import Navbar from "./Navbar";
 import AddStudent from "./AddStudent";
 import DynamicMCForm from "./DynamicMCForm";
+import SeeResults from './SeeResults';
 
 class ShowQuiz extends React.Component {
   state = {
@@ -26,7 +27,8 @@ class ShowQuiz extends React.Component {
     width: 0,
     height: 0,
     flashMsgText: "",
-    showFlash: false
+    showFlash: false,
+    seeResultsLink: false
   };
 
   componentDidMount() {
@@ -199,6 +201,10 @@ class ShowQuiz extends React.Component {
     return <div style={flashStyle}>{this.state.flashMsgText}</div>;
   };
 
+  seeResults = () => {
+    this.setState({ seeResultsLink: true, })
+  }
+
   render() {
     document.body.style = "background: #5906A3;";
 
@@ -266,7 +272,9 @@ class ShowQuiz extends React.Component {
             email={this.state.email}
             id={this.props.match.params.id}
             width={this.state.width}
+            seeResults={this.seeResults}
           />
+          { this.state.seeResultsLink && <SeeResults quiz_id={quiz.id} /> }
           <div
             style={{
               display: "flex",
