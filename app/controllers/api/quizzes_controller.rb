@@ -1,9 +1,13 @@
 class Api::QuizzesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_quiz, only: [:update, :destroy, :show, :take]
+  before_action :set_quiz, only: [:stop, :update, :destroy, :show, :take]
 
   def index
     render json: current_user.quizzes
+  end
+
+  def substuff
+    render json: Quiz.substuff(current_user.id)
   end
 
   def create
@@ -20,10 +24,17 @@ class Api::QuizzesController < ApplicationController
   end
 
   def update
-    if @quiz.update(quiz_params)
+    @quiz.update(quiz_params)
       render json: @quiz
-     
+  end
+
+  def stop 
+      subs = @quiz.submissions.where(going: true)
+      subs.each do |s|
+        s.update(going: false)
     end
+    @quiz.update(quiz_params)
+      render json: @quiz
   end
 
 

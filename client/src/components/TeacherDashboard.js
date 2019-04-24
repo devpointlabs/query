@@ -79,7 +79,7 @@ class TeacherDashboard extends React.Component {
   }
 
   shuffle = id => {
-    axios.patch(`/api/quizzes/${id}`, { end: "", active: false }).then(nub => {
+    axios.patch(`/api/stop/${id}`, { end: "", active: false }).then(nub => {
       this.setState({ qActive: [], quizzes: [] });
       axios.get("/api/quizzes").then(res => {
         res.data.map(q => {
