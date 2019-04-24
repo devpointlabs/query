@@ -15,7 +15,7 @@ counter = 1
     c5 = Choice.create(question_id: q2.id, answer: Faker::ProgrammingLanguage.name, correct_answer: [true, false, false, false].sample)
     c6 = Choice.create(question_id: q2.id, answer: Faker::ProgrammingLanguage.name, correct_answer: [true, false, false, false].sample)
   Question.create(quiz_id: quiz.id, name: Faker::Quote.matz, qType: "open", explanation: Faker::Quote.yoda)
-  s1 = Submission.create( quiz_id: quiz.id, user_id: student.id  )
+  s1 = Submission.create( quiz_id: quiz.id, user_id: student.id, going: false )
   s1.submission_choices.create( choice_id: [c1.id, c2.id].sample)
   s1.submission_choices.create( choice_id: [c3.id, c4.id, c5.id, c6.id].sample)
   counter += 1

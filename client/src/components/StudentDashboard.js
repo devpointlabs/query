@@ -13,12 +13,14 @@ class StudentDashboard extends React.Component {
     quizzes: [],
     toggle: false,
     submissions: [],
-    submission: {}
+    submission: {},
+    width: 0,
   };
 
   dater = a => {
     let b = new Date(a);
-    let c = b.toString()
+    let c = b
+      .toString()
       .split(" ")
       .splice(1, 3)
       .join(" ");
@@ -29,40 +31,64 @@ class StudentDashboard extends React.Component {
     this.setState({
       redirect: true,
       q_id: theChoosenOne,
-      submission: this.state.submissions.filter( s => s.quiz_id == theChoosenOne.id)[0]
+      submission: this.state.submissions.filter(
+        s => s.quiz_id === theChoosenOne.id
+      )[0]
     });
   };
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      if ( !this.state.submission.complete){
+      if (!this.state.submission.complete) {
         const quiz = this.state.q_id;
-        return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+        if (quiz.active) {
+          return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+        } else {
+          return <Redirect to="/QuizTimeOut" />;
+        }
       } else {
-        return <Redirect to={{ pathname: "/graded", state: { sub_id: this.state.submission.id, quiz_id: this.state.q_id.id}}} />
+        return (
+          <Redirect
+            to={{
+              pathname: "/graded",
+              state: {
+                sub_id: this.state.submission.id,
+                quiz_id: this.state.q_id.id
+              }
+            }}
+          />
+        );
       }
     }
   };
 
   componentDidMount() {
-    axios.get("/api/quizzes").then(res => {
+    axios.get("/api/studsub").then(res => {
       res.data.map(q => {
-        if (q.active) {
+        if (q.going) {
           this.setState({ qActive: [q, ...this.state.qActive] });
         } else {
           this.setState({ quizzes: [q, ...this.state.quizzes] });
         }
       });
     });
-    axios.get("/api/submissions").then(res => this.setState({ submissions: res.data}))
+    axios
+      .get("/api/submissions")
+      .then(res => this.setState({ submissions: res.data }));
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
   }
 
   componentWillUnmount() {
-    clearInterval(this.setState.interval);
+    window.removeEventListener("resize", this.updateWindowDimensions);
   }
 
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
+
   shuffle = id => {
-    axios.patch(`/api/quizzes/${id}`, { end: "", active: false }).then(nub => {
+    axios.patch(`/api/stop/${id}`, { end: "", active: false }).then(nub => {
       this.setState({ qActive: [], quizzes: [] });
       axios.get("/api/quizzes").then(res => {
         res.data.map(q => {
@@ -77,17 +103,14 @@ class StudentDashboard extends React.Component {
   };
 
   render() {
-    const { qActive } = this.state;
+    const { qActive, width } = this.state;
     return (
       <Container>
         {qActive.length !== 0 ? (
           <div>
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
-                <ActiveCard
-                  quiz={quiz}
-                  key={quiz.id}
-                  shuffle={this.shuffle} />
+                <ActiveCard quiz={quiz} key={quiz.id} shuffle={this.shuffle} />
               ))}
             </Card.Group>
           </div>
@@ -99,26 +122,33 @@ class StudentDashboard extends React.Component {
                 color: "white"
               }}
             >
-              You currently have no active quizzes
+              You currently have no active queries
           </h1>
           )}
         <div
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: "15px",
-            width: "100%",
-            height: "5px",
-            margin: "25px"
-          }}
+          style={
+            width < 500 ?
+            {
+              backgroundColor: "#fff",
+              borderRadius: "15px",
+              width: "auto",
+              height: "5px",
+              margin: "25px"
+            }
+            :
+            {
+              backgroundColor: "#fff",
+              borderRadius: "15px",
+              width: "100%",
+              height: "5px",
+              margin: "25px"
+            }
+          }
         />
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Card.Group centered>
             {this.state.quizzes.map(quiz => (
-              <Card
-                key={quiz.id}
-                link
-                onClick={() => this.setRedirect(quiz)}
-              >
+              <Card key={quiz.id} link onClick={() => this.setRedirect(quiz)}>
                 <Card.Content>
                   <Card.Meta> {this.dater(quiz.created_at)} </Card.Meta>
                   <Card.Header style={{ marginTop: "7px" }}>

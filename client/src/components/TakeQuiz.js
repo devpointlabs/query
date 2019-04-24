@@ -7,6 +7,7 @@ import MC from "../quiz_components/MC";
 import Open from "../quiz_components/Open";
 import TorF from "../quiz_components/TorF";
 import { Redirect } from "react-router-dom";
+import styles from "../styles/styles.css"
 
 class TakeQuiz extends React.Component {
   state = {

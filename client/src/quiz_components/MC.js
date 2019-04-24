@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 
-
 class MC extends React.Component {
   state = { answer: "", choice_id: "", press: true };
 
