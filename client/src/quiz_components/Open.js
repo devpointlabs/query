@@ -37,7 +37,7 @@ class Open extends React.Component {
             id={this.props.choices[0].id}
             value={this.state.answer}
             onChange={this.handleOptionChange}
-            style={{ fontSize: "12px" }}
+            style={{ fontSize: "14px" }}
           />
           {/* </Form> */}
         </ListItem>
