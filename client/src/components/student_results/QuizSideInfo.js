@@ -20,21 +20,6 @@ const QuizSideInfo = ({ quiz_id, sub_id, }) => {
       })
   }, []);
 
-  // function dateTime() {
-  //   let time = new Date(submittedAt[1])
-  //   let weekday = date.toLocaleDateString("en-US", weekday: 'short') 
-  //   let options = {
-  //     weekday: 'short',
-  //     month: 'long',
-  //     day: 'numeric',
-  //     year: 'numeric',
-  //     hour: 'numeric',
-  //     minute: 'numeric'
-  //   }
-  //   let date = date.toLocaleDateString("en-US", options).replace( /[,]/g, '' )
-  //   return
-  // }
-
   return (
     <div>
     <SideDiv> 
@@ -65,10 +50,10 @@ const QuizSideInfo = ({ quiz_id, sub_id, }) => {
       )}
       <MedHead>
         Submitted At:
+      </MedHead>
       <SmallHead>
        {submittedAt}
       </SmallHead>
-      </MedHead>
     </SideDiv> 
   </div>
   );
@@ -101,7 +86,6 @@ const MedHead = styled.div`
 const SmallHead = styled.h4`
   font-family: menlo;
   font-size: .9em;
-  font-style: italic;
   padding: 10px;
   margin: 5px;
 `
