@@ -51,6 +51,10 @@ function SubChoices({ sub_id, quiz_id, }) {
         <OpenDiv>
           {q.choice.student_answer}
         </OpenDiv>
+        <MetaDiv>
+          <br />
+          Explanation: {q.explanation}
+        </MetaDiv>
       </QDiv>
     )
   }

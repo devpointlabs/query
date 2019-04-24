@@ -24,6 +24,12 @@ ActiveRecord::Schema.define(version: 2019_04_23_200426) do
     t.index ["question_id"], name: "index_choices_on_question_id"
   end
 
+  create_table "feedbacks", force: :cascade do |t|
+    t.string "fType"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "questions", force: :cascade do |t|
     t.string "name"
     t.bigint "quiz_id"
@@ -70,8 +76,8 @@ ActiveRecord::Schema.define(version: 2019_04_23_200426) do
     t.bigint "quiz_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "going", default: true
     t.boolean "complete", default: false
+    t.boolean "going", default: true
     t.index ["quiz_id"], name: "index_submissions_on_quiz_id"
     t.index ["user_id"], name: "index_submissions_on_user_id"
   end
