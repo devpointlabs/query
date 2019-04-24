@@ -4,6 +4,7 @@ import { Card, List, } from 'semantic-ui-react';
 import Choices from './Choices'
 import Grade from './Grade'
 import Navbar from '../Navbar'
+import ResultsByQuiz from './ResultsByQuiz';
 
 const Results = (props) => {
 	const [submissions, setSubmissions] = useState([]);
@@ -27,14 +28,14 @@ const Results = (props) => {
 		setSumOfGrades(sumOfGrades + grade)
 	}
 
-  const renderSubmissions = (anon) => {
+  const renderSubmissions = (props) => {
     return submissions.length >= 1 ?
       (submissions.map(sub => {
         return (
           <Card key={sub.id}>
             <Card.Content>
               <Card.Header>{sub.name}</Card.Header>
-              <Card.Meta>{anon ? "Anonymous" : sub.email}</Card.Meta>
+              <Card.Meta>{props ? sub.email : "Anonymous" }</Card.Meta>
             </Card.Content>
             <Card.Content>
               <List>
@@ -74,7 +75,7 @@ const Results = (props) => {
 			<></>
 			}
       <Card.Group centered>
-        {renderSubmissions(props.anon)}
+        {renderSubmissions(props)}
 
       </Card.Group>
     </>
