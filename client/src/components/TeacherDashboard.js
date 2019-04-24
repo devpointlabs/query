@@ -162,7 +162,7 @@ class TeacherDashboard extends React.Component {
                 />
               </Form>
               <Button
-                style={{ marginTop: "0px" }}
+                style={{ marginTop: "7px", color: "white", backgroundColor: "#9219FF" }}
                 size="mini"
                 onClick={() => this.handleSubmit()}
               >

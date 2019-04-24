@@ -18,6 +18,11 @@ class Api::SubmissionsController < ApplicationController
   def get_grade
     render json: { grade: @submission.grade}
   end
+
+  def submit_quiz
+    Submission.find(params[:sub_id]).update(complete: true)
+    render json: { message: "Submission Complete"}
+  end
   
 
   def student_submissions

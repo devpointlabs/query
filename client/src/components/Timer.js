@@ -78,8 +78,9 @@ class Timer extends React.Component {
               end: res.data.end
             });
           });
+          this.props.seeResults()
       }
-      this.setState({ clock: clock });
+			this.setState({ clock: clock });
     }
   };
 
@@ -97,6 +98,7 @@ class Timer extends React.Component {
           end: res.data.end
         });
       });
+    this.props.seeResults()
   };
 
   handleChange = e => {
@@ -129,7 +131,7 @@ class Timer extends React.Component {
               <Header
                 style={{ display: "flex", justifyContent: "space-around" }}
               >
-                THIS QUIZ IS CURRENTLY ACTIVE
+                THIS QUERY IS CURRENTLY ACTIVE
               </Header>
               <div
                 style={{
@@ -164,10 +166,10 @@ class Timer extends React.Component {
             }
           >
             <button style={buttonStyle} onClick={() => this.startTimer()}>
-              Start Timed Quiz
+              Start Timed Query
             </button>
             <button style={buttonStyle} onClick={() => this.static()}>
-              Start Static Quiz
+              Start Static Query
             </button>
           </div>
         );
@@ -203,7 +205,7 @@ class Timer extends React.Component {
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button.Group>
                 <Button onClick={() => this.setState({ timed: "y" })}>
-                  Start Timed Quiz
+                  Start Timed Query
                 </Button>
                 <Button onClick={this.static}>Start Static Quiz</Button>
               </Button.Group>

@@ -3,30 +3,41 @@ import axios from 'axios'
 import styled from 'styled-components'
 import SubChoices from './SubChoices'
 import QuizSideInfo from './QuizSideInfo'
+import Navbar from '../Navbar'
+import {useWindowWidth, } from '../../hooks/useWindowWidth'
 
 const StudentResults = (props) => {
-  
-  // const renderQuestions = questions.map(q => (
-  //     <QDiv key={q.id}>
-  //       <QHead>
-  //         {q.name}
-  //       </QHead>
-  //         <SubChoices
-  //           ques_id={q.id}
-  //         /> 
-  //     </QDiv>
-  //   ))
-  
+  const { quiz_id, sub_id, } = props.location.state
+  const width = useWindowWidth();
 
+  if (width < 500)
+    return(
+      <>
+        <Purple>
+          <Navbar />
+          <QuizSideInfo quiz_id={quiz_id} sub_id={sub_id}  />
+        </Purple>
+        <Questions>
+            <SubChoices
+            quiz_id={quiz_id}
+            sub_id={sub_id}
+            />
+        </Questions>
+      </>
+
+    )
   return (
     <>
     <Grid>
       <Purple>
-        <QuizSideInfo />
+        <Navbar />
+        <QuizSideInfo quiz_id={quiz_id} sub_id={sub_id}  />
       </Purple>
       <Questions>
-        <SubChoices
-        />
+          <SubChoices
+          quiz_id={quiz_id}
+          sub_id={sub_id}
+          />
       </Questions>
     </Grid>
     </>
@@ -45,12 +56,12 @@ const Grid = styled.div`
 const Purple = styled.div`
   display: grid;
   background: #5906A3;
-  align-items: center;
-  padding: 20px;
+  marginn: 0px;
 `
 
 const Questions = styled.div`
   padding: 25px;
+  bakground-color: white !important;
 `
 
 const QHead = styled.h3`

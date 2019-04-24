@@ -11,12 +11,15 @@ class StudentDashboard extends React.Component {
     qActive: [],
     redirect: false,
     quizzes: [],
-    toggle: false
+    toggle: false,
+    submissions: [],
+    submission: {}
   };
 
   dater = a => {
-    let b = Date(a);
+    let b = new Date(a);
     let c = b
+      .toString()
       .split(" ")
       .splice(1, 3)
       .join(" ");
@@ -26,14 +29,35 @@ class StudentDashboard extends React.Component {
   setRedirect = theChoosenOne => {
     this.setState({
       redirect: true,
-      q_id: theChoosenOne
+      q_id: theChoosenOne,
+      submission: this.state.submissions.filter(
+        s => s.quiz_id === theChoosenOne.id
+      )[0]
     });
   };
 
   renderRedirect = () => {
     if (this.state.redirect) {
-      const quiz = this.state.q_id;
-      return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+      if (!this.state.submission.complete) {
+        const quiz = this.state.q_id;
+        if (quiz.active) {
+          return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+        } else {
+          return <Redirect to="/QuizTimeOut" />;
+        }
+      } else {
+        return (
+          <Redirect
+            to={{
+              pathname: "/graded",
+              state: {
+                sub_id: this.state.submission.id,
+                quiz_id: this.state.q_id.id
+              }
+            }}
+          />
+        );
+      }
     }
   };
 
@@ -47,6 +71,9 @@ class StudentDashboard extends React.Component {
         }
       });
     });
+    axios
+      .get("/api/submissions")
+      .then(res => this.setState({ submissions: res.data }));
   }
 
   shuffle = id => {
@@ -84,7 +111,7 @@ class StudentDashboard extends React.Component {
               color: "white"
             }}
           >
-            You currently have no active quizzes
+            You currently have no active queries
           </h1>
         )}
         <div

@@ -21,6 +21,12 @@ class AddStudent extends React.Component {
     clarr: []
   };
 
+  componentDidMount() {
+    axios.get("/api/student_lists").then(res => {
+      this.setState({ clarr: res.data });
+    });
+  }
+
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
@@ -29,7 +35,7 @@ class AddStudent extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     const { email, pupil } = this.state;
-    let amail = [email.replace(/\s/g, "").replace(/,\s*$/, "")];
+    let amail = [email.toLowerCase().replace(/\s/g, "").replace(/,\s*$/, "")];
     this.props.pmail(amail);
     this.setState({ email: "", pupil: [...pupil, email] });
   };
@@ -51,20 +57,16 @@ class AddStudent extends React.Component {
       alert("There's No Students in this Class");
     } else {
       let email = s
+        .toLowerCase()
         .replace(/\s/g, "")
         .replace(/,\s*$/, "")
-        .split(",");
+        .split(",")
       this.props.pmail(email);
       this.setState({ pupil: [...email, ...this.state.pupil], email: "" });
     }
   };
 
   selClass = () => {
-    if (this.state.clarr === undefined || this.state.clarr.length == 0) {
-      axios.get("/api/student_lists").then(res => {
-        this.setState({ clarr: res.data });
-      });
-    }
     return (
       <Dropdown style={{ marginLeft: "5%", border: "2px" }} text="Add By Class">
         <Dropdown.Menu>
@@ -107,7 +109,7 @@ class AddStudent extends React.Component {
                   </label>
                   <Input
                     style={{ inputStyle }}
-                    value={this.state.email}
+                    value={this.state.email.toLowerCase()}
                     name="email"
                     placeholder="Email"
                     onChange={this.handleChange}
@@ -133,7 +135,8 @@ class AddStudent extends React.Component {
                 {this.props.submail.map(p => (
                   <div>
                     <Popup
-                      trigger={<p onClick={() => this.props.delete(p)}>{p}</p>}
+                      
+                      trigger={<p style={{cursor: "pointer"}} onClick={() => this.props.delete(p)}>{p}</p>}
                       content={`Click to remove ${p}`}
                     />
                   </div>
@@ -153,7 +156,7 @@ class AddStudent extends React.Component {
             }}
             onClick={this.toggleButtons}
           >
-            Cancel
+            Close
           </Button>
         )}
       </div>

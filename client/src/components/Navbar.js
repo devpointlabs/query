@@ -4,7 +4,7 @@ import { Dropdown, Icon } from "semantic-ui-react";
 import { Link, withRouter } from "react-router-dom";
 
 class Navbar extends React.Component {
-  proImg() {}
+  proImg() { }
   // for mobile responsiveness
   state = { width: 0, height: 0 };
 
@@ -20,6 +20,14 @@ class Navbar extends React.Component {
   updateWindowDimensions = () => {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
+
+  goBackParser = () => {
+    if (this.props.location.pathname === "/results") {
+      this.props.history.goBack()
+    } else {
+      this.props.history.push("/home")
+    }
+  }
 
   render() {
     const {
@@ -77,26 +85,30 @@ class Navbar extends React.Component {
                 style={{ marginTop: "-35px", marginLeft: "-35px" }}
               >
                 <Dropdown.Item text="Profile" as={Link} to="/Profile" />
-                <Dropdown.Item
-                  text="Logout"
-                  onClick={() => handleLogout(this.props.history)}
-                />
                 {this.props.auth.user.teacher && (
                   <Dropdown.Item text="Results" as={Link} to="/ResultsByQuiz" />
-                )}
+                  )}
                 {this.props.auth.user.teacher && (
                   <Dropdown.Item text="Classes" as={Link} to="/Classes" />
-                )}
+                  )}
+                  <Dropdown.Item
+                    text="Logout"
+                    onClick={() => handleLogout(this.props.history)}
+                  />
               </Dropdown.Menu>
             </Dropdown>
           </div>
         </div>
       );
     } else if (
-      this.props.location.pathname ==
-        `/quizbuilder/${this.props.location.pathname.split("/").pop()}` ||
-      "/profile" ||
+      this.props.location.pathname ===
+      `/quizbuilder/${this.props.location.pathname.split("/").pop()}`
+      ||
+      '/profile'
+      ||
       `/quizzes/${this.props.location.pathname.split("/").pop()}`
+      ||
+      "/graded"
     ) {
       return (
         <div style={{ width: "100%", display: "flex" }}>
@@ -109,15 +121,15 @@ class Navbar extends React.Component {
           >
             <Icon
               name="arrow left"
-              onClick={() => this.props.history.push("/home")}
+              onClick={this.goBackParser}
               style={
                 this.state.width < 500
                   ? {
-                      fontSize: "75px",
-                      marginTop: "25px",
-                      color: "#fff",
-                      marginBottom: "-25px"
-                    }
+                    fontSize: "75px",
+                    marginTop: "25px",
+                    color: "#fff",
+                    marginBottom: "-25px"
+                  }
                   : { fontSize: "75px", marginTop: "25px", color: "#fff" }
               }
             />
@@ -148,16 +160,16 @@ class Navbar extends React.Component {
                 style={{ marginTop: "-35px", marginLeft: "-30px" }}
               >
                 <Dropdown.Item text="Profile" as={Link} to="/Profile" />
-                <Dropdown.Item
-                  text="Logout"
-                  onClick={() => handleLogout(this.props.history)}
-                />
                 {this.props.auth.user.teacher && (
-                  <Dropdown.Item text="Results" as={Link} to="/Results" />
-                )}
+                  <Dropdown.Item text="Results" as={Link} to="/ResultsByQuiz" />
+                  )}
                 {this.props.auth.user.teacher && (
                   <Dropdown.Item text="Classes" as={Link} to="/Classes" />
-                )}
+                  )}
+                  <Dropdown.Item
+                    text="Logout"
+                    onClick={() => handleLogout(this.props.history)}
+                  />
               </Dropdown.Menu>
             </Dropdown>
           </div>
