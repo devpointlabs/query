@@ -19,6 +19,9 @@ Rails.application.routes.draw do
     end
     post "add_student_to_quiz", to: "submissions#add_student_to_quiz"
 
+    # get submission date/time
+    get "submitted/:submission_id", to: "submission_choices#submitted_time"
+
     get "submissions_by_quiz", to: "submissions#submissions_by_quiz"
     get ":submission_id/student_choices", to: "submission_choices#index_with_choice_name"
     get "submissions/:id/get_grade", to: "submissions#get_grade"

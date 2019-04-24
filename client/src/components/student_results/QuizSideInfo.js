@@ -1,10 +1,10 @@
 import React, { useState, useEffect, } from "react";
 import axios from 'axios'
 import styled from 'styled-components'
-import Navbar from '../Navbar'
 
-const QuizSideInfo = ({ quiz_id }) => {
+const QuizSideInfo = ({ quiz_id, sub_id, }) => {
   const [quiz, setQuiz] = useState([])
+  const [submittedAt, setSubmittedAt] = useState([])
 
   useEffect(() => {
     axios.get(`/api/quizzes/${quiz_id}/`)
@@ -13,6 +13,13 @@ const QuizSideInfo = ({ quiz_id }) => {
       })
   }, []);
   
+  useEffect(() => {
+    axios.get(`/api/submitted/${sub_id}/`)
+      .then(res => {
+        setSubmittedAt(res.data)
+      })
+  }, []);
+
   return (
     <div>
     <SideDiv> 
@@ -41,16 +48,12 @@ const QuizSideInfo = ({ quiz_id }) => {
           The creator of this query will know who you are.
         </SmallHead>
       )}
-      <SmallHead>
-        Time Remaining:
-        5 minutes
-      </SmallHead>
       <MedHead>
-        Submitted at:
-      <SmallHead>
-        04/20/69
-      </SmallHead>
+        Submitted At:
       </MedHead>
+      <SmallHead>
+       {submittedAt}
+      </SmallHead>
     </SideDiv> 
   </div>
   );
@@ -83,7 +86,6 @@ const MedHead = styled.div`
 const SmallHead = styled.h4`
   font-family: menlo;
   font-size: .9em;
-  font-style: italic;
   padding: 10px;
   margin: 5px;
 `
