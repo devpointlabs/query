@@ -78,14 +78,18 @@ class Timer extends React.Component {
               end: res.data.end
             });
           });
+          this.props.seeResults()
       }
-      this.setState({ clock: clock });
+			this.setState({ clock: clock });
     }
   };
 
   stopTimer = () => {
     axios
-      .patch(`/api/quizzes/${this.props.id}`, { end: "", active: false })
+      .patch(`/api/stop/${this.props.id}`, {
+        end: "",
+        active: false
+      })
       .then(res => {
         this.setState({
           timed: "idk",
@@ -94,6 +98,7 @@ class Timer extends React.Component {
           end: res.data.end
         });
       });
+    this.props.seeResults()
   };
 
   handleChange = e => {
