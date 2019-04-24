@@ -35,7 +35,7 @@ const Results = (props) => {
           <Card key={sub.id}>
             <Card.Content>
               <Card.Header>{sub.name}</Card.Header>
-              <Card.Meta>{props ? sub.email : "Anonymous" }</Card.Meta>
+              <Card.Meta>{props.location.state.anon ? "Anonymous" : sub.email }</Card.Meta>
             </Card.Content>
             <Card.Content>
               <List>

@@ -22,10 +22,9 @@ const ResultsByQuiz = () => {
       <Card.Group centered>
         {quizzes.map(q => (
           <Card key={q.id}
-            anon={q.anon}
             link
             as={Link}
-            to={{ pathname: "/results", state: { quiz_id: q.id } }}>
+            to={{ pathname: "/results", state: { anon: q.anon, quiz_id: q.id } }}>
             <Card.Content>
               <Card.Header>{q.name}</Card.Header>
             </Card.Content>
