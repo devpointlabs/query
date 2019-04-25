@@ -24,7 +24,8 @@ class Api::SubmissionChoicesController < ApplicationController
         question_type: c.choice.question.qType,
         choice_id: c.choice.id,
         choices: c.choice.question.choices,
-        explanation: c.choice.question.explanation
+        explanation: c.choice.question.explanation,
+        student_answer: c.student_answer
       }
       arr << ob
     end
