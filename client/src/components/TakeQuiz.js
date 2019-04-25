@@ -70,16 +70,6 @@ class TakeQuiz extends React.Component {
     this.setState({ width: window.innerWidth, height: window.innerHeight });
   };
 
-  componentWillUnmount() {
-    clearInterval(this.state.interval);
-  }
-
-  handleSubmit = e => {
-    e.preventDefault();
-    this.setState({ press: true });
-    axios.patch("/api/submit_quiz", { sub_id: this.state.sub_id });
-  };
-
   timer = () => {
     if (this.state.end !== "") {
       let time = ("" + Date.now()).split("");

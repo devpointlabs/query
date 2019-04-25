@@ -10,7 +10,7 @@ class Quiz < ApplicationRecord
   # end
 
   def self.substuff(id)
-    select("quizzes.*, submissions.going")
+    select("quizzes.*, submissions.going, submissions.id AS sub_id, submissions.complete")
     .joins("LEFT JOIN submissions ON submissions.quiz_id = quizzes.id")
     .where("user_id = #{id}")
   end

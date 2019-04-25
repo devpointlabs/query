@@ -42,17 +42,7 @@ class StudentDashboard extends React.Component {
       if (!this.state.submission.complete) {
         const quiz = this.state.q_id;
         if (quiz.active) {
-          return (
-            <Redirect
-              to={{
-                pathname: "/graded",
-                state: {
-                  sub_id: this.state.submission.id,
-                  quiz_id: this.state.q_id.id
-                }
-              }}
-            />
-          );
+          return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
         } else {
           return <Redirect to="/QuizTimeOut" />;
         }
@@ -75,7 +65,7 @@ class StudentDashboard extends React.Component {
   componentDidMount() {
     axios.get("/api/studsub").then(res => {
       res.data.map(q => {
-        if (q.going) {
+        if (q.going && q.complete === false) {
           this.setState({ qActive: [q, ...this.state.qActive] });
         } else {
           this.setState({ quizzes: [q, ...this.state.quizzes] });
@@ -102,7 +92,7 @@ class StudentDashboard extends React.Component {
       this.setState({ qActive: [], quizzes: [] });
       axios.get("/api/quizzes").then(res => {
         res.data.map(q => {
-          if (q.active) {
+          if (q.active && q.complete === false) {
             this.setState({ qActive: [q, ...this.state.qActive] });
           } else {
             this.setState({ quizzes: [q, ...this.state.quizzes] });
@@ -124,9 +114,7 @@ class StudentDashboard extends React.Component {
                   quiz={quiz}
                   key={quiz.id}
                   shuffle={this.shuffle}
-                  submission={
-                    this.state.submissions.filter(s => s.quiz_id === quiz.id)[0]
-                  }
+                  submission={quiz.sub_id}
                 />
               ))}
             </Card.Group>
@@ -164,7 +152,11 @@ class StudentDashboard extends React.Component {
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Card.Group centered>
             {this.state.quizzes.map(quiz => (
-              <Card key={quiz.id} link onClick={() => this.setRedirect(quiz)}>
+              <Card
+                key={quiz.sub_id}
+                link
+                onClick={() => this.setRedirect(quiz)}
+              >
                 <Card.Content>
                   <Card.Meta> {this.dater(quiz.created_at)} </Card.Meta>
                   <Card.Header style={{ marginTop: "7px" }}>
