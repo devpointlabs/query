@@ -17,7 +17,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import QuizTimeOut from './components/QuizTimeOut'
 import "./App.css";
 
-import StudentResults from "./components/student_results/StudentResults";
+import StudentResults from "./components/studentResults/StudentResults";
 
 const App = () => (
   <>
