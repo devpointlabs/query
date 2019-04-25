@@ -59,6 +59,7 @@ class TakeQuiz extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    axios.patch('/api/submit_quiz', {sub_id: this.state.sub_id})
     this.setState({ press: true });
   };
 

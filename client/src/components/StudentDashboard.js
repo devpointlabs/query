@@ -41,7 +41,17 @@ class StudentDashboard extends React.Component {
       if (!this.state.submission.complete) {
         const quiz = this.state.q_id;
         if (quiz.active) {
-          return <Redirect quiz={quiz} to={`/quizzes/${quiz.id}/quiz`} />;
+          return (
+            <Redirect
+              to={{
+                pathname: "/graded",
+                state: {
+                  sub_id: this.state.submission.id,
+                  quiz_id: this.state.q_id.id
+                }
+              }}
+            />
+          );
         } else {
           return <Redirect to="/QuizTimeOut" />;
         }
