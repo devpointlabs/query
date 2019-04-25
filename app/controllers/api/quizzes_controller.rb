@@ -31,7 +31,7 @@ class Api::QuizzesController < ApplicationController
   def stop 
       subs = @quiz.submissions.where(going: true)
       subs.each do |s|
-        s.update(going: false)
+        s.update(going: false, complete: true)
     end
     @quiz.update(quiz_params)
       render json: @quiz
