@@ -89,6 +89,7 @@ class EditQuestion extends React.Component {
     this.setState({ name: "", explanation: "", choices: [] });
     this.props.toggleForm(1);
     }
+    document.location.reload(true);
   };
 
   render() {
