@@ -48,18 +48,24 @@ const StudentResults = (props) => {
 const Grid = styled.div`
   display: grid;
   font-family: menlo;
-  grid-template-columns: 2fr 3fr;
-  height: 100vh;
+  grid-template-columns: 40vw auto; 
   margin: 0;
 `
 
 const Purple = styled.div`
-  display: grid;
   background: #5906A3;
-  marginn: 0px;
+  position: fixed;
+  width: 40vw;
+  height: 100vh
 `
 
 const Questions = styled.div`
+  grid-column-start: 2;
+  bakground-color: white !important;
+  padding: 25px;
+`
+
+const QDiv = styled.div`
   padding: 25px;
   bakground-color: white !important;
 `
@@ -68,9 +74,9 @@ const QHead = styled.h3`
   font-family: menlo;
 `
 
-const QDiv = styled.div`
-  font-family: menlo;
-  padding: 10px;
-`
+// const QDiv = styled.div`
+//   font-family: menlo;
+//   padding: 10px;
+// `
 
 export default StudentResults
