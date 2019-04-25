@@ -48,11 +48,12 @@ class Timer extends React.Component {
         quiz_id: this.props.id,
         email: this.props.email
       });
+      this.props.make()
       this.copyStringToClipboard();
     }
   };
+
   startTimer = () => {
-    this.copyStringToClipboard();
     this.setState({ timed: "y" });
   };
 
@@ -79,6 +80,7 @@ class Timer extends React.Component {
             });
           });
           this.props.seeResults()
+          this.props.make()
       }
 			this.setState({ clock: clock });
     }
@@ -98,7 +100,9 @@ class Timer extends React.Component {
           end: res.data.end
         });
       });
+      this.props.make()
     this.props.seeResults()
+    
   };
 
   handleChange = e => {
@@ -108,6 +112,8 @@ class Timer extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
+    this.props.make()
+    this.copyStringToClipboard();
     axios.post("/api/add_student_to_quiz", {
       quiz_id: this.props.id,
       email: this.props.email
@@ -204,7 +210,7 @@ class Timer extends React.Component {
           return (
             <div style={{ display: "flex", justifyContent: "center" }}>
               <Button.Group>
-                <Button onClick={() => this.setState({ timed: "y" })}>
+                <Button onClick={() => this.setState({ timed: "y"})}>
                   Start Timed Query
                 </Button>
                 <Button onClick={this.static}>Start Static Quiz</Button>

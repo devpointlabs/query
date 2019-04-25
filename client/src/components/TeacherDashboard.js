@@ -13,7 +13,8 @@ class TeacherDashboard extends React.Component {
     redirect: false,
     quizzes: [],
     toggle: false,
-    anon: true
+    anon: true,
+    width: 0,
   };
 
   dater = a => {
@@ -72,11 +73,18 @@ class TeacherDashboard extends React.Component {
         }
       });
     });
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
   }
 
   componentWillUnmount() {
     clearInterval(this.state.interval);
+    window.removeEventListener("resize", this.updateWindowDimensions);
   }
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
 
   shuffle = id => {
     axios.patch(`/api/stop/${id}`, { end: "", active: false }).then(nub => {
@@ -117,7 +125,7 @@ class TeacherDashboard extends React.Component {
   };
 
   render() {
-    const { qActive } = this.state;
+    const { qActive, width } = this.state;
     return (
       <Container>
         {qActive.length !== 0 ? (
@@ -133,13 +141,24 @@ class TeacherDashboard extends React.Component {
               ))}
             </Card.Group>
             <div
-              style={{
-                backgroundColor: "#fff",
-                borderRadius: "15px",
-                width: "100%",
-                height: "5px",
-                margin: "25px"
-              }}
+              style={
+                width < 500 ?
+                  {
+                    backgroundColor: "#fff",
+                    borderRadius: "15px",
+                    width: "auto",
+                    height: "5px",
+                    margin: "25px"
+                  }
+                  :
+                  {
+                    backgroundColor: "#fff",
+                    borderRadius: "15px",
+                    width: "100%",
+                    height: "5px",
+                    margin: "25px"
+                  }
+              }
             />
           </div>
         ) : null}
