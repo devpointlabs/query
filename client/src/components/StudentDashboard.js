@@ -110,7 +110,12 @@ class StudentDashboard extends React.Component {
           <div>
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
-                <ActiveCard quiz={quiz} key={quiz.id} shuffle={this.shuffle} />
+								<ActiveCard
+									quiz={quiz} 
+									key={quiz.id} 
+									shuffle={this.shuffle}
+									submission={this.state.submissions.filter(s => s.quiz_id === quiz.id)[0]}
+								/>
               ))}
             </Card.Group>
           </div>

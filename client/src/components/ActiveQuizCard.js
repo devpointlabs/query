@@ -49,8 +49,22 @@ setRedirect = (theChoosenOne) => {
 
 renderRedirect = () => {
   if (this.state.redirect) {
-    const quiz = this.state.q_id
-    return <Redirect quiz={quiz} to={this.props.user ? `/quizbuilder/${quiz.id}` : `/quizzes/${quiz.id}/quiz`} />
+		const quiz = this.state.q_id
+		if ( !this.props.submission ){
+			return <Redirect quiz={quiz} to={`/quizbuilder/${quiz.id}`} />
+		} else if (this.props.submission.complete) {
+			return <Redirect
+            to={{
+              pathname: "/graded",
+              state: {
+                sub_id: this.props.submission.id,
+                quiz_id: this.props.quiz.id,
+              }
+            }}
+          />
+		} else {
+			return <Redirect quiz={quiz} to={`quizzes/${quiz.id}/quiz`} />
+		}
   }
 }
 
