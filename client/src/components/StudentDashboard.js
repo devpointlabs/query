@@ -13,7 +13,8 @@ class StudentDashboard extends React.Component {
     quizzes: [],
     toggle: false,
     submissions: [],
-    submission: {}
+    submission: {},
+    width: 0
   };
 
   dater = a => {
@@ -84,7 +85,17 @@ class StudentDashboard extends React.Component {
     axios
       .get("/api/submissions")
       .then(res => this.setState({ submissions: res.data }));
+    this.updateWindowDimensions();
+    window.addEventListener("resize", this.updateWindowDimensions);
   }
+
+  componentWillUnmount() {
+    window.removeEventListener("resize", this.updateWindowDimensions);
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
 
   shuffle = id => {
     axios.patch(`/api/stop/${id}`, { end: "", active: false }).then(nub => {
@@ -102,14 +113,21 @@ class StudentDashboard extends React.Component {
   };
 
   render() {
-    const { qActive } = this.state;
+    const { qActive, width } = this.state;
     return (
       <Container>
         {qActive.length !== 0 ? (
           <div>
             <Card.Group centered>
               {this.state.qActive.map(quiz => (
-                <ActiveCard quiz={quiz} key={quiz.id} shuffle={this.shuffle} />
+                <ActiveCard
+                  quiz={quiz}
+                  key={quiz.id}
+                  shuffle={this.shuffle}
+                  submission={
+                    this.state.submissions.filter(s => s.quiz_id === quiz.id)[0]
+                  }
+                />
               ))}
             </Card.Group>
           </div>
@@ -125,13 +143,23 @@ class StudentDashboard extends React.Component {
           </h1>
         )}
         <div
-          style={{
-            backgroundColor: "#fff",
-            borderRadius: "15px",
-            width: "100%",
-            height: "5px",
-            margin: "25px"
-          }}
+          style={
+            width < 500
+              ? {
+                  backgroundColor: "#fff",
+                  borderRadius: "15px",
+                  width: "auto",
+                  height: "5px",
+                  margin: "25px"
+                }
+              : {
+                  backgroundColor: "#fff",
+                  borderRadius: "15px",
+                  width: "100%",
+                  height: "5px",
+                  margin: "25px"
+                }
+          }
         />
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Card.Group centered>

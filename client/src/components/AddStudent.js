@@ -80,6 +80,12 @@ class AddStudent extends React.Component {
 
   render() {
     document.body.style = "background: #5906A3;";
+    if(this.props.active){
+return(
+  <h1 style={{color: "red", marginLeft: "25%", marginBottom: "0", marginTop: "0",}}>Can't add students while query is active </h1>
+)
+    }
+    else{
     return (
       <div style={divStyle}>
         {this.state.showButtons ? (
@@ -132,10 +138,9 @@ class AddStudent extends React.Component {
                 </Grid>
               </Form>
               <List style={{ marginLeft: "5%", marginRight: "5%" }}>
-                {this.props.submail.map(p => (
-                  <div>
+                { this.props.submail.map(p => (
+                  <div key={Math.random * 1000}>
                     <Popup
-                      
                       trigger={<p style={{cursor: "pointer"}} onClick={() => this.props.delete(p)}>{p}</p>}
                       content={`Click to remove ${p}`}
                     />
@@ -160,7 +165,7 @@ class AddStudent extends React.Component {
           </Button>
         )}
       </div>
-    );
+    )};
   }
 }
 
