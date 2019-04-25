@@ -19,7 +19,6 @@ const QuizSideInfo = ({quiz_id, sub_id}) => {
     });
   }, []);
 
-  // navbar
   return (
     <DescContainer>
       <NavDiv>
@@ -27,7 +26,6 @@ const QuizSideInfo = ({quiz_id, sub_id}) => {
       </NavDiv>
       <div
         style={{
-          margin: '20px',
           marginTop: '125px',
         }}>
         <div style={{}}>
@@ -70,7 +68,6 @@ const QuizSideInfo = ({quiz_id, sub_id}) => {
 const DescContainer = styled.div`
   background: #5906a3;
   padding-bottom: 25px;
-  margin: -5px;
 `;
 
 const HeaderText = styled.h1`
@@ -93,14 +90,6 @@ const fontSize = size => {
       return '1rem';
   }
 };
-
-const SideDiv = styled.div`
-  color: white;
-  justify-content: center;
-  letter-spacing: 0.2rem;
-  padding: 45px;
-  border: 15px;
-`;
 
 const StyledP = styled.p`
   color: white;

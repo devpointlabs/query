@@ -20,7 +20,7 @@ function SubChoices({sub_id, quiz_id}) {
       return renderOpen(q);
     }
     return (
-      <>
+      <div>
         <QDiv key={q.id}>
           <QHead>{q.question_text}</QHead>
 
@@ -33,7 +33,7 @@ function SubChoices({sub_id, quiz_id}) {
             Explanation: {q.explanation}
           </MetaDiv>
         </QDiv>
-      </>
+      </div>
     );
   });
 
@@ -85,8 +85,18 @@ function SubChoices({sub_id, quiz_id}) {
     );
   }
 
-  return <>{renderQuestions}</>;
+  return (
+    <div>
+    {renderQuestions}
+    { subChoice.length === 0 ? <Msg> You did not submit any answers for this Quiz</Msg> : null }
+    </div>
+  )
 }
+
+const Msg = styled.h1`
+  text-align: center;
+  color: red;
+`
 
 const Right = styled.div`
   display: inline-block;
