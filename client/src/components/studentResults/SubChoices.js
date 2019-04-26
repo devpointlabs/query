@@ -85,6 +85,8 @@ function SubChoices({sub_id, quiz_id}) {
     );
   }
 
+  document.body.style = 'background: white;' 
+
   return (
     <div>
     {renderQuestions}
