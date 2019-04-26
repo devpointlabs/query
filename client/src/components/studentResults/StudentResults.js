@@ -20,7 +20,6 @@ const StudentResults = props => {
       </>
     );
   return (
-    <>
       <Grid>
         <Purple>
           <QuizSideInfo quiz_id={quiz_id} sub_id={sub_id} />
@@ -29,23 +28,27 @@ const StudentResults = props => {
           <SubChoices quiz_id={quiz_id} sub_id={sub_id} />
         </Questions>
       </Grid>
-    </>
   );
 };
 
 const Grid = styled.div`
   display: grid;
   font-family: menlo;
-  grid-template-columns: 40vw auto;
+  grid-template-columns: 40% 60%;
   margin: 0;
+  background: white;
+  grid-gap: 0;
 `;
 
 const Purple = styled.div`
   background: #5906A3;
-  width: 40vw;
   height: 100vh
   position: fixed;
+  grid-column-start: 1;
+  max-width: 100%;
+  padding: 15px;
 `;
+
 const MobilePurple = styled.div`
   background: #5906a3;
   margin: 0;
@@ -54,11 +57,11 @@ const MobilePurple = styled.div`
 
 const Questions = styled.div`
   grid-column-start: 2;
-  bakground-color: white !important;
+  bakground: white;
   padding: 25px;
   margin-top: 58px;
 `;
 const MobileQuestions = styled.div`
-  bakground-color: white;
+  bakground: white;
 `;
 export default StudentResults;
